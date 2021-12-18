@@ -1,8 +1,45 @@
 module.exports = {
   purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: 'media', // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: {
+          lightest: '#E8F6FD',
+          light: '#A4DEF8',
+          medium: '#327B9B',
+          dark: '#34657A',
+        },
+        dark__primary: {
+          lightest: '#E8F6FD',
+          light: '#A4DEF8',
+          medium: '#327B9B',
+          dark: '#34657A',
+        },
+        secondary: {
+          lightest: '#E8F6FD',
+          light: '#A4DEF8',
+          medium: '#327B9B',
+          dark: '#34657A',
+        },
+        dark__secondary: {
+          lightest: '#E8F6FD',
+          light: '#A4DEF8',
+          medium: '#327B9B',
+          dark: '#34657A',
+        },
+        backdrop: 'rgba(0, 0, 0, 0.6)',
+        dark__backdrop: 'rgba(0, 0, 0, 0.6)',
+      },
+
+      minWidth: {
+        44: '11rem',
+      },
+
+      maxWidth: {
+        16: '4rem',
+      },
+    },
   },
   variants: {
     extend: {},

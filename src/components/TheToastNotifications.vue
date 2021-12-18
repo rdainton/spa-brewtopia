@@ -1,0 +1,84 @@
+<script lang="ts" setup>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import { NotificationType } from '../types/toasts'
+import {
+  GetterTypes as ToastGetters,
+  ActionTypes as ToastActions,
+} from '../store/toast'
+
+// Icons
+import WarningIcon from './atoms/icons/WarningIcon.vue'
+import ErrorIcon from './atoms/icons/ErrorIcon.vue'
+import InfoIcon from './atoms/icons/InfoIcon.vue'
+import SuccessIcon from './atoms/icons/SuccessIcon.vue'
+import CloseIcon from './atoms/icons/CloseIcon.vue'
+
+const store = useStore()
+
+const toastsArray = computed(() => store.getters[ToastGetters.ALL])
+
+const hideToastNotification = (uuid: string) => {
+  store.dispatch(ToastActions.HIDE, uuid)
+}
+
+const backgroundStylesMap: Record<NotificationType, string> = {
+  info: 'from-blue-500',
+  error: 'from-red-500',
+  warning: 'from-green-500',
+  success: 'from-green-500',
+}
+
+const componentMap: Record<NotificationType, any> = {
+  info: InfoIcon,
+  error: ErrorIcon,
+  warning: WarningIcon,
+  success: SuccessIcon,
+}
+
+// TODO: fix typing issues with the Records
+</script>
+
+<template>
+  <teleport to="body">
+    <div
+      v-if="toastsArray.length"
+      class="fixed right-0 z-50 flex flex-col items-center justify-end mr-2 pointer-events-none  bottom-2 md:bottom-auto md:top-20 sm:justify-start sm:items-end w-96"
+    >
+      <div
+        v-for="toast in toastsArray"
+        :key="toast.uuid"
+        class="w-full mb-3 transition-opacity duration-300 ease-linear bg-gray-100 rounded-md shadow-lg pointer-events-auto  dark:bg-gray-900 bg-gradient-to-r via-bg-gray-100 dark:via-bg-gray-900"
+        :class="[
+          toast.removing || toast.new ? 'opacity-0' : '',
+          !toast.removing && !toast.new ? 'opacity-100' : '',
+          backgroundStylesMap[toast.type],
+        ]"
+      >
+        <div class="w-full rounded-sm shadow-xs">
+          <div class="relative flex items-center flex-1 p-2 md:p-3">
+            <span
+              class="flex items-center justify-center flex-shrink-0 w-8 h-8 mr-3 text-gray-900  dark:text-white md:w-10 md:h-10"
+            >
+              <component :is="componentMap[toast.type]" />
+            </span>
+            <section class="text-gray-900 dark:text-white">
+              <header class="text-base font-bold leading-snug md:text-lg">
+                {{ toast.heading }}
+              </header>
+              <p class="text-sm">
+                {{ toast.content }}
+              </p>
+            </section>
+            <button
+              class="absolute flex w-4 h-4 text-gray-900  dark:text-white top-2 right-2 active:outline-none focus:outline-none"
+              @click="hideToastNotification(toast.uuid)"
+            >
+              <CloseIcon />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </teleport>
+</template>

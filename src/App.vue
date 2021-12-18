@@ -1,10 +1,22 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import Deckbuilder from './components/templates/Deckbuilder.vue'
+import TheHeader from './components/TheHeader.vue'
+import TheToastNotifications from './components/TheToastNotifications.vue'
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <div
+    class="relative flex flex-col min-h-screen min-w-screen dark:bg-gray-900"
+  >
+    <TheHeader>
+      <span
+        class="inline-block ml-auto text-4xl font-bold text-gray-200  dark:text-gray-800"
+        >BREWTOPIA&trade;</span
+      >
+    </TheHeader>
+
+    <Deckbuilder />
+  </div>
+
+  <TheToastNotifications />
 </template>

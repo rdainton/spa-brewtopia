@@ -7,12 +7,20 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.2.16"
+    "axios": "^0.23.0",
+    "lodash": "^4.17.21",
+    "uuid": "^8.3.2",
+    "vue": "^3.2.16",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.176",
+    "@types/node": "^16.11.6",
+    "@types/uuid": "^8.3.1",
     "@vitejs/plugin-vue": "^1.9.3",
     "autoprefixer": "^10.3.7",
     "postcss": "^8.3.11",
+    "sass": "^1.43.4",
     "tailwindcss": "^2.2.17",
     "typescript": "^4.4.3",
     "vite": "^2.6.4",
