@@ -59,24 +59,6 @@ function handleSearchResultDragstart(card: ICard) {
   origin.value = nullCardAddress
 }
 
-function moveCard(
-  section: ICard[][],
-  columnIndex: number,
-  cardUuid: string,
-  newIdx: number
-): void {
-  const currentIdx = section[columnIndex].findIndex(
-    card => card.uuid === cardUuid
-  )
-
-  if (currentIdx < 0 || currentIdx === newIdx) return
-
-  // move item in array
-  const copy = [...section[columnIndex]]
-  copy.splice(newIdx, 0, copy.splice(currentIdx, 1)[0])
-  section[columnIndex] = copy
-}
-
 function updateDestinationIndex(afterUuId: string): void {
   const { section, columnIndex } = destination.value
   const dropIndex = section![columnIndex].findIndex(
@@ -95,7 +77,12 @@ function getCardDropTarget(e: DragEvent): ICard | undefined {
   return section![columnIndex].find(card => card.uuid === targetUuid)
 }
 
-function handleDrop(e: DragEvent, columnIndex: number, section: ICard[][]) {
+function handleDrop(
+  e: DragEvent,
+  section: ICard[][],
+  columnIndex: number,
+  forceCardIndex = -1
+) {
   if (!currentlyDragging.value) return
 
   const cardDropTarget = getCardDropTarget(e)
@@ -109,6 +96,8 @@ function handleDrop(e: DragEvent, columnIndex: number, section: ICard[][]) {
   }
 
   if (cardDropTarget) updateDestinationIndex(cardDropTarget.uuid!)
+
+  if (forceCardIndex > -1) destinationIndex.value = forceCardIndex
 
   const destinationIsNewColumn =
     destination.value.section !== origin.value.section ||
@@ -155,6 +144,29 @@ function handleDrop(e: DragEvent, columnIndex: number, section: ICard[][]) {
 /**
  * Card Actions
  */
+/**
+ * Find the card in the column, and then move it to its new index.
+ */
+function moveCard(
+  section: ICard[][],
+  columnIndex: number,
+  cardUuid: string,
+  newIdx: number
+): void {
+  const currentIdx = section[columnIndex].findIndex(
+    card => card.uuid === cardUuid
+  )
+
+  if (currentIdx < 0 || currentIdx === newIdx) return
+
+  // take self being removed first into account
+  const buffer = newIdx > currentIdx ? -1 : 0
+
+  // move item in array
+  const copy = [...section[columnIndex]]
+  copy.splice(newIdx + buffer, 0, copy.splice(currentIdx, 1)[0])
+  section[columnIndex] = copy
+}
 
 /**
  * Find the card in the column, and clone it with a new uuid.
@@ -243,17 +255,24 @@ function handleDelete(
         :section-data="mainboard"
         @dragstart="(card, colIdx) => handleDragstart(mainboard, colIdx, card)"
         @dragover="colIdx => handleDragOver(mainboard, colIdx)"
-        @drop="(...args) => handleDrop(...args, mainboard)"
+        @drop="
+          (e, colIdx, forceCardIdx) =>
+            handleDrop(e, mainboard, colIdx, forceCardIdx)
+        "
         @duplicate="(card, colIdx) => handleDuplicate(mainboard, colIdx, card)"
         @playset="(card, colIdx) => handlePlayset(mainboard, colIdx, card)"
         @delete="(card, colIdx) => handleDelete(mainboard, colIdx, card)"
       />
       <DeckbuilderSection
         title="Maybes"
+        :total-cards-required="Infinity"
         :section-data="maybes"
         @dragstart="(card, colIdx) => handleDragstart(maybes, colIdx, card)"
         @dragover="colIdx => handleDragOver(maybes, colIdx)"
-        @drop="(...args) => handleDrop(...args, maybes)"
+        @drop="
+          (e, colIdx, forceCardIdx) =>
+            handleDrop(e, maybes, colIdx, forceCardIdx)
+        "
         @duplicate="(card, colIdx) => handleDuplicate(maybes, colIdx, card)"
         @playset="(card, colIdx) => handlePlayset(maybes, colIdx, card)"
         @delete="(card, colIdx) => handleDelete(maybes, colIdx, card)"
@@ -263,10 +282,14 @@ function handleDelete(
     <DeckbuilderSide>
       <DeckbuilderSection
         title="Sideboard"
+        :total-cards-required="15"
         :section-data="sideboard"
         @dragstart="(card, colIdx) => handleDragstart(sideboard, colIdx, card)"
         @dragover="colIdx => handleDragOver(sideboard, colIdx)"
-        @drop="(...args) => handleDrop(...args, sideboard)"
+        @drop="
+          (e, colIdx, forceCardIdx) =>
+            handleDrop(e, sideboard, colIdx, forceCardIdx)
+        "
         @duplicate="(card, colIdx) => handleDuplicate(sideboard, colIdx, card)"
         @playset="(card, colIdx) => handlePlayset(sideboard, colIdx, card)"
         @delete="(card, colIdx) => handleDelete(sideboard, colIdx, card)"

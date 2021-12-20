@@ -10,7 +10,7 @@ interface DeckbuildingSectionColumnProps {
 const props = defineProps<DeckbuildingSectionColumnProps>()
 
 const emit = defineEmits<{
-  (event: 'drop', e: DragEvent): void
+  (event: 'drop', e: DragEvent, forceCardIndex: number): void
   (event: 'dragover'): void
   (event: 'drag-focus', focus: boolean): void
 }>()
@@ -35,21 +35,22 @@ const lastColumnStyles = computed(() =>
   props.last ? 'w-16 max-w-16 relative' : 'w-44 min-w-44'
 )
 
-function handleDrop(e: DragEvent) {
+function handleDrop(e: DragEvent, forceCardIndex = -1) {
   reset()
-  emit('drop', e)
+  emit('drop', e, forceCardIndex)
 }
 </script>
 
 <template>
   <div
-    class="flex-1 flex-shrink-0 h-full px-2 py-4 bg-transparent border rounded-md "
+    class="flex-1 flex-shrink-0 h-full px-2 pb-4 bg-transparent border rounded-md "
     :class="[dragStyles, lastColumnStyles]"
     @dragenter.prevent="handleDragenter"
     @dragleave="handleDragleave"
     @dragover.prevent="emit('dragover')"
     @drop.stop="handleDrop"
   >
+    <div v-if="!last" class="w-full h-6" @drop.stop="e => handleDrop(e, 0)" />
     <slot />
     <PlusIcon v-if="last" />
   </div>
