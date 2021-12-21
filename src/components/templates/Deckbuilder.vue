@@ -10,7 +10,7 @@ import DeckbuilderSide from '../organisms/DeckbuilderSide.vue'
 import DeckbuilderSection from '../organisms/DeckbuilderSection.vue'
 // import DeckbuilderCommander from '../organisms/DeckbuilderCommander.vue'
 
-const mainboard = reactive<ICard[][]>([[], [], []])
+const mainboard = reactive<ICard[][]>([[], [], [], []])
 const maybes = reactive<ICard[][]>([[], []])
 const sideboard = reactive<ICard[][]>([[], []])
 

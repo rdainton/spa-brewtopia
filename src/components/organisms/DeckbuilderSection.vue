@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
-import useDrag from '../../composables/useDrag'
+import { computed } from 'vue'
 import { ICard } from '../../types/cards'
 
 // Components
@@ -60,7 +59,7 @@ function handleColumnDragover(columnIndex: number) {
 const baseStyles = 'px-4 pt-4 flex flex-col'
 
 const alignmentmentStylesMap: Record<string, string> = {
-  left: 'mr-auto ml-0',
+  left: 'mr-auto ml-0 pr-20',
   center: '',
   right: 'ml-auto mr-0',
 }
