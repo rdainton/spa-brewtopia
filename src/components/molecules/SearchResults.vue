@@ -32,7 +32,7 @@ watch(
 <template>
   <div
     id="search-results"
-    class="flex items-center w-full max-w-full p-4 overflow-x-auto bg-white  h-72 dark:bg-gray-900 gap-x-4"
+    class="flex items-center w-full max-w-full p-4 overflow-x-auto bg-white  h-68 dark:bg-gray-900 gap-x-4"
   >
     <template v-if="searching">
       <CardSkeleton v-for="(_, idx) in Array(6)" :key="`skeleton-${idx}`" />

@@ -57,7 +57,7 @@ function handleColumnDragover(columnIndex: number) {
 }
 
 // Styles
-const baseStyles = 'px-4 py-4 flex flex-col'
+const baseStyles = 'px-4 pt-4 flex flex-col'
 
 const alignmentmentStylesMap: Record<string, string> = {
   left: 'mr-auto ml-0',
@@ -71,14 +71,17 @@ function handleDrop(e: DragEvent, columnIndex = 0, forceCardIdx = -1) {
 </script>
 
 <template>
-  <div :class="[baseStyles, alignmentmentStylesMap[alignment!]]">
+  <section :class="[baseStyles, alignmentmentStylesMap[alignment!]]">
     <Title extend-classes="mb-1">
       {{ titleOutput }}
     </Title>
 
-    <div class="flex flex-1 w-full bg-transparent gap-x-1">
-      <div v-for="(column, columnIndex) in sectionData">
-        <div class="h-6">
+    <div class="flex flex-col flex-1 overflow-x-auto">
+      <header class="flex w-full h-6 bg-transparent gap-x-1">
+        <div
+          v-for="(column, columnIndex) in sectionData"
+          :class="[columnIndex + 1 === sectionData.length ? 'w-12' : 'w-42']"
+        >
           <Text
             v-if="columnIndex + 1 < sectionData.length"
             extend-classes="mb-2 text-sm"
@@ -86,8 +89,11 @@ function handleDrop(e: DragEvent, columnIndex = 0, forceCardIdx = -1) {
             ({{ column.length }})
           </Text>
         </div>
+      </header>
 
+      <div class="flex flex-1 w-full overflow-y-auto bg-transparent gap-x-1">
         <Column
+          v-for="(column, columnIndex) in sectionData"
           :last="columnIndex + 1 === sectionData.length"
           @dragover="handleColumnDragover(columnIndex)"
           @drop="(e, forceCardIdx) => handleDrop(e, columnIndex, forceCardIdx)"
@@ -107,5 +113,5 @@ function handleDrop(e: DragEvent, columnIndex = 0, forceCardIdx = -1) {
         </Column>
       </div>
     </div>
-  </div>
+  </section>
 </template>

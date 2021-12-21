@@ -32,7 +32,7 @@ const dragStyles = computed(() => {
 
 //
 const lastColumnStyles = computed(() =>
-  props.last ? 'w-16 max-w-16 relative' : 'w-44 min-w-44'
+  props.last ? 'w-16 max-w-16 relative' : 'w-42 min-w-42'
 )
 
 function handleDrop(e: DragEvent, forceCardIndex = -1) {
@@ -43,7 +43,7 @@ function handleDrop(e: DragEvent, forceCardIndex = -1) {
 
 <template>
   <div
-    class="flex-1 flex-shrink-0 h-full px-2 pb-4 bg-transparent border rounded-md "
+    class="flex-1 flex-shrink-0 min-h-full px-1 pb-4 bg-transparent border rounded-md "
     :class="[dragStyles, lastColumnStyles]"
     @dragenter.prevent="handleDragenter"
     @dragleave="handleDragleave"

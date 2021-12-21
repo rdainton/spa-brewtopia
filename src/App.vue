@@ -6,7 +6,7 @@ import TheToastNotifications from './components/TheToastNotifications.vue'
 
 <template>
   <div
-    class="relative flex flex-col min-h-screen min-w-screen dark:bg-gray-900"
+    class="relative flex flex-col max-h-screen min-h-screen  min-w-screen dark:bg-gray-900"
   >
     <TheHeader>
       <span

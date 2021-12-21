@@ -32,8 +32,16 @@ module.exports = {
         dark__backdrop: 'rgba(0, 0, 0, 0.6)',
       },
 
+      spacing: {
+        42: '10.5rem',
+        49: '12.25rem',
+        68: '17rem',
+      },
+
       minWidth: {
-        44: '11rem',
+        42: '10.5rem',
+        100: '25rem',
+        '75vw': '75vw',
       },
 
       maxWidth: {

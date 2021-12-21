@@ -246,7 +246,9 @@ function handleDelete(
 <template>
   <CardSearch @dragstart="handleSearchResultDragstart" />
 
-  <div class="flex flex-1 pt-4 pl-4 bg-transparent gap-x-4 min-w-screen">
+  <div
+    class="flex flex-1 px-4 overflow-x-auto bg-transparent gap-x-2 min-w-screen"
+  >
     <DeckbuilderMain>
       <!-- <DeckbuilderCommander /> -->
       <DeckbuilderSection
