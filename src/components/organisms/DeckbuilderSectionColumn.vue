@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import useDrag from '../../composables/useDrag'
+import useDraggedOver from '../../composables/useDraggedOver'
 import PlusIcon from '../atoms/icons/PlusIcon.vue'
 
 interface DeckbuildingSectionColumnProps {
@@ -12,14 +12,13 @@ const props = defineProps<DeckbuildingSectionColumnProps>()
 const emit = defineEmits<{
   (event: 'drop', e: DragEvent, forceCardIndex: number): void
   (event: 'dragover'): void
-  (event: 'drag-focus', focus: boolean): void
 }>()
 
-// Dragging
-const { draggedOver, handleDragenter, handleDragleave, reset } = useDrag(
-  () => emit('drag-focus', true),
-  () => emit('drag-focus', false)
-)
+/**
+ * Manage draggedOver state, and its impact on styling
+ */
+const { draggedOver, handleDragenter, handleDragleave, reset } =
+  useDraggedOver()
 
 const dragStyles = computed(() => {
   const baseDragStyles = 'border-2'
@@ -30,14 +29,22 @@ const dragStyles = computed(() => {
   }`
 })
 
-//
+// reduced width and includes + icon
 const lastColumnStyles = computed(() =>
   props.last ? 'w-16 max-w-16 relative' : 'w-42 min-w-42'
 )
 
+/**
+ * Handle an ICard drop.
+ */
 function handleDrop(e: DragEvent, forceCardIndex = -1) {
   reset()
   emit('drop', e, forceCardIndex)
+}
+
+function handleDropAtTop(e: DragEvent) {
+  // forceCardIndex to 0 - first in list.
+  handleDrop(e, 0)
 }
 </script>
 
@@ -50,7 +57,7 @@ function handleDrop(e: DragEvent, forceCardIndex = -1) {
     @dragover.prevent="emit('dragover')"
     @drop.stop="handleDrop"
   >
-    <div v-if="!last" class="w-full h-6" @drop.stop="e => handleDrop(e, 0)" />
+    <div v-if="!last" class="w-full h-6" @drop.stop="handleDropAtTop" />
     <slot />
     <PlusIcon v-if="last" />
   </div>

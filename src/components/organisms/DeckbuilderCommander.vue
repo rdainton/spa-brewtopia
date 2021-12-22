@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import useDrag from '../../composables/useDrag'
+import useDraggedOver from '../../composables/useDraggedOver'
 
 // Components
 import Title from '../atoms/SectionTitle.vue'
@@ -8,8 +8,10 @@ import CommanderIcon from '../atoms/icons/CommanderIcon.vue'
 
 const baseStyles = 'px-4 py-6 flex flex-col'
 
-// Dragging
-const { draggedOver, handleDragenter, handleDragleave } = useDrag()
+/**
+ * Manage draggedOver state, and its impact on styling
+ */
+const { draggedOver, handleDragenter, handleDragleave } = useDraggedOver()
 
 const dragStyles = computed(() => {
   const baseDragStyles = 'border-2'

@@ -1,6 +1,13 @@
 import { ref } from 'vue'
 
-export default function useDrag(
+/**
+ * Manage draggedOver state - keeping internal track of whether
+ * draggable has left.
+ *
+ * @param enterCallback - optional hook called on dragenter
+ * @param leaveCallback - optional hook called on dragleave
+ */
+export default function useDraggedOver(
   enterCallback?: () => void,
   leaveCallback?: () => void
 ) {

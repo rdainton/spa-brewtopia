@@ -2,11 +2,14 @@ import store from '../store'
 import { ActionTypes as ToastActions } from '../store/toast'
 import { ToastNotification } from '../types/toasts'
 
-// expose a hook that allows dispatch of different message types
-// USAGE:
-// const dispatch = useToasts()
-// dispatch.successToast('I am the message!')
-
+/**
+ * Expose a hook that allows dispatch of different message types.
+ * Hooks in to 'toast' vuex module.
+ *
+ * USAGE:
+ * const dispatch = useToasts()
+ * dispatch.successToast('I am the message!')
+ */
 export default function useToasts() {
   const dispatchToast = (toast: ToastNotification) => {
     store.dispatch(ToastActions.SHOW, toast)
