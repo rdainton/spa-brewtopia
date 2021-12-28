@@ -5,6 +5,9 @@ export interface ICard {
   name: string
 }
 
+export type CardList = ICard[]
+
+export type CardSection = CardList[]
 export interface CardAddress {
   section: ICard[][] | null
   columnIndex: number

@@ -1,22 +1,24 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
-import { ICard } from '../../types/cards'
+import { CardSection } from '../../types/cards'
 import useCardActions from '../../composables/useCardActions'
 import useCardDrag from '../../composables/useCardDrag'
+import useExport from '../../composables/useExport'
 
 // Components
 import CardSearch from '../organisms/CardSearch.vue'
 import DeckbuilderMain from '../organisms/DeckbuilderMain.vue'
 import DeckbuilderSide from '../organisms/DeckbuilderSide.vue'
 import DeckbuilderSection from '../organisms/DeckbuilderSection.vue'
+import DeckbuilderDock from '../molecules/DeckbuilderDock.vue'
 // import DeckbuilderCommander from '../organisms/DeckbuilderCommander.vue'
 
 /**
  * Deck state
  */
-const mainboard = reactive<ICard[][]>([[], [], [], []])
-const maybes = reactive<ICard[][]>([[], []])
-const sideboard = reactive<ICard[][]>([[], []])
+const mainboard = reactive<CardSection>([[], [], [], []])
+const maybes = reactive<CardSection>([[], []])
+const sideboard = reactive<CardSection>([[], []])
 
 /**
  * Deck construction - adding/removing/moving cards
@@ -37,6 +39,7 @@ const {
 /**
  * Export to .txt
  */
+const { exportToTxtFile } = useExport(mainboard, maybes, sideboard)
 </script>
 
 <template>
@@ -105,4 +108,6 @@ const {
       />
     </DeckbuilderSide>
   </div>
+
+  <DeckbuilderDock @export="exportToTxtFile" />
 </template>

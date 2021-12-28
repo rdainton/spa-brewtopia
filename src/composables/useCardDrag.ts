@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { v4 as uuid } from 'uuid'
-import { CardActions, ICard, CardAddress } from '../types/cards'
+import { CardActions, ICard, CardAddress, CardSection } from '../types/cards'
 
 const nullCardAddress = Object.freeze({
   section: null, // null is from external (Search, or Binder)
@@ -17,25 +17,25 @@ export default function useCardDrag(cardActions: CardActions) {
   const destination = ref<CardAddress>(nullCardAddress)
   const destinationIndex = ref(-1)
 
-  function reset() {
+  const reset = () => {
     currentlyDragging.value = undefined
     origin.value = nullCardAddress
     destination.value = nullCardAddress
     destinationIndex.value = -1
   }
 
-  function handleDragover(section: ICard[][], columnIndex: number): void {
+  const handleDragover = (section: CardSection, columnIndex: number): void => {
     destination.value = {
       section,
       columnIndex,
     }
   }
 
-  function handleDragstart(
-    section: ICard[][],
+  const handleDragstart = (
+    section: CardSection,
     columnIndex: number,
     card: ICard
-  ): void {
+  ): void => {
     currentlyDragging.value = card
     origin.value = {
       section,
@@ -43,12 +43,12 @@ export default function useCardDrag(cardActions: CardActions) {
     }
   }
 
-  function handleNullOriginDragstart(card: ICard): void {
+  const handleNullOriginDragstart = (card: ICard): void => {
     currentlyDragging.value = { ...card } // always want a new instance when dragging from start
     origin.value = nullCardAddress
   }
 
-  function updateDestinationIndex(afterUuId: string): void {
+  const updateDestinationIndex = (afterUuId: string): void => {
     const { section, columnIndex } = destination.value
     const dropIndex = section![columnIndex].findIndex(
       card => card.uuid === afterUuId
@@ -56,7 +56,7 @@ export default function useCardDrag(cardActions: CardActions) {
     if (dropIndex > -1) destinationIndex.value = dropIndex + 1
   }
 
-  function getCardDropTarget(e: DragEvent): ICard | undefined {
+  const getCardDropTarget = (e: DragEvent): ICard | undefined => {
     const targetUuid = e.target && (e.target as HTMLDivElement).id
 
     // if no dropTarget (ICard)
@@ -66,12 +66,12 @@ export default function useCardDrag(cardActions: CardActions) {
     return section![columnIndex].find(card => card.uuid === targetUuid)
   }
 
-  function handleDrop(
+  const handleDrop = (
     e: DragEvent,
-    section: ICard[][],
+    section: CardSection,
     columnIndex: number,
     forceCardIndex = -1
-  ): void {
+  ): void => {
     if (!currentlyDragging.value) return
 
     const cardDropTarget = getCardDropTarget(e)

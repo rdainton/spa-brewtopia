@@ -4,7 +4,7 @@ import ImageIcon from '../atoms/icons/ImageIcon.vue'
 
 interface IconButtonProps {
   variant?: 'primary' | 'secondary' | 'default'
-  size?: 'sm' | 'md' | 'lg'
+  size?: 'sm' | 'md' | 'lg' | 'xl'
   disabled?: boolean
 }
 
@@ -23,7 +23,8 @@ const baseStyles = 'rounded-full' // box shadow?
 const sizeStylesMap: Record<string, string> = {
   sm: 'h-4 w-4 p-1',
   md: 'h-6 w-6 p-1',
-  lg: 'h-8 w-8 p-2',
+  lg: 'h-8 w-8 p-1',
+  xl: 'h-10 w-10 p-2',
 }
 
 const iconColorStylesMap: Record<string, string> = {

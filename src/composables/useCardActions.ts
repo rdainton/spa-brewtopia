@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid'
-import { ICard, CardActions } from '../types/cards'
+import { ICard, CardActions, CardSection } from '../types/cards'
 
 /**
  * A collection of methods to immuteably update the object<ICard> listing
@@ -9,12 +9,12 @@ export default function useCardActions(): CardActions {
   /**
    * Find the card in the column, and then move it to its new index.
    */
-  function moveIndex(
-    section: ICard[][],
+  const moveIndex = (
+    section: CardSection,
     columnIndex: number,
     card: ICard,
     newIdx: number
-  ): void {
+  ): void => {
     const currentIdx = section[columnIndex].findIndex(c => c.uuid === card.uuid)
 
     if (currentIdx < 0 || currentIdx === newIdx) return
@@ -31,11 +31,11 @@ export default function useCardActions(): CardActions {
   /**
    * Find the card in the column, and clone it with a new uuid.
    */
-  function duplicate(
-    section: ICard[][],
+  const duplicate = (
+    section: CardSection,
     columnIndex: number,
     card: ICard
-  ): void {
+  ): void => {
     const currentIdx = section[columnIndex].findIndex(c => c.id === card.id)
 
     const copy = [...section[columnIndex]]
@@ -50,11 +50,11 @@ export default function useCardActions(): CardActions {
    * Find all instances of card in the column,
    * and increase the number to 4.
    */
-  function toPlayset(
-    section: ICard[][],
+  const toPlayset = (
+    section: CardSection,
     columnIndex: number,
     card: ICard
-  ): void {
+  ): void => {
     // count instances of card 'id'
     let currentCount = section[columnIndex].filter(c => c.id === card.id).length
 
@@ -80,12 +80,12 @@ export default function useCardActions(): CardActions {
   /**
    * Inser the card into the column at the instertion index.
    */
-  function insertAtIndex(
-    section: ICard[][],
+  const insertAtIndex = (
+    section: CardSection,
     columnIndex: number,
     card: ICard,
     insertionIndex: number
-  ): void {
+  ): void => {
     const copy = [...section[columnIndex]]
     copy.splice(insertionIndex > -1 ? insertionIndex : copy.length, 0, card)
     section[columnIndex] = copy
@@ -94,7 +94,11 @@ export default function useCardActions(): CardActions {
   /**
    * Find the card in the column, and remove it.
    */
-  function remove(section: ICard[][], columnIndex: number, card: ICard): void {
+  const remove = (
+    section: CardSection,
+    columnIndex: number,
+    card: ICard
+  ): void => {
     section[columnIndex] = section[columnIndex].filter(
       c => c.uuid !== card.uuid
     )
