@@ -1,17 +1,20 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import ImageIcon from '../atoms/icons/ImageIcon.vue'
+import Tooltip from './Tooltip.vue'
 
 interface IconButtonProps {
   variant?: 'primary' | 'secondary' | 'default'
   size?: 'sm' | 'md' | 'lg' | 'xl'
   disabled?: boolean
+  tooltip?: string
 }
 
 const props = withDefaults(defineProps<IconButtonProps>(), {
   variant: 'default',
   size: 'md',
   disabled: false,
+  tooltip: '',
 })
 
 const emit = defineEmits<{
@@ -50,8 +53,12 @@ const colorStyles = computed(() =>
       sizeStylesMap[size!],
       colorStyles,
       iconColorStylesMap[variant!],
+      tooltip ? 'has-tooltip' : ''
     ]"
   >
+    <Tooltip v-if="tooltip">
+      {{ tooltip }}
+    </Tooltip>
     <slot>
       <ImageIcon />
     </slot>

@@ -29,6 +29,7 @@ const onSearch = (searchTerm: string) => {
         id: item.id,
         name: item.name,
         imgUrl: item.image_uris?.normal || '',
+        manaValue: item.cmc,
       }))
     })
     .catch(err => {

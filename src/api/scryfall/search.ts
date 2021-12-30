@@ -3,6 +3,7 @@ import scryfall from './'
 interface ScryfallCard {
   id: string
   name: string
+  cmc: number
   image_uris: {
     normal?: string
   }

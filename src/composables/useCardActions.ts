@@ -4,8 +4,10 @@ import { ICard, CardActions, CardSection } from '../types/cards'
 /**
  * A collection of methods to immuteably update the object<ICard> listing
  * within a column<ICard[]>, within a section<ICard[][]>.
+ *
+ * @param onComplete - optional hook called on action completion
  */
-export default function useCardActions(): CardActions {
+export default function useCardActions(onComplete?: () => void): CardActions {
   /**
    * Find the card in the column, and then move it to its new index.
    */
@@ -26,6 +28,8 @@ export default function useCardActions(): CardActions {
     const copy = [...section[columnIndex]]
     copy.splice(newIdx + buffer, 0, copy.splice(currentIdx, 1)[0])
     section[columnIndex] = copy
+
+    if (typeof onComplete === 'function') onComplete()
   }
 
   /**
@@ -44,6 +48,8 @@ export default function useCardActions(): CardActions {
       uuid: uuid(),
     })
     section[columnIndex] = copy
+
+    if (typeof onComplete === 'function') onComplete()
   }
 
   /**
@@ -75,6 +81,8 @@ export default function useCardActions(): CardActions {
       ...newCards,
       ...section[columnIndex].slice(index),
     ]
+
+    if (typeof onComplete === 'function') onComplete()
   }
 
   /**
@@ -89,6 +97,8 @@ export default function useCardActions(): CardActions {
     const copy = [...section[columnIndex]]
     copy.splice(insertionIndex > -1 ? insertionIndex : copy.length, 0, card)
     section[columnIndex] = copy
+
+    if (typeof onComplete === 'function') onComplete()
   }
 
   /**
@@ -102,6 +112,8 @@ export default function useCardActions(): CardActions {
     section[columnIndex] = section[columnIndex].filter(
       c => c.uuid !== card.uuid
     )
+
+    if (typeof onComplete === 'function') onComplete()
   }
 
   return {

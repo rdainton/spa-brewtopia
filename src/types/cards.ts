@@ -3,6 +3,7 @@ export interface ICard {
   uuid?: string
   imgUrl: string
   name: string
+  manaValue: number
 }
 
 export type CardList = ICard[]

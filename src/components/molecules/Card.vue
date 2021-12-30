@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { ICard } from '../../types/cards'
+import useDraggedOver from '../../composables/useDraggedOver'
+
+// Icons
 import IconButton from '../atoms/IconButton.vue'
 import ImageIcon from '../atoms/icons/ImageIcon.vue'
 import PlusIcon from '../atoms/icons/PlusIcon.vue'
@@ -39,15 +42,31 @@ function onDragEnds() {
   dragging.value = false
   emit('dragend', props.data)
 }
+
+/**
+ * Manage draggedOver state, and its impact on styling
+ */
+const { draggedOver, handleDragenter, handleDragleave, reset } =
+  useDraggedOver()
+
+const dragStyles = computed(() => {
+  const baseDragStyles = 'transform ease-out transition-transform'
+  return `${baseDragStyles} ${
+    draggedOver.value ? 'translate-y-0' : 'translate-y-2'
+  }`
+})
 </script>
 
 <template>
   <div
     class="relative flex flex-shrink-0 w-40 h-56 bg-black rounded-md  trigger card"
-    :class="[{ 'opacity-25': dragging }, { '-mt-49': stacked }]"
+    :class="[{ 'opacity-25': dragging }, { '-mt-49': stacked }, dragStyles]"
     draggable="true"
     @dragstart="onDragStart"
     @dragend="onDragEnds"
+    @dragenter="handleDragenter"
+    @dragleave="handleDragleave"
+    @drop="reset"
     @contextmenu.prevent="emit('delete', data)"
   >
     <img

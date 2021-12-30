@@ -4,6 +4,8 @@ import { CardSection } from '../../types/cards'
 import useCardActions from '../../composables/useCardActions'
 import useCardDrag from '../../composables/useCardDrag'
 import useExport from '../../composables/useExport'
+import useLocalStorage from '../../composables/useLocalStorage'
+import useSort from '../../composables/useSort'
 
 // Components
 import CardSearch from '../organisms/CardSearch.vue'
@@ -14,16 +16,51 @@ import DeckbuilderDock from '../molecules/DeckbuilderDock.vue'
 // import DeckbuilderCommander from '../organisms/DeckbuilderCommander.vue'
 
 /**
- * Deck state
+ * Deck state.
  */
 const mainboard = reactive<CardSection>([[], [], [], []])
 const maybes = reactive<CardSection>([[], []])
 const sideboard = reactive<CardSection>([[], []])
 
 /**
+ * Decklist helpers, featuring Local Storage.
+ */
+const { load, store, clear } = useLocalStorage<{
+  mainboard: CardSection
+  maybes: CardSection
+  sideboard: CardSection
+}>('decklist')
+
+function clearDecklist() {
+  mainboard.splice(0, mainboard.length, [], [], [], [])
+  maybes.splice(0, maybes.length, [], [])
+  sideboard.splice(0, sideboard.length, [], [])
+
+  clear()
+}
+
+function persistToLocalStorage() {
+  store({
+    mainboard,
+    maybes,
+    sideboard,
+  })
+}
+
+/**
+ * Load decklist from Local Storage on load.
+ */
+const storedDecklist = load()
+if (storedDecklist) {
+  mainboard.splice(0, mainboard.length, ...storedDecklist.mainboard)
+  maybes.splice(0, maybes.length, ...storedDecklist.maybes)
+  sideboard.splice(0, sideboard.length, ...storedDecklist.sideboard)
+}
+
+/**
  * Deck construction - adding/removing/moving cards
  */
-const cardActions = useCardActions()
+const cardActions = useCardActions(persistToLocalStorage)
 
 const {
   handleDragstart,
@@ -33,8 +70,9 @@ const {
 } = useCardDrag(cardActions)
 
 /**
- * Deck filtering
+ * Deck sorting
  */
+const { sort } = useSort(persistToLocalStorage)
 
 /**
  * Export to .txt
@@ -68,23 +106,6 @@ const { exportToTxtFile } = useExport(mainboard, maybes, sideboard)
         "
         @delete="(card, colIdx) => cardActions.remove(mainboard, colIdx, card)"
       />
-
-      <DeckbuilderSection
-        title="Maybes"
-        :total-cards-required="Infinity"
-        :section-data="maybes"
-        @dragstart="(card, colIdx) => handleDragstart(maybes, colIdx, card)"
-        @dragover="colIdx => handleDragover(maybes, colIdx)"
-        @drop="
-          (e, colIdx, forceCardIdx) =>
-            handleDrop(e, maybes, colIdx, forceCardIdx)
-        "
-        @duplicate="
-          (card, colIdx) => cardActions.duplicate(maybes, colIdx, card)
-        "
-        @playset="(card, colIdx) => cardActions.toPlayset(maybes, colIdx, card)"
-        @delete="(card, colIdx) => cardActions.remove(maybes, colIdx, card)"
-      />
     </DeckbuilderMain>
 
     <DeckbuilderSide>
@@ -106,8 +127,30 @@ const { exportToTxtFile } = useExport(mainboard, maybes, sideboard)
         "
         @delete="(card, colIdx) => cardActions.remove(sideboard, colIdx, card)"
       />
+
+      <DeckbuilderSection
+        title="Maybes"
+        :total-cards-required="Infinity"
+        :section-data="maybes"
+        @dragstart="(card, colIdx) => handleDragstart(maybes, colIdx, card)"
+        @dragover="colIdx => handleDragover(maybes, colIdx)"
+        @drop="
+          (e, colIdx, forceCardIdx) =>
+            handleDrop(e, maybes, colIdx, forceCardIdx)
+        "
+        @duplicate="
+          (card, colIdx) => cardActions.duplicate(maybes, colIdx, card)
+        "
+        @playset="(card, colIdx) => cardActions.toPlayset(maybes, colIdx, card)"
+        @delete="(card, colIdx) => cardActions.remove(maybes, colIdx, card)"
+      />
     </DeckbuilderSide>
   </div>
 
-  <DeckbuilderDock @export="exportToTxtFile" />
+  <DeckbuilderDock
+    @sort-ascending="() => sort(mainboard, 'manaValue')"
+    @sort-descending="() => sort(mainboard, 'manaValue', 'DESC')"
+    @export="exportToTxtFile"
+    @clear="clearDecklist"
+  />
 </template>
