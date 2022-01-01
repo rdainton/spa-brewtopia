@@ -34,7 +34,7 @@ const sizeStylesMap: Record<string, string> = {
 
 const iconColorStylesMap: Record<string, string> = {
   primary:
-    'text-primary-medium hover:text-primary-light dark:text-dark__primary-medium dark:hover:text-dark__primary-light',
+    'text-primary-medium hover:text-primary-light dark:text-dark__primary-light dark:hover:text-dark__primary-medium',
   secondary:
     'text-secondary-medium hover:text-secondary-light dark:text-dark__secondary-medium dark:hover:text-dark__secondary-light',
   default:

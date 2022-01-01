@@ -2,20 +2,28 @@
 import Deckbuilder from './components/templates/Deckbuilder.vue'
 import TheHeader from './components/TheHeader.vue'
 import TheToastNotifications from './components/TheToastNotifications.vue'
+import TheLogo from './components/TheLogo.vue'
 </script>
 
 <template>
   <div
-    class="relative flex flex-col max-h-screen min-h-screen  min-w-screen dark:bg-gray-900"
+    class="relative flex-col hidden max-h-screen min-h-screen  lg:flex min-w-screen dark:bg-gray-900"
   >
     <TheHeader>
-      <span
-        class="inline-block ml-auto text-4xl font-bold text-gray-200  dark:text-gray-800"
-        >BREWTOPIA&trade;</span
-      >
+      <TheLogo />
     </TheHeader>
 
     <Deckbuilder />
+  </div>
+
+  <div
+    class="flex items-center justify-center w-screen min-h-screen  lg:hidden dark:bg-gray-900"
+  >
+    <h1
+      class="text-2xl text-center  text-primary-medium dark:text-dark__primary-light"
+    >
+      Hey, please try a viewing this on a larger screen.
+    </h1>
   </div>
 
   <TheToastNotifications />

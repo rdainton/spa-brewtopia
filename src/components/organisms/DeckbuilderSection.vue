@@ -71,8 +71,8 @@ function handleDrop(e: DragEvent, columnIndex = 0, forceCardIdx = -1) {
 
 <template>
   <section :class="[baseStyles, alignmentmentStylesMap[alignment!]]">
-    <div class="flex items-center mb-1">
-      <Title>
+    <div class="mb-2">
+      <Title class="mb-1">
         {{ titleOutput }}
       </Title>
 

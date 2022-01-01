@@ -31,7 +31,7 @@ const dragStyles = computed(() => {
 
 // reduced width and includes + icon
 const lastColumnStyles = computed(() =>
-  props.last ? 'w-16 max-w-16 relative' : 'w-42 min-w-42 max-w-42'
+  props.last ? 'w-16 max-w-16 flex' : 'w-42 min-w-42 max-w-42'
 )
 
 /**
@@ -58,7 +58,11 @@ function handleDropAtTop(e: DragEvent) {
     @drop.stop="handleDrop"
   >
     <div v-if="!last" class="w-full h-6" @drop.stop="handleDropAtTop" />
+
     <slot />
-    <PlusIcon v-if="last" />
+
+    <div class="w-8 mx-auto text-gray-900">
+      <PlusIcon v-if="last" />
+    </div>
   </div>
 </template>

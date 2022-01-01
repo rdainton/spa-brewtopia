@@ -26,7 +26,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="flex px-2 gap-x-1">
+  <div class="flex gap-x-1">
     <IconButton
       v-if="options.includes(ControlOptions.SortManaValueAsc)"
       @click="emit('sort', 'manaValue', 'ASC')"

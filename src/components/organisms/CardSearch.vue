@@ -56,7 +56,6 @@ const onSearch = (searchTerm: string) => {
     .catch(err => {
       searchResults.value = []
       // scryfall gives a 404 on cards not found - which shouldn't be an error
-      console.log(err)
       if (err.response.data.status === 404) return
 
       dispatch.errorToast(parseErrorMap(err.response.data))
