@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import scryfall from '../../api/scryfall/search'
-import { ICard } from '../../types/cards'
+import { ICard, PrimaryCardType, primaryCardTypes } from '../../types/cards'
 import useToasts from '../../composables/useToasts'
 import { parseErrorMap } from '../../api/scryfall'
 
@@ -18,6 +18,20 @@ const dispatch = useToasts()
 const searchResults = ref<ICard[]>([])
 const searching = ref(false)
 
+const cardTypesArray = primaryCardTypes.filter(t => t !== 'Unknown')
+
+function getPrimaryCardType(typeLine: string): PrimaryCardType {
+  // can the below be replaced by a regex?
+  const arr = typeLine.split(' ')
+  for (const word of arr) {
+    if (cardTypesArray.includes(word)) {
+      return word
+    }
+  }
+
+  return 'Unknown'
+}
+
 const onSearch = (searchTerm: string) => {
   if (searching.value) return
   searching.value = true
@@ -25,16 +39,24 @@ const onSearch = (searchTerm: string) => {
   scryfall
     .search(searchTerm)
     .then(res => {
-      searchResults.value = res.data?.data.map(item => ({
-        id: item.id,
-        name: item.name,
-        imgUrl: item.image_uris?.normal || '',
-        manaValue: item.cmc,
-      }))
+      searchResults.value = res.data?.data.map(item => {
+        const colorsArr = item.colors || item.color_identity || []
+
+        return {
+          id: item.id,
+          name: item.name,
+          imgUrl: item.image_uris?.normal || '',
+          manaValue: item.cmc,
+          cardType: getPrimaryCardType(item.type_line),
+          cardTypeLine: item.type_line,
+          flatColors: colorsArr.join(),
+        }
+      })
     })
     .catch(err => {
       searchResults.value = []
       // scryfall gives a 404 on cards not found - which shouldn't be an error
+      console.log(err)
       if (err.response.data.status === 404) return
 
       dispatch.errorToast(parseErrorMap(err.response.data))
@@ -47,6 +69,7 @@ const onSearch = (searchTerm: string) => {
 <template>
   <div class="relative">
     <SearchInput @submit="onSearch" />
+
     <SearchResults
       :searching="searching"
       :results="searchResults"

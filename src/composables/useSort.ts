@@ -5,7 +5,7 @@ type RemoveUuidField<Type> = {
 }
 
 // uuid is optional, so remove it from the type
-type SortKey = keyof RemoveUuidField<ICard>
+export type SortKey = keyof RemoveUuidField<ICard>
 
 /**
  * A composable to house sorting logic for CardSections
@@ -38,9 +38,12 @@ export default function useSort(onComplete?: () => void) {
     }
 
     const sortedSection = sortedKeys.map(sortKey => {
-      // sort the keys simply by scryfall id within their new lists
+      // sort the keys by scryfall id to group by card
+      // and then sort by flatColor to group by color
       // to group identical cards
-      return groupedBySortKey[sortKey].sort((a, b) => (a.id > b.id ? 1 : -1))
+      return groupedBySortKey[sortKey]
+        .sort((a, b) => (a.id > b.id ? 1 : -1))
+        .sort((a, b) => (a.flatColors > b.flatColors ? 1 : -1))
     })
 
     section.splice(0, section.length, ...sortedSection, [])
@@ -48,7 +51,19 @@ export default function useSort(onComplete?: () => void) {
     if (typeof onComplete === 'function') onComplete()
   }
 
+  const flatten = (section: CardSection) => {
+    const flatSection = section
+      .flat()
+      .sort((a, b) => (a.id > b.id ? 1 : -1))
+      .sort((a, b) => (a.flatColors > b.flatColors ? 1 : -1))
+
+    section.splice(0, section.length, flatSection, [])
+
+    if (typeof onComplete === 'function') onComplete()
+  }
+
   return {
     sort,
+    flatten,
   }
 }

@@ -8,6 +8,7 @@ interface IconButtonProps {
   size?: 'sm' | 'md' | 'lg' | 'xl'
   disabled?: boolean
   tooltip?: string
+  tooltipBelow?: boolean
 }
 
 const props = withDefaults(defineProps<IconButtonProps>(), {
@@ -15,6 +16,7 @@ const props = withDefaults(defineProps<IconButtonProps>(), {
   size: 'md',
   disabled: false,
   tooltip: '',
+  tooltipBelow: false,
 })
 
 const emit = defineEmits<{
@@ -26,7 +28,7 @@ const baseStyles = 'rounded-full' // box shadow?
 const sizeStylesMap: Record<string, string> = {
   sm: 'h-4 w-4 p-1',
   md: 'h-6 w-6 p-1',
-  lg: 'h-8 w-8 p-1',
+  lg: 'h-8 w-8 p-1.5',
   xl: 'h-10 w-10 p-2',
 }
 
@@ -56,7 +58,7 @@ const colorStyles = computed(() =>
       tooltip ? 'has-tooltip' : ''
     ]"
   >
-    <Tooltip v-if="tooltip">
+    <Tooltip v-if="tooltip" :below="tooltipBelow">
       {{ tooltip }}
     </Tooltip>
     <slot>

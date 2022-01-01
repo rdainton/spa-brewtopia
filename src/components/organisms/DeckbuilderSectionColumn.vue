@@ -31,7 +31,7 @@ const dragStyles = computed(() => {
 
 // reduced width and includes + icon
 const lastColumnStyles = computed(() =>
-  props.last ? 'w-16 max-w-16 relative' : 'w-42 min-w-42'
+  props.last ? 'w-16 max-w-16 relative' : 'w-42 min-w-42 max-w-42'
 )
 
 /**

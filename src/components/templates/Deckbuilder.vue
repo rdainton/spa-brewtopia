@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { CardSection } from '../../types/cards'
+import { ControlOptions } from '../../types/deckbuilder'
 import useCardActions from '../../composables/useCardActions'
 import useCardDrag from '../../composables/useCardDrag'
 import useExport from '../../composables/useExport'
@@ -13,14 +14,21 @@ import DeckbuilderMain from '../organisms/DeckbuilderMain.vue'
 import DeckbuilderSide from '../organisms/DeckbuilderSide.vue'
 import DeckbuilderSection from '../organisms/DeckbuilderSection.vue'
 import DeckbuilderDock from '../molecules/DeckbuilderDock.vue'
+import DeckbuilderSectionControls from '../molecules/DeckbuilderSectionControls.vue'
 // import DeckbuilderCommander from '../organisms/DeckbuilderCommander.vue'
+
+const defaultColumns = {
+  mainboard: [[], [], [], [], []],
+  sideboard: [[], []],
+  maybes: [[], []],
+}
 
 /**
  * Deck state.
  */
-const mainboard = reactive<CardSection>([[], [], [], []])
-const maybes = reactive<CardSection>([[], []])
-const sideboard = reactive<CardSection>([[], []])
+const mainboard = reactive<CardSection>([...defaultColumns.mainboard])
+const sideboard = reactive<CardSection>([...defaultColumns.sideboard])
+const maybes = reactive<CardSection>([...defaultColumns.maybes])
 
 /**
  * Decklist helpers, featuring Local Storage.
@@ -31,10 +39,10 @@ const { load, store, clear } = useLocalStorage<{
   sideboard: CardSection
 }>('decklist')
 
-function clearDecklist() {
-  mainboard.splice(0, mainboard.length, [], [], [], [])
-  maybes.splice(0, maybes.length, [], [])
-  sideboard.splice(0, sideboard.length, [], [])
+function resetDecklist() {
+  mainboard.splice(0, mainboard.length, ...defaultColumns.mainboard)
+  sideboard.splice(0, sideboard.length, ...defaultColumns.sideboard)
+  maybes.splice(0, maybes.length, ...defaultColumns.maybes)
 
   clear()
 }
@@ -45,6 +53,11 @@ function persistToLocalStorage() {
     maybes,
     sideboard,
   })
+}
+
+function resetSection(section: CardSection, columns: CardSection) {
+  section.splice(0, section.length, ...columns)
+  persistToLocalStorage()
 }
 
 /**
@@ -72,7 +85,7 @@ const {
 /**
  * Deck sorting
  */
-const { sort } = useSort(persistToLocalStorage)
+const { sort, flatten } = useSort(persistToLocalStorage)
 
 /**
  * Export to .txt
@@ -105,12 +118,26 @@ const { exportToTxtFile } = useExport(mainboard, maybes, sideboard)
           (card, colIdx) => cardActions.toPlayset(mainboard, colIdx, card)
         "
         @delete="(card, colIdx) => cardActions.remove(mainboard, colIdx, card)"
-      />
+      >
+        <DeckbuilderSectionControls
+          :options="[
+            ControlOptions.SortManaValueAsc,
+            ControlOptions.SortManaValueDesc,
+            ControlOptions.SortCardType,
+            ControlOptions.Flatten,
+            ControlOptions.Clear,
+          ]"
+          @sort="(...args) => sort(mainboard, ...args)"
+          @flatten="flatten(mainboard)"
+          @reset="resetSection(mainboard, defaultColumns.mainboard)"
+        />
+      </DeckbuilderSection>
     </DeckbuilderMain>
 
     <DeckbuilderSide>
       <DeckbuilderSection
         title="Sideboard"
+        alignment="left"
         :total-cards-required="15"
         :section-data="sideboard"
         @dragstart="(card, colIdx) => handleDragstart(sideboard, colIdx, card)"
@@ -126,7 +153,20 @@ const { exportToTxtFile } = useExport(mainboard, maybes, sideboard)
           (card, colIdx) => cardActions.toPlayset(sideboard, colIdx, card)
         "
         @delete="(card, colIdx) => cardActions.remove(sideboard, colIdx, card)"
-      />
+      >
+        <DeckbuilderSectionControls
+          :options="[
+            ControlOptions.SortManaValueAsc,
+            ControlOptions.SortManaValueDesc,
+            ControlOptions.SortCardType,
+            ControlOptions.Flatten,
+            ControlOptions.Clear,
+          ]"
+          @sort="(...args) => sort(sideboard, ...args)"
+          @flatten="flatten(sideboard)"
+          @reset="resetSection(sideboard, defaultColumns.sideboard)"
+        />
+      </DeckbuilderSection>
 
       <DeckbuilderSection
         title="Maybes"
@@ -143,14 +183,22 @@ const { exportToTxtFile } = useExport(mainboard, maybes, sideboard)
         "
         @playset="(card, colIdx) => cardActions.toPlayset(maybes, colIdx, card)"
         @delete="(card, colIdx) => cardActions.remove(maybes, colIdx, card)"
-      />
+      >
+        <DeckbuilderSectionControls
+          :options="[
+            ControlOptions.SortManaValueAsc,
+            ControlOptions.SortManaValueDesc,
+            ControlOptions.SortCardType,
+            ControlOptions.Flatten,
+            ControlOptions.Clear,
+          ]"
+          @sort="(...args) => sort(maybes, ...args)"
+          @flatten="flatten(maybes)"
+          @reset="resetSection(maybes, defaultColumns.maybes)"
+        />
+      </DeckbuilderSection>
     </DeckbuilderSide>
   </div>
 
-  <DeckbuilderDock
-    @sort-ascending="() => sort(mainboard, 'manaValue')"
-    @sort-descending="() => sort(mainboard, 'manaValue', 'DESC')"
-    @export="exportToTxtFile"
-    @clear="clearDecklist"
-  />
+  <DeckbuilderDock @export="exportToTxtFile" @reset="resetDecklist" />
 </template>

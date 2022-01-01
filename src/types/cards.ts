@@ -1,9 +1,27 @@
+export type ManaColor = 'B' | 'U' | 'R' | 'G' | 'R'
+
+export const primaryCardTypes = [
+  'Creature',
+  'Land',
+  'Instant',
+  'Sorcery',
+  'Artifact',
+  'Enchantment',
+  'Planeswalker',
+  'Unknown',
+] as const
+
+// the index of the primaryCardTypes is a number
+export type PrimaryCardType = typeof primaryCardTypes[number]
 export interface ICard {
   id: string
   uuid?: string
   imgUrl: string
   name: string
   manaValue: number
+  cardType: PrimaryCardType
+  cardTypeLine: string
+  flatColors: string
 }
 
 export type CardList = ICard[]

@@ -71,9 +71,13 @@ function handleDrop(e: DragEvent, columnIndex = 0, forceCardIdx = -1) {
 
 <template>
   <section :class="[baseStyles, alignmentmentStylesMap[alignment!]]">
-    <Title extend-classes="mb-1">
-      {{ titleOutput }}
-    </Title>
+    <div class="flex items-center mb-1">
+      <Title>
+        {{ titleOutput }}
+      </Title>
+
+      <slot />
+    </div>
 
     <div class="flex flex-col flex-1 overflow-x-auto">
       <header class="flex w-full h-6 bg-transparent gap-x-1">

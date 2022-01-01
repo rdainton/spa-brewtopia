@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 interface TooltipProps {
   size?: 'md' | 'full'
+  below?: boolean
 }
 
 withDefaults(defineProps<TooltipProps>(), {
   size: 'md',
+  below: false,
 })
 
 const sizeMap: Record<string, string> = {
@@ -16,7 +18,7 @@ const sizeMap: Record<string, string> = {
 <template>
   <span
     class="p-1 text-sm text-center transform -translate-x-1/2 bg-white border-gray-500 rounded-sm shadow-md  dark:text-white tooltip dark:bg-gray-900 left-1/2"
-    :class="sizeMap[size]"
+    :class="[below ? 'tooltip-below' : 'tooltip-above', sizeMap[size]]"
   >
     <slot />
   </span>
@@ -47,8 +49,15 @@ const sizeMap: Record<string, string> = {
 * Component tooltip styles
 */
 .tooltip {
-  bottom: 125%;
   z-index: 1;
   transition: 200ms opacity 0.5s ease-in;
+
+  &-above {
+    bottom: 125%;
+  }
+
+  &-below {
+    top: 125%;
+  }
 }
 </style>
