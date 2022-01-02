@@ -29,13 +29,6 @@ const emit = defineEmits<{
   (event: 'delete', card: ICard, columnIndex: number): void
 }>()
 
-type ActionType = 'duplicate' | 'playset' | 'delete' | 'dragstart'
-
-// Card Management
-function handleAction(action: ActionType, card: ICard, columnIndex: number) {
-  emit(action, card, columnIndex)
-}
-
 // Count
 const cardsInSection = computed(() => {
   return props.sectionData.reduce((count, list) => {
@@ -103,15 +96,15 @@ function handleDrop(e: DragEvent, columnIndex = 0, forceCardIdx = -1) {
         >
           <Card
             v-for="(card, idx) in column"
-            :id="card.id"
+            :id="card.srcyId"
             :key="card.uuid"
             :data="card"
             :stacked="idx !== 0"
-            with-controls
-            @dragstart="handleAction('dragstart', card, columnIndex)"
-            @duplicate="handleAction('duplicate', card, columnIndex)"
-            @playset="handleAction('playset', card, columnIndex)"
-            @delete="handleAction('delete', card, columnIndex)"
+            :with-controls="true"
+            @dragstart="emit('dragstart', card, columnIndex)"
+            @duplicate="emit('duplicate', card, columnIndex)"
+            @playset="emit('playset', card, columnIndex)"
+            @delete="emit('delete', card, columnIndex)"
           />
         </Column>
       </div>

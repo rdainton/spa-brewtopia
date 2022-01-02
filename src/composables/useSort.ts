@@ -42,7 +42,7 @@ export default function useSort(onComplete?: () => void) {
       // and then sort by flatColor to group by color
       // to group identical cards
       return groupedBySortKey[sortKey]
-        .sort((a, b) => (a.id > b.id ? 1 : -1))
+        .sort((a, b) => (a.srcyId > b.srcyId ? 1 : -1))
         .sort((a, b) => (a.flatColors > b.flatColors ? 1 : -1))
     })
 
@@ -54,7 +54,7 @@ export default function useSort(onComplete?: () => void) {
   const flatten = (section: CardSection) => {
     const flatSection = section
       .flat()
-      .sort((a, b) => (a.id > b.id ? 1 : -1))
+      .sort((a, b) => (a.srcyId > b.srcyId ? 1 : -1))
       .sort((a, b) => (a.flatColors > b.flatColors ? 1 : -1))
 
     section.splice(0, section.length, flatSection, [])

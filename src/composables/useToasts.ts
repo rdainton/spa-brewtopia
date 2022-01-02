@@ -1,6 +1,6 @@
 import store from '../store'
 import { ActionTypes as ToastActions } from '../store/toast'
-import { ToastNotification } from '../types/toasts'
+import { ToastNotification, NotificationType } from '../types/toasts'
 
 /**
  * Expose a hook that allows dispatch of different message types.
@@ -17,7 +17,7 @@ export default function useToasts() {
 
   const infoToast = (content: string, heading?: string) => {
     dispatchToast({
-      type: 'info',
+      type: NotificationType.info,
       heading: heading ?? 'Information',
       content: content,
     })
@@ -25,7 +25,7 @@ export default function useToasts() {
 
   const warningToast = (content: string, heading?: string) => {
     dispatchToast({
-      type: 'warning',
+      type: NotificationType.warning,
       heading: heading ?? 'Warning',
       content: content,
     })
@@ -33,7 +33,7 @@ export default function useToasts() {
 
   const errorToast = (content: string, heading?: string) => {
     dispatchToast({
-      type: 'error',
+      type: NotificationType.error,
       heading: heading ?? 'Error',
       content: content,
     })
@@ -41,7 +41,7 @@ export default function useToasts() {
 
   const successToast = (content: string, heading?: string) => {
     dispatchToast({
-      type: 'success',
+      type: NotificationType.success,
       heading: heading ?? 'Success',
       content: content,
     })

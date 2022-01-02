@@ -40,7 +40,9 @@ export default function useCardActions(onComplete?: () => void): CardActions {
     columnIndex: number,
     card: ICard
   ): void => {
-    const currentIdx = section[columnIndex].findIndex(c => c.id === card.id)
+    const currentIdx = section[columnIndex].findIndex(
+      c => c.srcyId === card.srcyId
+    )
 
     const copy = [...section[columnIndex]]
     copy.splice(currentIdx, 0, {
@@ -61,8 +63,10 @@ export default function useCardActions(onComplete?: () => void): CardActions {
     columnIndex: number,
     card: ICard
   ): void => {
-    // count instances of card 'id'
-    let currentCount = section[columnIndex].filter(c => c.id === card.id).length
+    // count instances of card 'srcyId'
+    let currentCount = section[columnIndex].filter(
+      c => c.srcyId === card.srcyId
+    ).length
 
     // generate new cards
     const newCards = []

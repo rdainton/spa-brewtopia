@@ -28,7 +28,7 @@ export default function useExport(
 
     if (!flatSection.length) return []
 
-    const groupedByCardId = flatSection.reduce(
+    const groupedByCardName = flatSection.reduce(
       (map: { [key: string]: ICard[] }, x) => {
         ;(map[x['name']] = map[x['name']] || []).push(x)
         return map
@@ -38,8 +38,8 @@ export default function useExport(
 
     const output = [`// ${sectionName}\n`]
     // generate string from card name + count
-    for (const key in groupedByCardId) {
-      output.push(`${groupedByCardId[key].length}x ${key}\n`)
+    for (const key in groupedByCardName) {
+      output.push(`${groupedByCardName[key].length}x ${key}\n`)
     }
     output.push('\n')
 

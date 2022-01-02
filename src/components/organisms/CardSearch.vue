@@ -18,6 +18,18 @@ const dispatch = useToasts()
 const searchResults = ref<ICard[]>([])
 const searching = ref(false)
 
+// Array.includes(searchElement) won't let searchElement be a supertype of the array type
+// a 'string' in this instance. So I override the standard library via 'declaration merging'
+// to accept supertypes.
+declare global {
+  interface Array<T> {
+    includes<U extends T extends U ? unknown : never>(
+      searchElement: U,
+      fromIndex?: number
+    ): boolean
+  }
+}
+
 const cardTypesArray = primaryCardTypes.filter(t => t !== 'Unknown')
 
 function getPrimaryCardType(typeLine: string): PrimaryCardType {
@@ -25,7 +37,7 @@ function getPrimaryCardType(typeLine: string): PrimaryCardType {
   const arr = typeLine.split(' ')
   for (const word of arr) {
     if (cardTypesArray.includes(word)) {
-      return word
+      return word as PrimaryCardType
     }
   }
 
@@ -43,7 +55,7 @@ const onSearch = (searchTerm: string) => {
         const colorsArr = item.colors || item.color_identity || []
 
         return {
-          id: item.id,
+          srcyId: item.id,
           name: item.name,
           imgUrl: item.image_uris?.normal || '',
           manaValue: item.cmc,

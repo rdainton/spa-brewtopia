@@ -1,4 +1,11 @@
-export type NotificationType = 'info' | 'error' | 'warning' | 'success'
+// export type NotificationType = 'info' | 'error' | 'warning' | 'success'
+
+export enum NotificationType {
+  'info',
+  'error',
+  'warning',
+  'success',
+}
 
 export interface ToastNotification {
   uuid?: string

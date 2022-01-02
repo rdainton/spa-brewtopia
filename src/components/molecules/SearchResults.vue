@@ -45,8 +45,8 @@ watch(
     <template v-else>
       <Card
         v-for="card in results"
-        :id="card.id"
-        :key="card.id"
+        :id="card.srcyId"
+        :key="card.srcyId"
         :data="card"
         @dragstart="emit('dragstart', card)"
       />

@@ -14,7 +14,7 @@ export const primaryCardTypes = [
 // the index of the primaryCardTypes is a number
 export type PrimaryCardType = typeof primaryCardTypes[number]
 export interface ICard {
-  id: string
+  srcyId: string
   uuid?: string
   imgUrl: string
   name: string

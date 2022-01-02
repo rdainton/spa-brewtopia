@@ -32,7 +32,7 @@ const emit = defineEmits<{
       @click="emit('sort', 'manaValue', 'ASC')"
       size="lg"
       tooltip="Sort by ascending Mana Value"
-      tooltip-below
+      :tooltip-below="true"
     >
       <SortAscendingIcon />
     </IconButton>
@@ -42,7 +42,7 @@ const emit = defineEmits<{
       @click="emit('sort', 'manaValue', 'DESC')"
       size="lg"
       tooltip="Sort by descending Mana Value"
-      tooltip-below
+      :tooltip-below="true"
     >
       <SortDescendingIcon />
     </IconButton>
@@ -52,7 +52,7 @@ const emit = defineEmits<{
       @click="emit('sort', 'cardType')"
       size="lg"
       tooltip="Sort by card type"
-      tooltip-below
+      :tooltip-below="true"
     >
       <CardTypeIcon />
     </IconButton>
@@ -62,7 +62,7 @@ const emit = defineEmits<{
       @click="emit('flatten')"
       size="lg"
       tooltip="Move all cards to one column"
-      tooltip-below
+      :tooltip-below="true"
     >
       <FlattenIcon />
     </IconButton>
@@ -72,7 +72,7 @@ const emit = defineEmits<{
       @click="emit('reset')"
       size="lg"
       tooltip="Reset section"
-      tooltip-below
+      :tooltip-below="true"
     >
       <ClearIcon />
     </IconButton>

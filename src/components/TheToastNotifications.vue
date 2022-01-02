@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
-import { NotificationType } from '../types/toasts'
+import { NotificationType, ToastNotification } from '../types/toasts'
+
 import {
   GetterTypes as ToastGetters,
   ActionTypes as ToastActions,
@@ -16,27 +17,27 @@ import CloseIcon from './atoms/icons/CloseIcon.vue'
 
 const store = useStore()
 
-const toastsArray = computed(() => store.getters[ToastGetters.ALL])
+const toastsArray = computed(
+  () => store.getters[ToastGetters.ALL] as ToastNotification[]
+)
 
 const hideToastNotification = (uuid: string) => {
   store.dispatch(ToastActions.HIDE, uuid)
 }
 
 const backgroundStylesMap: Record<NotificationType, string> = {
-  info: 'from-blue-500',
-  error: 'from-red-500',
-  warning: 'from-green-500',
-  success: 'from-green-500',
+  [NotificationType.info]: 'from-blue-500',
+  [NotificationType.error]: 'from-red-500',
+  [NotificationType.warning]: 'from-green-500',
+  [NotificationType.success]: 'from-green-500',
 }
 
 const componentMap: Record<NotificationType, any> = {
-  info: InfoIcon,
-  error: ErrorIcon,
-  warning: WarningIcon,
-  success: SuccessIcon,
+  [NotificationType.info]: InfoIcon,
+  [NotificationType.error]: ErrorIcon,
+  [NotificationType.warning]: WarningIcon,
+  [NotificationType.success]: SuccessIcon,
 }
-
-// TODO: fix typing issues with the Records
 </script>
 
 <template>
@@ -72,7 +73,7 @@ const componentMap: Record<NotificationType, any> = {
             </section>
             <button
               class="absolute flex w-4 h-4 text-gray-900  dark:text-white top-2 right-2 active:outline-none focus:outline-none"
-              @click="hideToastNotification(toast.uuid)"
+              @click="hideToastNotification(toast.uuid!)"
             >
               <CloseIcon />
             </button>
