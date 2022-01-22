@@ -12,6 +12,7 @@ export interface RouteContext {
 }
 
 /**
+ * Sequentially call middleware.
  *
  * @param context
  * @param middleware

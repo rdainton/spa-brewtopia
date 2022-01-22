@@ -1,7 +1,7 @@
 import { Module } from 'vuex'
-import { State as RootState } from '../../store'
+import { State as RootState } from '@/store'
 import { v4 as uuidv4 } from 'uuid'
-import { ToastNotification } from '../../types/toasts'
+import { ToastNotification } from '@/types/toasts'
 
 /**
  * State Type

@@ -1,5 +1,3 @@
-// export type NotificationType = 'info' | 'error' | 'warning' | 'success'
-
 export enum NotificationType {
   'info',
   'error',

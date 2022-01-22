@@ -1,6 +1,6 @@
-import store from '../store'
-import { ActionTypes as ToastActions } from '../store/toast'
-import { ToastNotification, NotificationType } from '../types/toasts'
+import store from '@/store'
+import { ActionTypes as ToastActions } from '@/store/toast'
+import { ToastNotification, NotificationType } from '@/types/toasts'
 
 /**
  * Expose a hook that allows dispatch of different message types.

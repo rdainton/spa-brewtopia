@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { v4 as uuid } from 'uuid'
-import { CardActions, ICard, CardAddress, CardSection } from '../types/cards'
+import { CardActions, ICard, CardAddress, CardSection } from '@/types/cards'
 
 const nullCardAddress = Object.freeze({
   section: null, // null is from external (Search, or Binder)

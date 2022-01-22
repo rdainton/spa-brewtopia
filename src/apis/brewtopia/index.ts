@@ -14,7 +14,7 @@ export default {
  * A helper function to parse the
  * error map returned from the API
  */
-type ErrorMap = {
+export type ErrorMap = {
   message: string
   errors?: {
     [key: string]: string[]

@@ -1,6 +1,7 @@
-import scryfall from './'
-import { ManaColor } from '../../types/cards'
-interface ScryfallCard {
+import scryfall from '.'
+import { ManaColor } from '@/types/cards'
+
+export interface ScryfallCard {
   id: string
   name: string
   cmc: number
@@ -12,6 +13,9 @@ interface ScryfallCard {
   }
 }
 
+/**
+ * The Scryfall search services
+ */
 export default {
   search(searchTerm: string) {
     return scryfall.get<{ data: ScryfallCard[] }>(

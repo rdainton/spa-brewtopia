@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid'
-import { ICard, CardActions, CardSection } from '../types/cards'
+import { ICard, CardActions, CardSection } from '@/types/cards'
 
 /**
  * A collection of methods to immuteably update the object<ICard> listing

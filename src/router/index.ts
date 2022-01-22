@@ -1,6 +1,12 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import store from '../store'
 import middlewarePipeline, { RouterMiddleware } from './middlewarePipeline'
+import auth from './middleware/auth'
+import guest from './middleware/guest'
+
+// Store
+import store from '../store'
+import { GetterTypes as AuthGetters } from '../store/auth/getters'
+import { ActionTypes as AuthActions } from '../store/auth/actions'
 
 // Components
 import DeckBuilder from '../components/pages/Deckbuilder.vue'
@@ -19,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'login',
     component: () => import('../components/pages/auth/Login.vue'),
     meta: {
-      middleware: [],
+      middleware: [guest],
     },
   },
   {
@@ -27,7 +33,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'register',
     component: () => import('../components/pages/auth/Register.vue'),
     meta: {
-      middleware: [],
+      middleware: [guest],
     },
   },
   {
@@ -35,7 +41,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'forgot-password',
     component: () => import('../components/pages/auth/ForgotPassword.vue'),
     meta: {
-      middleware: [],
+      middleware: [guest],
     },
   },
   {
@@ -43,7 +49,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'reset-password',
     component: () => import('../components/pages/auth/ResetPassword.vue'),
     meta: {
-      middleware: [],
+      middleware: [guest],
     },
   },
   {
@@ -51,7 +57,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'logout',
     component: () => import('../components/pages/auth/Logout.vue'),
     meta: {
-      middleware: [],
+      middleware: [auth],
     },
   },
   {
@@ -59,7 +65,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'profile',
     component: () => import('../components/pages/Profile.vue'),
     meta: {
-      middleware: [],
+      middleware: [auth],
     },
   },
   {
@@ -67,7 +73,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'decks',
     component: () => import('../components/pages/Decks.vue'),
     meta: {
-      middleware: [],
+      middleware: [auth],
     },
   },
   {
@@ -93,6 +99,14 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  // auto login check.
+  if (!store.getters[AuthGetters.AUTO_ATTEMPTED]) {
+    store.dispatch(AuthActions.ATTEMPT_AUTO, to.fullPath)
+    // no navigation til autologin completes.
+    next(false)
+    return
+  }
+
   const middleware = to.meta.middleware as RouterMiddleware[]
 
   if (!middleware || !middleware.length) return next()
