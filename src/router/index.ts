@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import middlewarePipeline, { RouterMiddleware } from './middlewarePipeline'
 import auth from './middleware/auth'
 import guest from './middleware/guest'
+import passwordReset from './middleware/passwordReset'
 
 // Store
 import store from '../store'
@@ -49,7 +50,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'reset-password',
     component: () => import('../components/pages/auth/ResetPassword.vue'),
     meta: {
-      middleware: [guest],
+      middleware: [guest, passwordReset],
     },
   },
   {

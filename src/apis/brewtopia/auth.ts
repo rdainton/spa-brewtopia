@@ -5,7 +5,7 @@ export interface Authable {
   password: string
 }
 
-export interface Registable {
+export interface Registerable {
   name: string
   email: string
   password: string
@@ -51,21 +51,23 @@ export default {
 
   async forgotPassword(payload: Forgetable) {
     await _sanctum()
-    return brewtopiaClient.post(`${apiPrefix}/forgot-password`, payload)
+    return brewtopiaClient.post<{
+      message: string
+    }>(`${apiPrefix}/forgot-password`, payload)
   },
 
   getUser() {
-    return brewtopiaClient.get<{
-      data: User
-    }>(`${apiPrefix}/user`)
+    return brewtopiaClient.get<User>(`${apiPrefix}/user`)
   },
 
   async resetPassword(payload: Resetable) {
     await _sanctum()
-    return brewtopiaClient.post(`${apiPrefix}/reset-password`, payload)
+    return brewtopiaClient.post<{
+      message: string
+    }>(`${apiPrefix}/reset-password`, payload)
   },
 
-  async register(payload: Registable) {
+  async register(payload: Registerable) {
     await _sanctum()
     return brewtopiaClient.post(`${apiPrefix}/register`, payload)
   },

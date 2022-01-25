@@ -21,6 +21,8 @@ const attemptedAutoLogin = computed(
 
 const isLoggedIn = computed(() => store.getters[AuthGetters.IS_AUTH])
 
+const user = computed(() => store.getters[AuthGetters.USER])
+
 // Start routing on auto-attempt complete
 watch(attemptedAutoLogin, (current: boolean, prev: boolean) => {
   if (current && !prev) {
@@ -38,16 +40,22 @@ watch(attemptedAutoLogin, (current: boolean, prev: boolean) => {
     <TheHeader>
       <!-- <TheLogo /> -->
       <div class="flex items-center ml-auto dark:text-white">
-        <RouterLink
-          v-if="isLoggedIn"
-          :to="{ name: 'logout' }"
-          class="hover:underline"
-        >
-          Logout
-        </RouterLink>
-        <RouterLink v-else :to="{ name: 'login' }" class="hover:underline">
-          Login
-        </RouterLink>
+        <template v-if="isLoggedIn">
+          {{ user.name }}
+          <span class="mx-2">|</span>
+          <RouterLink :to="{ name: 'logout' }" class="hover:underline">
+            Logout
+          </RouterLink>
+        </template>
+        <template v-else>
+          <RouterLink :to="{ name: 'login' }" class="hover:underline">
+            Login
+          </RouterLink>
+          <span class="mx-2">|</span>
+          <RouterLink :to="{ name: 'register' }" class="hover:underline">
+            Register
+          </RouterLink>
+        </template>
       </div>
     </TheHeader>
 

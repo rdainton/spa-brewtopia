@@ -22,7 +22,7 @@ import { parseErrorMap } from '@/apis/brewtopia'
 import AuthLayout from '@/components/layouts/AuthLayout.vue'
 import VTextInput from '@/components/molecules/VTextInput.vue'
 import BrewButton from '@/components/molecules/BrewButton.vue'
-import ErrorMessage from '@/components/molecules/ErrorMessage.vue'
+import BrewMessage from '@/components/molecules/BrewMessage.vue'
 
 const store = useStore()
 const router = useRouter()
@@ -38,9 +38,10 @@ const authSchema: yup.ObjectSchema<Authable> = yup
   .object({
     email: yup
       .string()
+      .max(255)
       .email('Please provide a valid email.')
       .required('This field is required.'),
-    password: yup.string().required('This field is required.'),
+    password: yup.string().max(50).required('This field is required.'),
   })
   .defined()
 
@@ -62,16 +63,21 @@ const onSubmit = handleSubmit(values => {
 <template>
   <AuthLayout>
     <form @submit="onSubmit" class="w-full mt-12 lg:mt-16">
-      <ErrorMessage v-if="submissionError" extend-wrapper-classes="-mt-6 mb-4">
+      <BrewMessage
+        v-if="submissionError"
+        type="error"
+        extend-wrapper-classes="-mt-6 mb-4"
+      >
         {{ submissionError }}
-      </ErrorMessage>
+      </BrewMessage>
+
       <fieldset :disabled="working">
         <!-- Fields -->
         <VTextInput
           name="email"
           type="email"
           label="Email Address"
-          maxlength="100"
+          maxlength="255"
         />
         <VTextInput
           name="password"
