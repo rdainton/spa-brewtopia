@@ -32,22 +32,22 @@ const working = ref(false)
 const submissionError = ref('')
 
 // init the reset form
-const registrationSchema: yup.ObjectSchema<Registerable> = yup
-  .object({
-    name: yup.string().max(255).required('This field is required.'),
-    email: yup
-      .string()
-      .max(255)
-      .email('Please provide a valid email.')
-      .required('This field is required.'),
-    password: yup.string().max(50).required('This field is required.'),
-    password_confirmation: yup
-      .string()
-      .max(50)
-      .oneOf([yup.ref('password'), ''], 'Password does not match.')
-      .required('This field is required.'),
-  })
-  .defined()
+const registrationSchema: yup.SchemaOf<Registerable> = yup.object({
+  name: yup.string().max(255).required('This field is required.').defined(),
+  email: yup
+    .string()
+    .max(255)
+    .email('Please provide a valid email.')
+    .required('This field is required.')
+    .defined(),
+  password: yup.string().max(50).required('This field is required.').defined(),
+  password_confirmation: yup
+    .string()
+    .max(50)
+    .oneOf([yup.ref('password'), ''], 'Password does not match.')
+    .required('This field is required.')
+    .defined(),
+})
 
 const { handleSubmit } = useForm({
   validationSchema: registrationSchema,
@@ -59,7 +59,7 @@ const onSubmit = handleSubmit((values, actions) => {
   working.value = true
 
   brewtopia.auth
-    .register(values)
+    .register(values as Registerable)
     .then(() => {
       // attempt login
       store

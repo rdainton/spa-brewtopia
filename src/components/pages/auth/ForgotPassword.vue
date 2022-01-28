@@ -20,15 +20,14 @@ const working = ref(false)
 const submissionError = ref('')
 const successMessage = ref('')
 
-const forgotSchema: yup.ObjectSchema<Forgetable> = yup
-  .object({
-    email: yup
-      .string()
-      .max(255)
-      .email('Please provide a valid email.')
-      .required('This field is required.'),
-  })
-  .defined()
+const forgotSchema: yup.SchemaOf<Forgetable> = yup.object({
+  email: yup
+    .string()
+    .max(255)
+    .email('Please provide a valid email.')
+    .required('This field is required.')
+    .defined(),
+})
 
 const { handleSubmit } = useForm({
   validationSchema: forgotSchema,
@@ -40,7 +39,7 @@ const onSubmit = handleSubmit((values, actions) => {
   working.value = true
 
   brewtopia.auth
-    .forgotPassword(values)
+    .forgotPassword(values as Forgetable)
     .then(res => {
       successMessage.value = res.data.message
       actions.resetForm()

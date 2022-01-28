@@ -34,16 +34,15 @@ const submissionError = computed(() =>
 
 const working = computed(() => store.getters[AuthGetters.LOADING])
 
-const authSchema: yup.ObjectSchema<Authable> = yup
-  .object({
-    email: yup
-      .string()
-      .max(255)
-      .email('Please provide a valid email.')
-      .required('This field is required.'),
-    password: yup.string().max(50).required('This field is required.'),
-  })
-  .defined()
+const authSchema: yup.SchemaOf<Authable> = yup.object({
+  email: yup
+    .string()
+    .max(255)
+    .email('Please provide a valid email.')
+    .required('This field is required.')
+    .defined(),
+  password: yup.string().max(50).required('This field is required.').defined(),
+})
 
 const { handleSubmit } = useForm({
   validationSchema: authSchema,

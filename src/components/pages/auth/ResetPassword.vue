@@ -31,22 +31,22 @@ const $route = useRoute()
 const { email, token } = $route.query as ResetQuery
 
 // init the reset form
-const resetSchema: yup.ObjectSchema<Resetable> = yup
-  .object({
-    email: yup
-      .string()
-      .max(255)
-      .email('Please provide a valid email.')
-      .required('This field is required.'),
-    password: yup.string().max(50).required('This field is required.'),
-    password_confirmation: yup
-      .string()
-      .max(50)
-      .oneOf([yup.ref('password'), ''], 'Password does not match.')
-      .required('This field is required.'),
-    token: yup.string(),
-  })
-  .defined()
+const resetSchema: yup.SchemaOf<Resetable> = yup.object({
+  email: yup
+    .string()
+    .max(255)
+    .email('Please provide a valid email.')
+    .required('This field is required.')
+    .defined(),
+  password: yup.string().max(50).required('This field is required.').defined(),
+  password_confirmation: yup
+    .string()
+    .max(50)
+    .oneOf([yup.ref('password'), ''], 'Password does not match.')
+    .required('This field is required.')
+    .defined(),
+  token: yup.string().defined(),
+})
 
 const { handleSubmit } = useForm({
   validationSchema: resetSchema,
@@ -62,7 +62,7 @@ const onSubmit = handleSubmit((values, actions) => {
   values.token = token
 
   brewtopia.auth
-    .resetPassword(values)
+    .resetPassword(values as Resetable)
     .then(res => {
       successMessage.value = res.data.message
       actions.resetForm()
