@@ -9,7 +9,6 @@ export enum _GetterTypes {
   IS_AUTH = 'IS_AUTH',
   USER = 'USER',
   AUTO_ATTEMPTED = 'AUTO_ATTEMPTED',
-  REDIRECT_TO = 'REDIRECT_TO',
 }
 
 // PUBLIC
@@ -19,7 +18,6 @@ export enum GetterTypes {
   IS_AUTH = 'auth/IS_AUTH',
   USER = 'auth/USER',
   AUTO_ATTEMPTED = 'auth/AUTO_ATTEMPTED',
-  REDIRECT_TO = 'auth/REDIRECT_TO',
 }
 
 export default {
@@ -32,6 +30,4 @@ export default {
   [_GetterTypes.IS_AUTH]: (state: State) => !!state.user,
 
   [_GetterTypes.AUTO_ATTEMPTED]: (state: State) => state.autoAttempted,
-
-  [_GetterTypes.REDIRECT_TO]: (state: State) => state.redirectTo,
 }

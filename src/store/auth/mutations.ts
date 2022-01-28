@@ -12,8 +12,6 @@ export enum _MutationTypes {
   SET_AUTH_ERROR = 'SET_AUTH_ERROR',
   CLEAR_AUTH_DATA = 'CLEAR_AUTH_DATA',
   SET_AUTO_ATTEMPTED = 'SET_AUTO_ATTEMPTED',
-  SET_REDIRECT_TO = 'SET_REDIRECT_TO',
-  CLEAR_REDIRECT_TO = 'CLEAR_REDIRECT_TO',
 }
 
 export default {
@@ -37,14 +35,6 @@ export default {
     state.user = null
     state.loading = false
     state.error = payload
-  },
-
-  [_MutationTypes.SET_REDIRECT_TO](state: State, payload: string) {
-    state.redirectTo = payload
-  },
-
-  [_MutationTypes.CLEAR_REDIRECT_TO](state: State) {
-    state.redirectTo = ''
   },
 
   [_MutationTypes.SET_AUTO_ATTEMPTED](state: State) {

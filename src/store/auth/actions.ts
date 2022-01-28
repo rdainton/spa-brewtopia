@@ -16,7 +16,6 @@ enum _ActionTypes {
   ATTEMPT_AUTO = 'ATTEMPT_AUTO',
   CLEAR_AUTH_DATA = 'CLEAR_AUTH_DATA',
   SET_AUTH_DATA = 'SET_AUTH_DATA',
-  CLEAR_REDIRECT_TO = 'CLEAR_REDIRECT_TO',
 }
 
 // PUBLIC
@@ -25,7 +24,6 @@ export enum ActionTypes {
   LOGOUT = 'auth/LOGOUT',
   ATTEMPT_AUTO = 'auth/ATTEMPT_AUTO',
   CLEAR_AUTH_DATA = 'auth/CLEAR_AUTH_DATA',
-  CLEAR_REDIRECT_TO = 'auth/CLEAR_REDIRECT_TO',
 }
 
 const storageKey = 'auth'
@@ -39,10 +37,6 @@ export default {
   [_ActionTypes.SET_AUTH_DATA]({ commit }, payload) {
     commit(_MutationTypes.SET_AUTH_DATA, payload)
     localStorage.setItem(storageKey, new Date().toLocaleString())
-  },
-
-  [_ActionTypes.CLEAR_REDIRECT_TO]({ commit }) {
-    commit(_MutationTypes.CLEAR_REDIRECT_TO)
   },
 
   async [_ActionTypes.LOGIN]({ commit, dispatch }, payload: Authable) {
@@ -62,22 +56,21 @@ export default {
       })
   },
 
-  [_ActionTypes.ATTEMPT_AUTO]({ commit, dispatch }, redirectTo: string) {
-    commit(_MutationTypes.SET_REDIRECT_TO, redirectTo)
-
+  async [_ActionTypes.ATTEMPT_AUTO]({ commit, dispatch }) {
     // return early if wasn't previously authenticated.
     const previouslyAuthenticated = localStorage.getItem(storageKey)
     if (!previouslyAuthenticated) {
       commit(_MutationTypes.SET_AUTO_ATTEMPTED)
-      return
+      return Promise.resolve()
     }
 
     commit(_MutationTypes.SET_AUTH_INIT)
 
-    brewtopia.auth
+    return brewtopia.auth
       .getUser()
       .then(res => {
         dispatch(_ActionTypes.SET_AUTH_DATA, res.data)
+        return res.data
       })
       .catch(_ => {
         dispatch(_ActionTypes.CLEAR_AUTH_DATA)

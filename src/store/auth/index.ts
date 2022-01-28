@@ -18,7 +18,6 @@ export type State = {
   loading: boolean
   error: ErrorMap | null
   autoAttempted: boolean
-  redirectTo: string
 }
 
 export const authModule: Module<State, RootState> = {
@@ -29,7 +28,6 @@ export const authModule: Module<State, RootState> = {
     loading: false,
     error: null,
     autoAttempted: false,
-    redirectTo: '',
   }),
 
   mutations,

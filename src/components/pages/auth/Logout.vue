@@ -7,7 +7,7 @@ const store = useStore()
 const router = useRouter()
 
 store.dispatch(AuthActions.LOGOUT).then(() => {
-  router.push({ name: 'login' })
+  router.push({ name: 'deckbuilder' })
 })
 </script>
 
