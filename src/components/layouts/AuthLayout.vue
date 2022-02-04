@@ -1,6 +1,6 @@
 <template>
-  <div class="flex items-center justify-center">
-    <div class="mx-auto w-72">
+  <div class="flex items-center justify-center pt-20">
+    <div class="mx-auto w-80">
       <slot />
     </div>
   </div>

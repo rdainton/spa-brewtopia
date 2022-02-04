@@ -16,7 +16,7 @@ interface VTextInputProps {
   name: string
   value?: string
   readonly?: boolean
-  theme?: 'auth' | 'base'
+  theme?: 'auth'
 }
 
 const props = withDefaults(defineProps<VTextInputProps>(), {
@@ -42,27 +42,22 @@ const {
 
 const wrapperClasses: Record<string, string> = {
   auth: '',
-  base: 'md:flex',
 }
 
 const labelClasses: Record<string, string> = {
-  auth: 'block font-bold xl:text-xl mb-1 dark:text-white',
-  base: 'w-1/3 font-bold text-right italic text-gray-900 mt-3 mr-4 dark:text-white',
+  auth: 'block xl:text-xl mb-1 dark:text-white',
 }
 
 const inputClasses: Record<string, string> = {
   auth: 'p-3 text-grey bg-white text-lg',
-  base: 'p-2 text-gray-900 bg-white h-10',
 }
 
 const marginMap: Record<string, string> = {
   auth: 'mb-3',
-  base: 'mb-1',
 }
 
 const borderColorMap: Record<string, string> = {
   auth: 'border-blue-medium',
-  base: 'border-gray-300',
 }
 
 const errorWrapperClasses = computed(() =>

@@ -27,7 +27,7 @@ const baseClasses =
 const iconBaseClasses = 'flex mr-2'
 
 const themeClasses: Record<string, string> = {
-  auth: 'bg-blue-500 hover:bg-blue-600 xl:text-lg dark:text-white',
+  auth: 'bg-blue-500 hover:bg-blue-600 xl:text-lg text-white',
 }
 
 const sizeClasses: Record<string, string> = {

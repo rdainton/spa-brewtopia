@@ -21,6 +21,7 @@ import { parseErrorMap } from '@/apis/brewtopia'
 // Components
 import AuthLayout from '@/components/layouts/AuthLayout.vue'
 import VTextInput from '@/components/molecules/VTextInput.vue'
+import BrewTitle from '@/components/atoms/BrewTitle.vue'
 import BrewButton from '@/components/molecules/BrewButton.vue'
 import BrewMessage from '@/components/molecules/BrewMessage.vue'
 
@@ -87,7 +88,9 @@ const onSubmit = handleSubmit((values, actions) => {
 
 <template>
   <AuthLayout>
-    <form @submit="onSubmit" class="w-full mt-12 lg:mt-16">
+    <BrewTitle>Register</BrewTitle>
+
+    <form @submit="onSubmit" class="w-full mt-10">
       <BrewMessage
         v-if="submissionError"
         type="error"
