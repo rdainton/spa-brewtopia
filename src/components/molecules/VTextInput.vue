@@ -76,6 +76,7 @@ const validationClasses = computed(() =>
     <label :class="labelClasses[theme]" :for="name">
       {{ label }}
     </label>
+
     <div class="w-full">
       <input
         v-bind="$attrs"
@@ -93,15 +94,9 @@ const validationClasses = computed(() =>
         @input="handleChange"
         @blur="handleBlur"
       />
+
       <div :class="errorWrapperClasses">
-        <p
-          v-if="errorMessage"
-          :class="
-            theme === 'auth'
-              ? 'mt-1 text-red-500 text-sm'
-              : 'text-red-500 text-xs'
-          "
-        >
+        <p v-if="errorMessage" class="mt-1 text-sm text-red-500">
           {{ errorMessage }}
         </p>
       </div>
