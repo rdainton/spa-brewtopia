@@ -6,7 +6,7 @@ import { ICard } from '../../types/cards'
 import Title from '../atoms/SectionTitle.vue'
 import Column from './DeckbuilderSectionColumn.vue'
 import Card from '../molecules/Card.vue'
-import Text from '../atoms/Text.vue'
+import BrewText from '../atoms/BrewText.vue'
 
 interface DeckbuildingSectionProps {
   title: string
@@ -78,12 +78,12 @@ function handleDrop(e: DragEvent, columnIndex = 0, forceCardIdx = -1) {
           v-for="(column, columnIndex) in sectionData"
           :class="[columnIndex + 1 === sectionData.length ? 'w-12' : 'w-42']"
         >
-          <Text
+          <BrewText
             v-if="columnIndex + 1 < sectionData.length"
             extend-classes="mb-2 text-sm"
           >
             ({{ column.length }})
-          </Text>
+          </BrewText>
         </div>
       </header>
 

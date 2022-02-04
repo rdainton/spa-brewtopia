@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-interface TextProps {
+interface BrewTextProps {
   extendClasses?: string
 }
 
-withDefaults(defineProps<TextProps>(), {
+withDefaults(defineProps<BrewTextProps>(), {
   extendClasses: '',
 })
 </script>

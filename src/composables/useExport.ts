@@ -1,5 +1,5 @@
 import { nextTick, ref } from 'vue'
-import { CardSection, ICard } from '../types/cards'
+import { CardSection, ICard } from '@/types/cards'
 
 /**
  * Generate an downloadable export of a Decklist

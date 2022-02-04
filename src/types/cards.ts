@@ -32,6 +32,12 @@ export interface CardAddress {
   columnIndex: number
 }
 
+export type Decklist = {
+  mainboard: CardSection
+  sideboard: CardSection
+  maybes: CardSection
+}
+
 /**
  * Return signature for useCardActions hook
  */

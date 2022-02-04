@@ -1,4 +1,4 @@
-import { CardList, CardSection, ICard } from '../types/cards'
+import { CardList, CardSection, ICard } from '@/types/cards'
 
 type RemoveUuidField<Type> = {
   [Property in keyof Type as Exclude<Property, 'uuid'>]: Type[Property]

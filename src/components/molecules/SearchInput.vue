@@ -39,7 +39,7 @@ watch(search, (newSearch, prevSearch) => {
 <template>
   <form
     @submit.prevent="initSearch"
-    class="absolute flex items-center w-full gap-2 h-14 md:w-auto -top-12"
+    class="absolute flex items-center w-full gap-2 transform -translate-x-1/2 h-14 md:w-auto -top-12 left-1/2"
   >
     <div class="flex-shrink-0 w-8 h-8 ml-4 text-gray-900 dark:text-white">
       <SearchIcon />
@@ -47,7 +47,7 @@ watch(search, (newSearch, prevSearch) => {
 
     <div class="relative w-full ml-1 border-b border-gray-500 md:w-96">
       <input
-        class="w-full py-2 text-2xl placeholder-gray-500 bg-transparent  dark:text-white focus:outline-none"
+        class="w-full py-2 text-2xl placeholder-gray-500 bg-transparent dark:text-white focus:outline-none"
         v-model="search"
         placeholder="Type to search"
         :minlength="MINLEN"

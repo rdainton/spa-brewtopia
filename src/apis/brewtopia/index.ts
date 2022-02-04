@@ -1,10 +1,20 @@
-import axios from 'axios'
+/**
+ * Combine API modules for consumption.
+ */
 
-const brewtopiaClient = axios.create({
-  baseURL: 'https://api.brewtopia.com',
-})
+import auth from './auth'
+import decklists from './decklists'
 
-type ErrorMap = {
+export default {
+  auth,
+  decklists,
+}
+
+/**
+ * A helper function to parse the
+ * error map returned from the API
+ */
+export type ErrorMap = {
   message: string
   errors?: {
     [key: string]: string[]
@@ -22,5 +32,3 @@ export function parseErrorMap(map: ErrorMap) {
 
   return map.message
 }
-
-export default brewtopiaClient

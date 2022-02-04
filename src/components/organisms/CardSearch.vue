@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import scryfall from '../../api/scryfall/search'
-import { ICard, PrimaryCardType, primaryCardTypes } from '../../types/cards'
-import useToasts from '../../composables/useToasts'
-import { parseErrorMap } from '../../api/scryfall'
+import scryfall from '@/apis/scryfall/search'
+import { ICard, PrimaryCardType, primaryCardTypes } from '@/types/cards'
+import useToasts from '@/composables/useToasts'
+import { parseErrorMap } from '@/apis/scryfall'
 
 // Components
 import SearchInput from '../molecules/SearchInput.vue'
