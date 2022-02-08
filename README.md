@@ -1,11 +1,16 @@
-# Vue 3 + Typescript + Vite
+# Brewtopia.io SPA, built with Vue 3 & TS.
+A simple drag-and-drop driven MTG deckbuilder, letting you craft your brew (unofficially) in the browser.
 
-This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Currently still in development.
 
-## Recommended IDE Setup
+## The tech
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+This front-end is being developed with Vue 3 and Typescript, in Vite. The project uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-## Type Support For `.vue` Imports in TS
+### Getting it going
+Simply run `yarn install && yarn dev`, then open the URL `http://localhost:3000/` in a browser to have a play.
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's `.vue` type support plugin by running `Volar: Switch TS Plugin on/off` from VSCode command palette.
+Note that without running an instance of the Brewtopia.io API (another repo), you will not be able to log in and make use of decklist save/load features. However, you can still build and deck, and export to `.txt`.
+
+## License
+This project is currently UNLICENSED.
