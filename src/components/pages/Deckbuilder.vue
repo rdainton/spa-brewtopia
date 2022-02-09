@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { CardSection } from '../../types/cards'
 import { ControlOptions } from '../../types/deckbuilder'
 import useCardActions from '../../composables/useCardActions'
@@ -29,6 +29,8 @@ const defaultColumns = {
 const mainboard = reactive<CardSection>([...defaultColumns.mainboard])
 const sideboard = reactive<CardSection>([...defaultColumns.sideboard])
 const maybes = reactive<CardSection>([...defaultColumns.maybes])
+const name = ref()
+const id = ref()
 
 /**
  * Decklist helpers, featuring Local Storage.
@@ -37,6 +39,8 @@ const { load, store, clear } = useLocalStorage<{
   mainboard: CardSection
   maybes: CardSection
   sideboard: CardSection
+  name?: string
+  id?: number
 }>('decklist')
 
 function resetDecklist() {
@@ -52,6 +56,8 @@ function persistToLocalStorage() {
     mainboard,
     maybes,
     sideboard,
+    name: name.value,
+    id: id.value,
   })
 }
 
@@ -68,6 +74,8 @@ if (storedDecklist) {
   mainboard.splice(0, mainboard.length, ...storedDecklist.mainboard)
   maybes.splice(0, maybes.length, ...storedDecklist.maybes)
   sideboard.splice(0, sideboard.length, ...storedDecklist.sideboard)
+  name.value = storedDecklist.name
+  id.value = storedDecklist.id
 }
 
 /**
@@ -91,6 +99,12 @@ const { sort, flatten } = useSort(persistToLocalStorage)
  * Export to .txt
  */
 const { exportToTxtFile } = useExport(mainboard, maybes, sideboard)
+
+/**
+ * Save/load decklists
+ */
+function saveDecklist() {}
+function viewDecklists() {}
 </script>
 
 <template>
@@ -200,5 +214,10 @@ const { exportToTxtFile } = useExport(mainboard, maybes, sideboard)
     </DeckbuilderSide>
   </div>
 
-  <DeckbuilderDock @export="exportToTxtFile" @reset="resetDecklist" />
+  <DeckbuilderDock
+    @save="saveDecklist"
+    @load="viewDecklists"
+    @export="exportToTxtFile"
+    @reset="resetDecklist"
+  />
 </template>

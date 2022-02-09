@@ -46,6 +46,7 @@ module.exports = {
       maxWidth: {
         16: '4rem',
         42: '10.5rem',
+        modal: 'calc(100vw - 1rem)',
       },
     },
   },
