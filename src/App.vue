@@ -2,18 +2,15 @@
 import { computed } from 'vue'
 
 // Store
-import { useStore } from 'vuex'
-import { GetterTypes as AuthGetters } from '@/store/auth/getters'
+import { useAuthStore } from '@/stores/useAuthStore'
 
 // Components
 import TheHeader from '@/components/TheHeader.vue'
 import TheToastNotifications from '@/components/TheToastNotifications.vue'
 
-const store = useStore()
+const authStore = useAuthStore()
 
-const attemptedAutoLogin = computed(
-  () => store.getters[AuthGetters.AUTO_ATTEMPTED]
-)
+const attemptedAutoLogin = computed(() => authStore.autoAttempted)
 </script>
 
 <template>

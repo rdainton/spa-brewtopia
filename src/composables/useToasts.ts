@@ -1,5 +1,4 @@
-import store from '@/store'
-import { ActionTypes as ToastActions } from '@/store/toast'
+import { useToastsStore } from '@/stores/useToastsStore'
 import { ToastNotification, NotificationType } from '@/types/toasts'
 
 /**
@@ -11,8 +10,10 @@ import { ToastNotification, NotificationType } from '@/types/toasts'
  * dispatch.successToast('I am the message!')
  */
 export default function useToasts() {
+  const toastsStore = useToastsStore()
+
   const dispatchToast = (toast: ToastNotification) => {
-    store.dispatch(ToastActions.SHOW, toast)
+    toastsStore.create(toast)
   }
 
   const infoToast = (content: string, heading?: string) => {

@@ -7,9 +7,6 @@ import guest from './middleware/guest'
 import passwordReset from './middleware/passwordReset'
 import attemptAutoLogin from './middleware/attemptAutoLogin'
 
-// Store
-import store from '../store'
-
 // Components
 import DeckBuilder from '../components/pages/Deckbuilder.vue'
 
@@ -105,7 +102,7 @@ router.beforeEach((to, from, next) => {
 
   if (!middleware || !middleware.length) return next()
 
-  const context = { to, from, next, store }
+  const context = { to, from, next }
 
   middleware[0]({
     ...context,

@@ -18,18 +18,6 @@ const dispatch = useToasts()
 const searchResults = ref<ICard[]>([])
 const searching = ref(false)
 
-// Array.includes(searchElement) won't let searchElement be a supertype of the array type
-// a 'string' in this instance. So I override the standard library via 'declaration merging'
-// to accept supertypes.
-declare global {
-  interface Array<T> {
-    includes<U extends T extends U ? unknown : never>(
-      searchElement: U,
-      fromIndex?: number
-    ): boolean
-  }
-}
-
 const cardTypesArray = primaryCardTypes.filter(t => t !== 'Unknown')
 
 function getPrimaryCardType(typeLine: string): PrimaryCardType {
