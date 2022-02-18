@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import ImageIcon from '../atoms/icons/ImageIcon.vue'
-import Tooltip from './Tooltip.vue'
+import ImageIcon from '@/components/atoms/icons/ImageIcon.vue'
+import Tooltip from '@/components/atoms/Tooltip.vue'
 
 interface IconButtonProps {
   variant?: 'primary' | 'secondary' | 'default'
@@ -52,10 +52,10 @@ const colorStyles = computed(() =>
     :disabled="disabled"
     :class="[
       baseStyles,
-      sizeStylesMap[size!],
+      sizeStylesMap[size],
       colorStyles,
-      iconColorStylesMap[variant!],
-      tooltip ? 'has-tooltip' : ''
+      iconColorStylesMap[variant],
+      tooltip ? 'has-tooltip' : '',
     ]"
   >
     <Tooltip v-if="tooltip" :below="tooltipBelow">
