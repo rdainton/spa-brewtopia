@@ -6,9 +6,8 @@ import { NotificationType } from '@/types/toasts'
 import router from '@/router'
 
 // Store
-import store from '@/store'
-import { ActionTypes as AuthActions } from '@/store/auth/actions'
-import { ActionTypes as ToastActions } from '@/store/toast'
+import { useAuthStore } from '@/stores/useAuthStore'
+import { useToastsStore } from '@/stores/useToastsStore'
 
 /*
  * Add a response interceptor to logout
@@ -17,10 +16,13 @@ import { ActionTypes as ToastActions } from '@/store/toast'
  */
 export default (axiosClient: AxiosInstance) => {
   const errorInterceptor = (error: AxiosError) => {
-    if (error.response && [401, 419].includes(error.response.status)) {
-      store.dispatch(AuthActions.CLEAR_AUTH_DATA)
+    const authStore = useAuthStore()
+    const toastsStore = useToastsStore()
 
-      store.dispatch(ToastActions.SHOW, {
+    if (error.response && [401, 419].includes(error.response.status)) {
+      authStore.clearAuthData()
+
+      toastsStore.create({
         type: NotificationType.warning,
         heading: 'Session Timeout',
         content: 'Your session has timed out, please log in again.',

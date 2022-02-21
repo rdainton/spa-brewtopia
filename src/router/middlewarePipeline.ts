@@ -1,6 +1,4 @@
-import { Store } from 'vuex'
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
-import { State } from '../store'
 
 export type RouterMiddleware = (context: RouteContext) => void
 
@@ -8,7 +6,6 @@ export interface RouteContext {
   to: RouteLocationNormalized
   from: RouteLocationNormalized
   next: NavigationGuardNext
-  store: Store<State>
 }
 
 /**

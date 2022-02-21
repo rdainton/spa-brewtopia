@@ -1,5 +1,4 @@
-import { GetterTypes as AuthGetters } from '@/store/auth/getters'
-import { ActionTypes as AuthActions } from '@/store/auth/actions'
+import { useAuthStore } from '@/stores/useAuthStore'
 
 // Types
 import { RouteContext } from '../middlewarePipeline'
@@ -8,9 +7,11 @@ import { RouteContext } from '../middlewarePipeline'
  * Protect a route from being accessed
  * until auto-login has been attempted.
  */
-export default function attemptAuthLogin({ next, store }: RouteContext) {
-  if (!store.getters[AuthGetters.AUTO_ATTEMPTED]) {
-    store.dispatch(AuthActions.ATTEMPT_AUTO).finally(() => {
+export default function attemptAuthLogin({ next }: RouteContext) {
+  const authStore = useAuthStore()
+
+  if (!authStore.autoAttempted) {
+    authStore.attemptAutoLogin().finally(() => {
       next()
     })
   } else {
