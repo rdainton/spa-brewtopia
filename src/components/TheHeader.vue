@@ -2,15 +2,14 @@
 import { computed } from 'vue'
 
 // Store
-import { useStore } from 'vuex'
-import { GetterTypes as AuthGetters } from '@/store/auth/getters'
+import { useAuthStore } from '@/stores/useAuthStore'
 
 // Components
 import TheLogo from '@/components/TheLogo.vue'
 
-const store = useStore()
+const authStore = useAuthStore()
 
-const isLoggedIn = computed(() => store.getters[AuthGetters.IS_AUTH])
+const isLoggedIn = computed(() => authStore.isLoggedIn)
 </script>
 
 <template>

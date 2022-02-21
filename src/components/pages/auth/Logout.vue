@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-import { useStore } from 'vuex'
+import { useAuthStore } from '@/stores/useAuthStore'
 import { useRouter } from 'vue-router'
-import { ActionTypes as AuthActions } from '@/store/auth/actions'
 
-const store = useStore()
+const authStore = useAuthStore()
 const router = useRouter()
 
-store.dispatch(AuthActions.LOGOUT).then(() => {
+authStore.logout().then(() => {
   router.push({ name: 'deckbuilder' })
 })
 </script>

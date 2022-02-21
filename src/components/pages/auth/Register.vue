@@ -9,11 +9,10 @@ import { useForm } from 'vee-validate'
 import * as yup from 'yup'
 
 // Store
-import { useStore } from 'vuex'
-import { ActionTypes as AuthActions } from '@/store/auth/actions'
+import { useAuthStore } from '@/stores/useAuthStore'
 
 // Types
-import { Registerable } from '@/apis/brewtopia/auth'
+import { Authable, Registerable } from '@/apis/brewtopia/auth'
 
 // Utils
 import { parseErrorMap } from '@/apis/brewtopia'
@@ -25,7 +24,7 @@ import BrewTitle from '@/components/atoms/BrewTitle.vue'
 import BrewButton from '@/components/molecules/BrewButton.vue'
 import BrewMessage from '@/components/molecules/BrewMessage.vue'
 
-const store = useStore()
+const authStore = useAuthStore()
 const router = useRouter()
 const dispatch = useToasts()
 
@@ -63,11 +62,11 @@ const onSubmit = handleSubmit((values, actions) => {
     .register(values as Registerable)
     .then(() => {
       // attempt login
-      store
-        .dispatch(AuthActions.LOGIN, {
+      authStore
+        .login({
           email: values.email,
           password: values.password,
-        })
+        } as Authable)
         .then(res => {
           dispatch.successToast(
             `Welcome ${res.name}`,

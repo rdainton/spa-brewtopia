@@ -8,9 +8,7 @@ import { useForm } from 'vee-validate'
 import * as yup from 'yup'
 
 // Store
-import { useStore } from 'vuex'
-import { ActionTypes as AuthActions } from '@/store/auth/actions'
-import { GetterTypes as AuthGetters } from '@/store/auth/getters'
+import { useAuthStore } from '@/stores/useAuthStore'
 
 // Types
 import { Authable } from '@/apis/brewtopia/auth'
@@ -25,15 +23,16 @@ import BrewTitle from '@/components/atoms/BrewTitle.vue'
 import BrewButton from '@/components/molecules/BrewButton.vue'
 import BrewMessage from '@/components/molecules/BrewMessage.vue'
 
-const store = useStore()
+const authStore = useAuthStore()
 const router = useRouter()
 const dispatch = useToasts()
 
-const submissionError = computed(() =>
-  parseErrorMap(store.getters[AuthGetters.ERROR])
-)
+const submissionError = computed(() => {
+  if (!authStore.error) return null
+  return parseErrorMap(authStore.error)
+})
 
-const working = computed(() => store.getters[AuthGetters.LOADING])
+const working = computed(() => authStore.loading)
 
 const authSchema: yup.SchemaOf<Authable> = yup.object({
   email: yup
@@ -50,8 +49,8 @@ const { handleSubmit } = useForm({
 })
 
 const onSubmit = handleSubmit(values => {
-  store
-    .dispatch(AuthActions.LOGIN, values)
+  authStore
+    .login(values as Authable)
     .then(({ name }) => {
       dispatch.successToast(`Welcome ${name}`, 'Login Success')
       router.push({ name: 'deckbuilder' })
