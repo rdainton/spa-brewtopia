@@ -2,8 +2,7 @@
 import { computed } from 'vue'
 
 // Store
-import { useStore } from 'vuex'
-import { GetterTypes as AuthGetters } from '@/store/auth/getters'
+import { useAuthStore } from '@/stores/useAuthStore'
 
 // Components
 import IconButton from '../atoms/IconButton.vue'
@@ -12,18 +11,16 @@ import IconButton from '../atoms/IconButton.vue'
 import ExportIcon from '../atoms/icons/ExportIcon.vue'
 import LoadIcon from '../atoms/icons/LoadIcon.vue'
 import SaveIcon from '../atoms/icons/SaveIcon.vue'
-import ClearIcon from '../atoms/icons/ClearIcon.vue'
 
 const emit = defineEmits<{
   (event: 'save'): void
-  (event: 'load'): void
+  (event: 'view'): void
   (event: 'export'): void
-  (event: 'reset'): void
 }>()
 
-const store = useStore()
+const authStore = useAuthStore()
 
-const isLoggedIn = computed(() => store.getters[AuthGetters.IS_AUTH])
+const isLoggedIn = computed(() => authStore.isLoggedIn)
 </script>
 
 <template>
@@ -40,7 +37,7 @@ const isLoggedIn = computed(() => store.getters[AuthGetters.IS_AUTH])
       </IconButton>
 
       <IconButton
-        @click="emit('load')"
+        @click="emit('view')"
         size="xl"
         tooltip="View saved decklists"
       >
@@ -56,16 +53,6 @@ const isLoggedIn = computed(() => store.getters[AuthGetters.IS_AUTH])
       tooltip="Export decklist to .txt"
     >
       <ExportIcon />
-    </IconButton>
-
-    <div class="w-0.5 h-8 mx-1 bg-gray-500" />
-
-    <IconButton
-      @click="emit('reset')"
-      size="xl"
-      tooltip="Reset the deckbuilder"
-    >
-      <ClearIcon />
     </IconButton>
   </div>
 </template>

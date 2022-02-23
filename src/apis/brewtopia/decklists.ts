@@ -30,26 +30,22 @@ export interface Updateable {
  */
 export default {
   all() {
-    return brewtopiaClient.get<{ data: DecklistMeta[] }>(
-      `${apiPrefix}/decklists`
-    )
+    return brewtopiaClient.get<DecklistMeta[]>(`${apiPrefix}/decklists`)
   },
 
   get(id: number) {
-    return brewtopiaClient.get<{ data: DecklistDetails }>(
-      `${apiPrefix}/decklists/${id}`
-    )
+    return brewtopiaClient.get<DecklistDetails>(`${apiPrefix}/decklists/${id}`)
   },
 
   store(payload: Storable) {
-    return brewtopiaClient.post<{ data: DecklistDetails }>(
+    return brewtopiaClient.post<DecklistDetails>(
       `${apiPrefix}/decklists`,
       payload
     )
   },
 
   update(id: number, payload: Updateable) {
-    return brewtopiaClient.post<{ data: DecklistDetails }>(
+    return brewtopiaClient.patch<DecklistDetails>(
       `${apiPrefix}/decklists/${id}`,
       payload
     )

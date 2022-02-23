@@ -23,7 +23,7 @@ const sizeClasses: Record<size, string> = {
 }
 
 const baseClasses =
-  'fixed z-50 transform -translate-y-1/2 -translate-x-1/2 top-1/2 left-1/2 w-full max-w-modal p-1 max-h-screen overflow-y-auto'
+  'fixed z-50 transform -translate-y-1/2 -translate-x-1/2 top-1/2 left-1/2 w-full max-w-modal p-1 max-h-screen'
 </script>
 
 <template>
