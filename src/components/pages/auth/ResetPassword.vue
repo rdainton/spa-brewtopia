@@ -1,17 +1,13 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import brewtopia from '@/apis/brewtopia'
-import { useRoute } from 'vue-router'
+import useToasts from '@/composables/useToasts'
+import { useRoute, useRouter } from 'vue-router'
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
 
 // Types
 import { Resetable } from '@/apis/brewtopia/auth'
-
-type ResetQuery = {
-  email: string
-  token: string
-}
 
 // Utils
 import { parseErrorMap } from '@/apis/brewtopia'
@@ -25,11 +21,16 @@ import BrewMessage from '@/components/molecules/BrewMessage.vue'
 
 const working = ref(false)
 const submissionError = ref('')
-const successMessage = ref('')
 
 // extract token and user email from the route query
-const $route = useRoute()
-const { email, token } = $route.query as ResetQuery
+const route = useRoute()
+
+type ResetQuery = {
+  email: string
+  token: string
+}
+
+const { email, token } = route.query as ResetQuery
 
 // init the reset form
 const resetSchema: yup.SchemaOf<Resetable> = yup.object({
@@ -51,22 +52,27 @@ const resetSchema: yup.SchemaOf<Resetable> = yup.object({
 
 const { handleSubmit } = useForm({
   validationSchema: resetSchema,
+  initialValues: {
+    email,
+    token,
+    password: '',
+    password_confirmation: '',
+  },
 })
 
 // handle reset
+const router = useRouter()
+const dispatch = useToasts()
 const onSubmit = handleSubmit((values, actions) => {
   submissionError.value = ''
-  successMessage.value = ''
   working.value = true
-
-  // add token to payload.
-  values.token = token
 
   brewtopia.auth
     .resetPassword(values as Resetable)
-    .then(res => {
-      successMessage.value = res.data.message
+    .then(() => {
+      dispatch.successToast('Password changed successfully')
       actions.resetForm()
+      router.push({ name: 'login' })
     })
     .catch(err => {
       submissionError.value = parseErrorMap(err.response.data) || 'Bad request'
@@ -90,21 +96,12 @@ const onSubmit = handleSubmit((values, actions) => {
         {{ submissionError }}
       </BrewMessage>
 
-      <BrewMessage
-        v-if="successMessage"
-        type="success"
-        extend-wrapper-classes="-mt-6 mb-4"
-      >
-        {{ successMessage }}
-      </BrewMessage>
-
       <fieldset :disabled="working">
         <!-- Fields -->
         <VTextInput
           name="email"
           type="email"
           label="Email Address"
-          :value="email"
           maxlength="255"
           readonly
         />

@@ -30,9 +30,15 @@ module.exports = {
         },
         backdrop: 'rgba(0, 0, 0, 0.6)',
         dark__backdrop: 'rgba(0, 0, 0, 0.6)',
+        overlay: 'rgba(0, 0, 0, 0.5)',
+      },
+
+      fontSize: {
+        xxs: '0.6rem',
       },
 
       spacing: {
+        15: '3.75rem',
         42: '10.5rem',
         49: '12.25rem',
         68: '17rem',
@@ -47,6 +53,10 @@ module.exports = {
         16: '4rem',
         42: '10.5rem',
         modal: 'calc(100vw - 1rem)',
+      },
+
+      minHeight: {
+        150: '37.5rem',
       },
     },
   },

@@ -27,14 +27,14 @@ const baseClasses =
 const iconBaseClasses = 'flex mr-2'
 
 const themeClasses: Record<string, string> = {
-  auth: 'bg-blue-500 hover:bg-blue-600 xl:text-lg text-white',
+  auth: 'bg-blue-500 hover:bg-blue-600 text-white',
 }
 
 const sizeClasses: Record<string, string> = {
-  xs: 'min-w-24 w-auto h-6 text-xs px-2',
+  xs: 'min-w-24 w-auto h-6 text-sm px-2',
   sm: 'w-32 py-1 h-8 px-2',
   md: 'w-auto px-4 py-2 h-10',
-  full: 'w-full py-3 h-12',
+  full: 'w-full py-3 h-12 xl:text-lg',
 }
 
 const iconSizeClasses: Record<string, string> = {

@@ -16,7 +16,7 @@ interface VTextInputProps {
   name: string
   value?: string
   readonly?: boolean
-  theme?: 'auth'
+  theme?: 'auth' | 'discreet'
 }
 
 const props = withDefaults(defineProps<VTextInputProps>(), {
@@ -42,27 +42,35 @@ const {
 
 const wrapperClasses: Record<string, string> = {
   auth: '',
+  discreet: 'mr-4',
 }
 
 const labelClasses: Record<string, string> = {
   auth: 'block xl:text-xl mb-1 dark:text-white',
+  discreet:
+    'block uppercase mb-1 text-sm text-primary-medium dark:text-dark__primary-light',
 }
 
 const inputClasses: Record<string, string> = {
-  auth: 'p-3 text-grey bg-white text-lg',
+  auth: 'p-3 text-grey bg-white text-lg rounded-lg ',
+  discreet:
+    'pb-3 pr-2 text-grey dark:text-gray-100 bg-transparent text-xl border-transparent',
 }
 
-const marginMap: Record<string, string> = {
+const readonlyClasses: Record<string, string> = {
+  auth: 'bg-gray-300 cursor-not-allowed',
+  discreet: 'bg-transparent',
+}
+
+const errorClassesMap: Record<string, string> = {
   auth: 'mb-3',
+  discreet: 'absolute bottom-0',
 }
 
 const borderColorMap: Record<string, string> = {
   auth: 'border-blue-medium',
+  discreet: 'border-transparent',
 }
-
-const errorWrapperClasses = computed(() =>
-  errorMessage.value ? marginMap[props.theme] : 'mb-3'
-)
 
 const validationClasses = computed(() =>
   meta.valid && !props.readonly
@@ -77,7 +85,7 @@ const validationClasses = computed(() =>
       {{ label }}
     </label>
 
-    <div class="w-full">
+    <div class="relative w-full">
       <input
         v-bind="$attrs"
         :value="inputValue"
@@ -85,17 +93,17 @@ const validationClasses = computed(() =>
         :name="name"
         :type="type"
         :readonly="readonly"
-        class="w-full border-2 rounded-lg focus:outline-none"
+        class="w-full border-2 focus:outline-none"
         :class="[
           inputClasses[theme],
           validationClasses,
-          readonly ? 'bg-gray-300 cursor-not-allowed' : '',
+          readonly ? readonlyClasses[theme] : '',
         ]"
         @input="handleChange"
         @blur="handleBlur"
       />
 
-      <div :class="errorWrapperClasses">
+      <div :class="errorClassesMap[props.theme]">
         <p v-if="errorMessage" class="mt-1 text-sm text-red-500">
           {{ errorMessage }}
         </p>

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import brewtopia from '@/apis/brewtopia'
+import { useDecklistStore } from '@/stores/useDecklistStore'
 
 // Imported types
 import { ErrorMap } from '@/apis/brewtopia'
@@ -99,6 +100,7 @@ export const useAuthStore = defineStore('auth', {
         .catch(_ => {}) // Fail silently.
         .finally(() => {
           this.clearAuthData()
+          useDecklistStore().clearDecklist()
         })
     },
   },

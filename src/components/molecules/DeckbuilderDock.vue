@@ -5,15 +5,13 @@ import { computed } from 'vue'
 import { useAuthStore } from '@/stores/useAuthStore'
 
 // Components
-import IconButton from '../atoms/IconButton.vue'
+import IconButtonLabelled from '@/components/atoms/IconButtonLabelled.vue'
 
 // Icons
-import ExportIcon from '../atoms/icons/ExportIcon.vue'
-import LoadIcon from '../atoms/icons/LoadIcon.vue'
-import SaveIcon from '../atoms/icons/SaveIcon.vue'
+import ExportIcon from '@/components/atoms/icons/ExportIcon.vue'
+import DecklistsIcon from '@/components/atoms/icons/DecklistsIcon.vue'
 
 const emit = defineEmits<{
-  (event: 'save'): void
   (event: 'view'): void
   (event: 'export'): void
 }>()
@@ -25,35 +23,33 @@ const isLoggedIn = computed(() => authStore.isLoggedIn)
 
 <template>
   <div
-    class="fixed bottom-0 flex items-center p-2 transform -translate-x-1/2 bg-white shadow-xl left-1/2 rounded-t-md dark:bg-gray-900"
+    class="fixed bottom-0 flex items-center px-2 pt-1 pb-3 transform -translate-x-1/2 bg-white shadow-lg left-1/2 rounded-t-md dark:bg-gray-900"
   >
     <template v-if="isLoggedIn">
-      <IconButton
-        @click="emit('save')"
-        size="xl"
-        tooltip="Save current decklist"
-      >
-        <SaveIcon />
-      </IconButton>
-
-      <IconButton
-        @click="emit('view')"
-        size="xl"
-        tooltip="View saved decklists"
-      >
-        <LoadIcon />
-      </IconButton>
-
-      <div class="w-0.5 h-8 mx-1 bg-gray-500" />
+      <slot></slot>
     </template>
 
-    <IconButton
+    <IconButtonLabelled
       @click="emit('export')"
       size="xl"
       tooltip="Export decklist to .txt"
+      label="Export"
     >
       <ExportIcon />
-    </IconButton>
+    </IconButtonLabelled>
+
+    <template v-if="isLoggedIn">
+      <div class="w-0.5 h-8 mx-2 bg-gray-500" />
+
+      <IconButtonLabelled
+        @click="emit('view')"
+        size="xl"
+        tooltip="View decklists"
+        label="Decks"
+      >
+        <DecklistsIcon />
+      </IconButtonLabelled>
+    </template>
   </div>
 </template>
 

@@ -1,87 +1,48 @@
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
-import { CardSection } from '../../types/cards'
-import { ControlOptions } from '../../types/deckbuilder'
-import useCardActions from '../../composables/useCardActions'
-import useCardDrag from '../../composables/useCardDrag'
-import useExport from '../../composables/useExport'
-import useLocalStorage from '../../composables/useLocalStorage'
-import useSort from '../../composables/useSort'
+import { ref } from 'vue'
+import { parseErrorMap } from '@/apis/brewtopia'
+
+// Imported
+import { CardSections } from '@/types/cards'
+import { ControlOptions } from '@/types/deckbuilder'
+
+// Composables
+import useCardActions from '@/composables/useCardActions'
+import useCardDrag from '@/composables/useCardDrag'
+import useExport from '@/composables/useExport'
+import useSort from '@/composables/useSort'
+import useToasts from '@/composables/useToasts'
+
+// Stores
+import { useDecklistStore } from '@/stores/useDecklistStore'
+import { useUIStore } from '@/stores/useUIStore'
 
 // Components
-import CardSearch from '../organisms/CardSearch.vue'
-import DeckbuilderMain from '../organisms/DeckbuilderMain.vue'
-import DeckbuilderSide from '../organisms/DeckbuilderSide.vue'
-import DeckbuilderSection from '../organisms/DeckbuilderSection.vue'
-import DeckbuilderDock from '../molecules/DeckbuilderDock.vue'
-import DeckbuilderSectionControls from '../molecules/DeckbuilderSectionControls.vue'
-// import DeckbuilderCommander from '../organisms/DeckbuilderCommander.vue'
+import CardSearch from '@/components/organisms/CardSearch.vue'
+import DeckbuilderMain from '@/components/organisms/DeckbuilderMain.vue'
+import DeckbuilderSide from '@/components/organisms/DeckbuilderSide.vue'
+import DeckbuilderSection from '@/components/organisms/DeckbuilderSection.vue'
+import DeckbuilderDock from '@/components/molecules/DeckbuilderDock.vue'
+import DeckbuilderSectionControls from '@/components/molecules/DeckbuilderSectionControls.vue'
+import BrewModal from '@/components/atoms/BrewModal.vue'
+import Decklists from '@/components/organisms/Decklists.vue'
+import DecklistForm from '@/components/organisms/DecklistForm.vue'
+import BlockUI from '@/components/molecules/BlockUI.vue'
 
-const defaultColumns = {
-  mainboard: [[], [], [], [], []],
-  sideboard: [[], []],
-  maybes: [[], []],
-}
-
-/**
- * Deck state.
- */
-const mainboard = reactive<CardSection>([...defaultColumns.mainboard])
-const sideboard = reactive<CardSection>([...defaultColumns.sideboard])
-const maybes = reactive<CardSection>([...defaultColumns.maybes])
-const name = ref()
-const id = ref()
+const UIStore = useUIStore()
 
 /**
- * Decklist helpers, featuring Local Storage.
+ * Deck construction - adding/removing/moving/sorting cards
  */
-const { load, store, clear } = useLocalStorage<{
-  mainboard: CardSection
-  maybes: CardSection
-  sideboard: CardSection
-  name?: string
-  id?: number
-}>('decklist')
+const decklistStore = useDecklistStore()
+decklistStore.init()
 
-function resetDecklist() {
-  mainboard.splice(0, mainboard.length, ...defaultColumns.mainboard)
-  sideboard.splice(0, sideboard.length, ...defaultColumns.sideboard)
-  maybes.splice(0, maybes.length, ...defaultColumns.maybes)
-
-  clear()
+function handleDecklistChanges() {
+  decklistStore.unsavedChanges = true
+  decklistStore.persistToLocalStorage()
 }
 
-function persistToLocalStorage() {
-  store({
-    mainboard,
-    maybes,
-    sideboard,
-    name: name.value,
-    id: id.value,
-  })
-}
-
-function resetSection(section: CardSection, columns: CardSection) {
-  section.splice(0, section.length, ...columns)
-  persistToLocalStorage()
-}
-
-/**
- * Load decklist from Local Storage on load.
- */
-const storedDecklist = load()
-if (storedDecklist) {
-  mainboard.splice(0, mainboard.length, ...storedDecklist.mainboard)
-  maybes.splice(0, maybes.length, ...storedDecklist.maybes)
-  sideboard.splice(0, sideboard.length, ...storedDecklist.sideboard)
-  name.value = storedDecklist.name
-  id.value = storedDecklist.id
-}
-
-/**
- * Deck construction - adding/removing/moving cards
- */
-const cardActions = useCardActions(persistToLocalStorage)
+const cardActions = useCardActions(handleDecklistChanges)
 
 const {
   handleDragstart,
@@ -90,21 +51,50 @@ const {
   handleDrop,
 } = useCardDrag(cardActions)
 
-/**
- * Deck sorting
- */
-const { sort, flatten } = useSort(persistToLocalStorage)
-
-/**
- * Export to .txt
- */
-const { exportToTxtFile } = useExport(mainboard, maybes, sideboard)
+const { sort, flatten } = useSort(handleDecklistChanges)
 
 /**
  * Save/load decklists
  */
-function saveDecklist() {}
-function viewDecklists() {}
+const dispatch = useToasts()
+
+const decklistsModalShowing = ref(false)
+
+function newDecklist() {
+  decklistsModalShowing.value = false
+
+  decklistStore.clearDecklist()
+}
+
+function loadDecklist(id: number) {
+  decklistsModalShowing.value = false
+
+  decklistStore.get(id).catch(err => {
+    dispatch.errorToast(parseErrorMap(err.response.data))
+  })
+}
+
+function saveDecklist(newName: string) {
+  decklistStore.name = newName
+
+  decklistStore
+    .saveChanges()
+    .then(() => {
+      dispatch.successToast('Saved successfully.')
+    })
+    .catch(err => {
+      dispatch.errorToast(parseErrorMap(err.response.data))
+    })
+}
+
+function viewDecklists() {
+  decklistsModalShowing.value = true
+}
+
+/**
+ * Export to .txt
+ */
+const { exportToTxtFile } = useExport(decklistStore.decklist)
 </script>
 
 <template>
@@ -114,24 +104,46 @@ function viewDecklists() {}
     class="flex flex-1 px-4 overflow-x-auto bg-transparent gap-x-2 min-w-screen"
   >
     <DeckbuilderMain>
-      <!-- <DeckbuilderCommander /> -->
       <DeckbuilderSection
         title="Mainboard"
         alignment="left"
-        :section-data="mainboard"
-        @dragstart="(card, colIdx) => handleDragstart(mainboard, colIdx, card)"
-        @dragover="colIdx => handleDragover(mainboard, colIdx)"
+        :section-data="decklistStore.decklist.mainboard"
+        @dragstart="
+          (card, colIdx) =>
+            handleDragstart(decklistStore.decklist.mainboard, colIdx, card)
+        "
+        @dragover="
+          colIdx => handleDragover(decklistStore.decklist.mainboard, colIdx)
+        "
         @drop="
           (e, colIdx, forceCardIdx) =>
-            handleDrop(e, mainboard, colIdx, forceCardIdx)
+            handleDrop(
+              e,
+              decklistStore.decklist.mainboard,
+              colIdx,
+              forceCardIdx
+            )
         "
         @duplicate="
-          (card, colIdx) => cardActions.duplicate(mainboard, colIdx, card)
+          (card, colIdx) =>
+            cardActions.duplicate(
+              decklistStore.decklist.mainboard,
+              colIdx,
+              card
+            )
         "
         @playset="
-          (card, colIdx) => cardActions.toPlayset(mainboard, colIdx, card)
+          (card, colIdx) =>
+            cardActions.toPlayset(
+              decklistStore.decklist.mainboard,
+              colIdx,
+              card
+            )
         "
-        @delete="(card, colIdx) => cardActions.remove(mainboard, colIdx, card)"
+        @delete="
+          (card, colIdx) =>
+            cardActions.remove(decklistStore.decklist.mainboard, colIdx, card)
+        "
       >
         <DeckbuilderSectionControls
           :options="[
@@ -141,9 +153,9 @@ function viewDecklists() {}
             ControlOptions.Flatten,
             ControlOptions.Clear,
           ]"
-          @sort="(...args) => sort(mainboard, ...args)"
-          @flatten="flatten(mainboard)"
-          @reset="resetSection(mainboard, defaultColumns.mainboard)"
+          @sort="(...args) => sort(decklistStore.decklist.mainboard, ...args)"
+          @flatten="flatten(decklistStore.decklist.mainboard)"
+          @reset="decklistStore.clearDecklistSection(CardSections.MAINBOARD)"
         />
       </DeckbuilderSection>
     </DeckbuilderMain>
@@ -153,20 +165,43 @@ function viewDecklists() {}
         title="Sideboard"
         alignment="left"
         :total-cards-required="15"
-        :section-data="sideboard"
-        @dragstart="(card, colIdx) => handleDragstart(sideboard, colIdx, card)"
-        @dragover="colIdx => handleDragover(sideboard, colIdx)"
+        :section-data="decklistStore.decklist.sideboard"
+        @dragstart="
+          (card, colIdx) =>
+            handleDragstart(decklistStore.decklist.sideboard, colIdx, card)
+        "
+        @dragover="
+          colIdx => handleDragover(decklistStore.decklist.sideboard, colIdx)
+        "
         @drop="
           (e, colIdx, forceCardIdx) =>
-            handleDrop(e, sideboard, colIdx, forceCardIdx)
+            handleDrop(
+              e,
+              decklistStore.decklist.sideboard,
+              colIdx,
+              forceCardIdx
+            )
         "
         @duplicate="
-          (card, colIdx) => cardActions.duplicate(sideboard, colIdx, card)
+          (card, colIdx) =>
+            cardActions.duplicate(
+              decklistStore.decklist.sideboard,
+              colIdx,
+              card
+            )
         "
         @playset="
-          (card, colIdx) => cardActions.toPlayset(sideboard, colIdx, card)
+          (card, colIdx) =>
+            cardActions.toPlayset(
+              decklistStore.decklist.sideboard,
+              colIdx,
+              card
+            )
         "
-        @delete="(card, colIdx) => cardActions.remove(sideboard, colIdx, card)"
+        @delete="
+          (card, colIdx) =>
+            cardActions.remove(decklistStore.decklist.sideboard, colIdx, card)
+        "
       >
         <DeckbuilderSectionControls
           :options="[
@@ -176,27 +211,39 @@ function viewDecklists() {}
             ControlOptions.Flatten,
             ControlOptions.Clear,
           ]"
-          @sort="(...args) => sort(sideboard, ...args)"
-          @flatten="flatten(sideboard)"
-          @reset="resetSection(sideboard, defaultColumns.sideboard)"
+          @sort="(...args) => sort(decklistStore.decklist.sideboard, ...args)"
+          @flatten="flatten(decklistStore.decklist.sideboard)"
+          @reset="decklistStore.clearDecklistSection(CardSections.SIDEBOARD)"
         />
       </DeckbuilderSection>
 
       <DeckbuilderSection
         title="Maybes"
         :total-cards-required="Infinity"
-        :section-data="maybes"
-        @dragstart="(card, colIdx) => handleDragstart(maybes, colIdx, card)"
-        @dragover="colIdx => handleDragover(maybes, colIdx)"
+        :section-data="decklistStore.decklist.maybes"
+        @dragstart="
+          (card, colIdx) =>
+            handleDragstart(decklistStore.decklist.maybes, colIdx, card)
+        "
+        @dragover="
+          colIdx => handleDragover(decklistStore.decklist.maybes, colIdx)
+        "
         @drop="
           (e, colIdx, forceCardIdx) =>
-            handleDrop(e, maybes, colIdx, forceCardIdx)
+            handleDrop(e, decklistStore.decklist.maybes, colIdx, forceCardIdx)
         "
         @duplicate="
-          (card, colIdx) => cardActions.duplicate(maybes, colIdx, card)
+          (card, colIdx) =>
+            cardActions.duplicate(decklistStore.decklist.maybes, colIdx, card)
         "
-        @playset="(card, colIdx) => cardActions.toPlayset(maybes, colIdx, card)"
-        @delete="(card, colIdx) => cardActions.remove(maybes, colIdx, card)"
+        @playset="
+          (card, colIdx) =>
+            cardActions.toPlayset(decklistStore.decklist.maybes, colIdx, card)
+        "
+        @delete="
+          (card, colIdx) =>
+            cardActions.remove(decklistStore.decklist.maybes, colIdx, card)
+        "
       >
         <DeckbuilderSectionControls
           :options="[
@@ -206,18 +253,29 @@ function viewDecklists() {}
             ControlOptions.Flatten,
             ControlOptions.Clear,
           ]"
-          @sort="(...args) => sort(maybes, ...args)"
-          @flatten="flatten(maybes)"
-          @reset="resetSection(maybes, defaultColumns.maybes)"
+          @sort="(...args) => sort(decklistStore.decklist.maybes, ...args)"
+          @flatten="flatten(decklistStore.decklist.maybes)"
+          @reset="decklistStore.clearDecklistSection(CardSections.MAYBES)"
         />
       </DeckbuilderSection>
     </DeckbuilderSide>
   </div>
 
-  <DeckbuilderDock
-    @save="saveDecklist"
-    @load="viewDecklists"
-    @export="exportToTxtFile"
-    @reset="resetDecklist"
-  />
+  <DeckbuilderDock @view="viewDecklists" @export="exportToTxtFile">
+    <DecklistForm @updated="saveDecklist" />
+  </DeckbuilderDock>
+
+  <BrewModal
+    size="lg"
+    :show="decklistsModalShowing"
+    @hide="decklistsModalShowing = false"
+  >
+    <Decklists
+      @load="loadDecklist"
+      @create-new="newDecklist"
+      @cancel="decklistsModalShowing = false"
+    />
+  </BrewModal>
+
+  <BlockUI v-if="UIStore.loading || decklistStore.loading" />
 </template>

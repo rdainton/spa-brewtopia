@@ -39,15 +39,27 @@ export interface ICard {
 export type CardList = ICard[]
 
 export type CardSection = CardList[]
+
+export enum CardSections {
+  MAINBOARD = 'mainboard',
+  SIDEBOARD = 'sideboard',
+  MAYBES = 'maybes',
+}
 export interface CardAddress {
   section: ICard[][] | null
   columnIndex: number
 }
 
-export type Decklist = {
+export type DecklistContent = {
   mainboard: CardSection
   sideboard: CardSection
   maybes: CardSection
+}
+
+export type Decklist = {
+  id: number
+  name: string
+  decklist: DecklistContent
 }
 
 /**
