@@ -50,7 +50,7 @@ function handleDropAtTop(e: DragEvent) {
 
 <template>
   <div
-    class="flex-1 flex-shrink-0 min-h-full px-1 pb-4 bg-transparent border rounded-md "
+    class="flex-1 flex-shrink-0 min-h-full px-1 pb-4 bg-transparent border rounded-md"
     :class="[dragStyles, lastColumnStyles]"
     @dragenter.prevent="handleDragenter"
     @dragleave="handleDragleave"
@@ -61,8 +61,8 @@ function handleDropAtTop(e: DragEvent) {
 
     <slot />
 
-    <div class="w-8 mx-auto text-gray-900">
-      <PlusIcon v-if="last" />
+    <div v-if="last" class="w-8 mx-auto text-gray-900">
+      <PlusIcon />
     </div>
   </div>
 </template>

@@ -1,16 +1,17 @@
 <script lang="ts" setup>
-import { SortKey } from '../../composables/useSort'
-import { ControlOptions } from '../../types/deckbuilder'
+import { SortKey } from '@/composables/useSort'
+import { ControlOptions } from '@/types/deckbuilder'
 
 // Components
-import IconButton from '../atoms/IconButton.vue'
+import IconButton from '@/components/atoms/IconButton.vue'
+import IconButtonConfirmable from '@/components/atoms/IconButtonConfirmable.vue'
 
 // Icons
-import SortAscendingIcon from '../atoms/icons/SortAscendingIcon.vue'
-import SortDescendingIcon from '../atoms/icons/SortDescendingIcon.vue'
-import FlattenIcon from '../atoms/icons/FlattenIcon.vue'
-import CardTypeIcon from '../atoms/icons/CardTypeIcon.vue'
-import ClearIcon from '../atoms/icons/ClearIcon.vue'
+import SortAscendingIcon from '@/components/atoms/icons/SortAscendingIcon.vue'
+import SortDescendingIcon from '@/components/atoms/icons/SortDescendingIcon.vue'
+import FlattenIcon from '@/components/atoms/icons/FlattenIcon.vue'
+import CardTypeIcon from '@/components/atoms/icons/CardTypeIcon.vue'
+import ClearIcon from '@/components/atoms/icons/ClearIcon.vue'
 
 interface DeckbuilderSectionControlsProps {
   options: ControlOptions[]
@@ -29,7 +30,7 @@ const emit = defineEmits<{
   <div class="flex gap-x-1">
     <IconButton
       v-if="options.includes(ControlOptions.SortManaValueAsc)"
-      @click="emit('sort', 'manaValue', 'ASC')"
+      @clicked="emit('sort', 'manaValue', 'ASC')"
       size="lg"
       tooltip="Sort by ascending Mana Value"
       :tooltip-below="true"
@@ -39,7 +40,7 @@ const emit = defineEmits<{
 
     <IconButton
       v-if="options.includes(ControlOptions.SortManaValueDesc)"
-      @click="emit('sort', 'manaValue', 'DESC')"
+      @clicked="emit('sort', 'manaValue', 'DESC')"
       size="lg"
       tooltip="Sort by descending Mana Value"
       :tooltip-below="true"
@@ -49,7 +50,7 @@ const emit = defineEmits<{
 
     <IconButton
       v-if="options.includes(ControlOptions.SortCardType)"
-      @click="emit('sort', 'cardType')"
+      @clicked="emit('sort', 'cardType')"
       size="lg"
       tooltip="Sort by card type"
       :tooltip-below="true"
@@ -59,7 +60,7 @@ const emit = defineEmits<{
 
     <IconButton
       v-if="options.includes(ControlOptions.Flatten)"
-      @click="emit('flatten')"
+      @clicked="emit('flatten')"
       size="lg"
       tooltip="Move all cards to one column"
       :tooltip-below="true"
@@ -67,14 +68,14 @@ const emit = defineEmits<{
       <FlattenIcon />
     </IconButton>
 
-    <IconButton
-      v-if="options.includes(ControlOptions.SortCardType)"
-      @click="emit('reset')"
+    <IconButtonConfirmable
+      v-if="options.includes(ControlOptions.Clear)"
+      @clicked="emit('reset')"
       size="lg"
       tooltip="Reset section"
       :tooltip-below="true"
     >
       <ClearIcon />
-    </IconButton>
+    </IconButtonConfirmable>
   </div>
 </template>

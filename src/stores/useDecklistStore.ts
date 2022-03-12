@@ -9,10 +9,12 @@ interface State extends Decklist {
   unsavedChanges: boolean
 }
 
-const defaultDecklist: DecklistContent = {
-  mainboard: [[], [], [], [], []],
-  sideboard: [[], []],
-  maybes: [[], []],
+function createDefaultDecklist(): DecklistContent {
+  return {
+    mainboard: [[], [], [], [], []],
+    sideboard: [[], []],
+    maybes: [[], []],
+  }
 }
 
 interface PersistableDecklist extends Decklist {
@@ -23,7 +25,7 @@ export const useDecklistStore = defineStore('decklist', {
   state: (): State => ({
     id: 0,
     name: '',
-    decklist: defaultDecklist,
+    decklist: createDefaultDecklist(),
     loading: false,
     error: null,
     unsavedChanges: false,
@@ -76,7 +78,7 @@ export const useDecklistStore = defineStore('decklist', {
     },
 
     clearDecklistSection(sectionName: CardSections) {
-      this.decklist[sectionName] = defaultDecklist[sectionName]
+      this.decklist[sectionName] = createDefaultDecklist()[sectionName]
       this.unsavedChanges = true
 
       this.persistToLocalStorage()
