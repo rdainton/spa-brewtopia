@@ -22,7 +22,11 @@ import BrewMessage from '@/components/molecules/BrewMessage.vue'
 const working = ref(false)
 const submissionError = ref('')
 
-// extract token and user email from the route query
+// extract token and user
+// email from the route query
+//
+// NOTE: validation that they exist
+// occurs in a router middleware.
 const route = useRoute()
 
 type ResetQuery = {

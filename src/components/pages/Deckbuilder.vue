@@ -14,6 +14,7 @@ import useSort from '@/composables/useSort'
 import useToasts from '@/composables/useToasts'
 
 // Stores
+import { storeToRefs } from 'pinia'
 import { useDecklistStore } from '@/stores/useDecklistStore'
 import { useUIStore } from '@/stores/useUIStore'
 
@@ -36,6 +37,7 @@ const UIStore = useUIStore()
  */
 const decklistStore = useDecklistStore()
 decklistStore.init()
+const { decklist } = storeToRefs(decklistStore)
 
 function handleDecklistChanges() {
   decklistStore.unsavedChanges = true
@@ -107,42 +109,25 @@ const { exportToTxtFile } = useExport(decklistStore.decklist)
       <DeckbuilderSection
         title="Mainboard"
         alignment="left"
-        :section-data="decklistStore.decklist.mainboard"
+        :section-data="decklist.mainboard"
         @dragstart="
-          (card, colIdx) =>
-            handleDragstart(decklistStore.decklist.mainboard, colIdx, card)
+          (card, colIdx) => handleDragstart(decklist.mainboard, colIdx, card)
         "
-        @dragover="
-          colIdx => handleDragover(decklistStore.decklist.mainboard, colIdx)
-        "
+        @dragover="colIdx => handleDragover(decklist.mainboard, colIdx)"
         @drop="
           (e, colIdx, forceCardIdx) =>
-            handleDrop(
-              e,
-              decklistStore.decklist.mainboard,
-              colIdx,
-              forceCardIdx
-            )
+            handleDrop(e, decklist.mainboard, colIdx, forceCardIdx)
         "
         @duplicate="
           (card, colIdx) =>
-            cardActions.duplicate(
-              decklistStore.decklist.mainboard,
-              colIdx,
-              card
-            )
+            cardActions.duplicate(decklist.mainboard, colIdx, card)
         "
         @playset="
           (card, colIdx) =>
-            cardActions.toPlayset(
-              decklistStore.decklist.mainboard,
-              colIdx,
-              card
-            )
+            cardActions.toPlayset(decklist.mainboard, colIdx, card)
         "
         @delete="
-          (card, colIdx) =>
-            cardActions.remove(decklistStore.decklist.mainboard, colIdx, card)
+          (card, colIdx) => cardActions.remove(decklist.mainboard, colIdx, card)
         "
       >
         <DeckbuilderSectionControls
@@ -153,8 +138,8 @@ const { exportToTxtFile } = useExport(decklistStore.decklist)
             ControlOptions.Flatten,
             ControlOptions.Clear,
           ]"
-          @sort="(...args) => sort(decklistStore.decklist.mainboard, ...args)"
-          @flatten="flatten(decklistStore.decklist.mainboard)"
+          @sort="(...args) => sort(decklist.mainboard, ...args)"
+          @flatten="flatten(decklist.mainboard)"
           @reset="decklistStore.clearDecklistSection(CardSections.MAINBOARD)"
         />
       </DeckbuilderSection>
@@ -165,42 +150,25 @@ const { exportToTxtFile } = useExport(decklistStore.decklist)
         title="Sideboard"
         alignment="left"
         :total-cards-required="15"
-        :section-data="decklistStore.decklist.sideboard"
+        :section-data="decklist.sideboard"
         @dragstart="
-          (card, colIdx) =>
-            handleDragstart(decklistStore.decklist.sideboard, colIdx, card)
+          (card, colIdx) => handleDragstart(decklist.sideboard, colIdx, card)
         "
-        @dragover="
-          colIdx => handleDragover(decklistStore.decklist.sideboard, colIdx)
-        "
+        @dragover="colIdx => handleDragover(decklist.sideboard, colIdx)"
         @drop="
           (e, colIdx, forceCardIdx) =>
-            handleDrop(
-              e,
-              decklistStore.decklist.sideboard,
-              colIdx,
-              forceCardIdx
-            )
+            handleDrop(e, decklist.sideboard, colIdx, forceCardIdx)
         "
         @duplicate="
           (card, colIdx) =>
-            cardActions.duplicate(
-              decklistStore.decklist.sideboard,
-              colIdx,
-              card
-            )
+            cardActions.duplicate(decklist.sideboard, colIdx, card)
         "
         @playset="
           (card, colIdx) =>
-            cardActions.toPlayset(
-              decklistStore.decklist.sideboard,
-              colIdx,
-              card
-            )
+            cardActions.toPlayset(decklist.sideboard, colIdx, card)
         "
         @delete="
-          (card, colIdx) =>
-            cardActions.remove(decklistStore.decklist.sideboard, colIdx, card)
+          (card, colIdx) => cardActions.remove(decklist.sideboard, colIdx, card)
         "
       >
         <DeckbuilderSectionControls
@@ -211,8 +179,8 @@ const { exportToTxtFile } = useExport(decklistStore.decklist)
             ControlOptions.Flatten,
             ControlOptions.Clear,
           ]"
-          @sort="(...args) => sort(decklistStore.decklist.sideboard, ...args)"
-          @flatten="flatten(decklistStore.decklist.sideboard)"
+          @sort="(...args) => sort(decklist.sideboard, ...args)"
+          @flatten="flatten(decklist.sideboard)"
           @reset="decklistStore.clearDecklistSection(CardSections.SIDEBOARD)"
         />
       </DeckbuilderSection>
@@ -220,29 +188,23 @@ const { exportToTxtFile } = useExport(decklistStore.decklist)
       <DeckbuilderSection
         title="Maybes"
         :total-cards-required="Infinity"
-        :section-data="decklistStore.decklist.maybes"
+        :section-data="decklist.maybes"
         @dragstart="
-          (card, colIdx) =>
-            handleDragstart(decklistStore.decklist.maybes, colIdx, card)
+          (card, colIdx) => handleDragstart(decklist.maybes, colIdx, card)
         "
-        @dragover="
-          colIdx => handleDragover(decklistStore.decklist.maybes, colIdx)
-        "
+        @dragover="colIdx => handleDragover(decklist.maybes, colIdx)"
         @drop="
           (e, colIdx, forceCardIdx) =>
-            handleDrop(e, decklistStore.decklist.maybes, colIdx, forceCardIdx)
+            handleDrop(e, decklist.maybes, colIdx, forceCardIdx)
         "
         @duplicate="
-          (card, colIdx) =>
-            cardActions.duplicate(decklistStore.decklist.maybes, colIdx, card)
+          (card, colIdx) => cardActions.duplicate(decklist.maybes, colIdx, card)
         "
         @playset="
-          (card, colIdx) =>
-            cardActions.toPlayset(decklistStore.decklist.maybes, colIdx, card)
+          (card, colIdx) => cardActions.toPlayset(decklist.maybes, colIdx, card)
         "
         @delete="
-          (card, colIdx) =>
-            cardActions.remove(decklistStore.decklist.maybes, colIdx, card)
+          (card, colIdx) => cardActions.remove(decklist.maybes, colIdx, card)
         "
       >
         <DeckbuilderSectionControls
@@ -253,8 +215,8 @@ const { exportToTxtFile } = useExport(decklistStore.decklist)
             ControlOptions.Flatten,
             ControlOptions.Clear,
           ]"
-          @sort="(...args) => sort(decklistStore.decklist.maybes, ...args)"
-          @flatten="flatten(decklistStore.decklist.maybes)"
+          @sort="(...args) => sort(decklist.maybes, ...args)"
+          @flatten="flatten(decklist.maybes)"
           @reset="decklistStore.clearDecklistSection(CardSections.MAYBES)"
         />
       </DeckbuilderSection>

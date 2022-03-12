@@ -31,4 +31,16 @@ describe('atoms/IconButtonConfirmable.vue', () => {
 
     expect(wrapper.emitted()).toHaveProperty('clicked')
   })
+
+  test('the mouse leaving the button, resets the button', async () => {
+    const wrapper = shallowMount(IconButtonConfirmable)
+    const buttonEl = wrapper.find('button')
+
+    await buttonEl.trigger('click')
+    expect(wrapper.text()).toContain('Confirm')
+
+    await buttonEl.trigger('mouseleave')
+    expect(wrapper.text()).not.toContain('Confirm')
+    expect(wrapper.emitted()).not.toHaveProperty('clicked')
+  })
 })
