@@ -17,10 +17,4 @@ describe('atoms/IconButton.vue', () => {
 
     expect(wrapper.emitted()).toHaveProperty('click')
   })
-
-  test('can optionally display a Toolip.vue on hover', () => {
-    const wrapper = mount(IconButton)
-
-    // TODO: write this test.
-  })
 })

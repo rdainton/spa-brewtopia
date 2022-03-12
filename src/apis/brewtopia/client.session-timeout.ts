@@ -8,6 +8,7 @@ import router from '@/router'
 // Store
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useToastsStore } from '@/stores/useToastsStore'
+import { useDecklistStore } from '@/stores/useDecklistStore'
 
 /*
  * Add a response interceptor to logout
@@ -18,9 +19,11 @@ export default (axiosClient: AxiosInstance) => {
   const errorInterceptor = (error: AxiosError) => {
     const authStore = useAuthStore()
     const toastsStore = useToastsStore()
+    const decklistStore = useDecklistStore()
 
     if (error.response && [401, 419].includes(error.response.status)) {
       authStore.clearAuthData()
+      decklistStore.clearDecklist()
 
       toastsStore.create({
         type: NotificationType.warning,

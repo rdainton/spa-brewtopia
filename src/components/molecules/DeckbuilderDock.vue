@@ -1,38 +1,55 @@
 <script lang="ts" setup>
+import { computed } from 'vue'
+
+// Store
+import { useAuthStore } from '@/stores/useAuthStore'
+
 // Components
-import IconButton from '../atoms/IconButton.vue'
+import IconButtonLabelled from '@/components/atoms/IconButtonLabelled.vue'
 
 // Icons
-import ExportIcon from '../atoms/icons/ExportIcon.vue'
-import ClearIcon from '../atoms/icons/ClearIcon.vue'
+import ExportIcon from '@/components/atoms/icons/ExportIcon.vue'
+import DecklistsIcon from '@/components/atoms/icons/DecklistsIcon.vue'
 
 const emit = defineEmits<{
+  (event: 'view'): void
   (event: 'export'): void
-  (event: 'reset'): void
 }>()
+
+const authStore = useAuthStore()
+
+const isLoggedIn = computed(() => authStore.isLoggedIn)
 </script>
 
 <template>
   <div
-    class="fixed bottom-0 flex items-center p-2 transform -translate-x-1/2 bg-white shadow-xl  left-1/2 rounded-t-md dark:bg-gray-900"
+    class="fixed bottom-0 flex items-center px-2 pt-1 pb-3 transform -translate-x-1/2 bg-white shadow-lg left-1/2 rounded-t-md dark:bg-gray-900"
   >
-    <IconButton
+    <template v-if="isLoggedIn">
+      <slot></slot>
+    </template>
+
+    <IconButtonLabelled
       @click="emit('export')"
       size="xl"
       tooltip="Export decklist to .txt"
+      label="Export"
     >
       <ExportIcon />
-    </IconButton>
+    </IconButtonLabelled>
 
-    <div class="w-0.5 h-8 mx-1 bg-gray-500" />
+    <template v-if="isLoggedIn">
+      <div class="w-0.5 h-8 mx-2 bg-gray-500" />
 
-    <IconButton
-      @click="emit('reset')"
-      size="xl"
-      tooltip="Reset the deckbuilder"
-    >
-      <ClearIcon />
-    </IconButton>
+      <IconButtonLabelled
+        @click="emit('view')"
+        size="xl"
+        tooltip="View decklists"
+        label="Decks"
+      >
+        <DecklistsIcon />
+      </IconButtonLabelled>
+    </template>
   </div>
 </template>
 

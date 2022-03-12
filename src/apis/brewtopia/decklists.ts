@@ -1,5 +1,5 @@
 import brewtopiaClient, { apiPrefix } from './client'
-import { Decklist } from '../../types/cards'
+import { DecklistContent } from '../../types/cards'
 
 export interface DecklistMeta {
   id: number
@@ -10,19 +10,19 @@ export interface DecklistMeta {
 }
 
 export interface DecklistDetails extends DecklistMeta {
-  decklist: Decklist
+  decklist: DecklistContent
 }
 
 export interface Storable {
   name: string
   coverImageUrl?: string
-  decklist: Decklist
+  decklist: DecklistContent
 }
 
 export interface Updateable {
   name?: string
   coverImageUrl?: string
-  decklist?: Decklist
+  decklist?: DecklistContent
 }
 
 /**
@@ -30,26 +30,22 @@ export interface Updateable {
  */
 export default {
   all() {
-    return brewtopiaClient.get<{ data: DecklistMeta[] }>(
-      `${apiPrefix}/decklists`
-    )
+    return brewtopiaClient.get<DecklistMeta[]>(`${apiPrefix}/decklists`)
   },
 
   get(id: number) {
-    return brewtopiaClient.get<{ data: DecklistDetails }>(
-      `${apiPrefix}/decklists/${id}`
-    )
+    return brewtopiaClient.get<DecklistDetails>(`${apiPrefix}/decklists/${id}`)
   },
 
   store(payload: Storable) {
-    return brewtopiaClient.post<{ data: DecklistDetails }>(
+    return brewtopiaClient.post<DecklistDetails>(
       `${apiPrefix}/decklists`,
       payload
     )
   },
 
   update(id: number, payload: Updateable) {
-    return brewtopiaClient.post<{ data: DecklistDetails }>(
+    return brewtopiaClient.patch<DecklistDetails>(
       `${apiPrefix}/decklists/${id}`,
       payload
     )

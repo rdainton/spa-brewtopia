@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, readonly } from 'vue'
 
 /**
  * Manage draggedOver state - keeping internal track of whether
@@ -36,7 +36,7 @@ export default function useDraggedOver(
   return {
     handleDragenter,
     handleDragleave,
-    draggedOver,
     reset,
+    draggedOver: readonly(draggedOver),
   }
 }

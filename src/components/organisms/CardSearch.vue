@@ -43,7 +43,7 @@ const onSearch = (searchTerm: string) => {
         const colorsArr = item.colors || item.color_identity || []
 
         return {
-          srcyId: item.id,
+          scryId: item.id,
           name: item.name,
           imgUrl: item.image_uris?.normal || '',
           manaValue: item.cmc,

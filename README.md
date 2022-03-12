@@ -12,5 +12,8 @@ Simply run `yarn install && yarn dev`, then open the URL `http://localhost:3000/
 
 Note that without running an instance of the Brewtopia.io API (another repo), you will not be able to log in and make use of decklist save/load features. However, you can still build and deck, and export to `.txt`.
 
+### Testing
+Unit tests are a work in progres. Run those that do exist with `yarn test:unit`
+
 ## License
 This project is currently UNLICENSED.

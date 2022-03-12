@@ -96,7 +96,7 @@ function handleDrop(e: DragEvent, columnIndex = 0, forceCardIdx = -1) {
         >
           <Card
             v-for="(card, idx) in column"
-            :id="card.srcyId"
+            :id="card.scryId"
             :key="card.uuid"
             :data="card"
             :stacked="idx !== 0"

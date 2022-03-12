@@ -1,14 +1,10 @@
-import { nextTick, ref } from 'vue'
-import { CardSection, ICard } from '@/types/cards'
+import { nextTick, ref, readonly } from 'vue'
+import { DecklistContent, CardSection, ICard } from '@/types/cards'
 
 /**
  * Generate an downloadable export of a Decklist
  */
-export default function useExport(
-  mainboard: CardSection,
-  maybes: CardSection,
-  sideboard: CardSection
-) {
+export default function useExport(decklist: DecklistContent) {
   const exportUrl = ref('')
 
   const revokeExportUrl = (): void => {
@@ -48,9 +44,9 @@ export default function useExport(
 
   const generateOutput = (): string[] => {
     return [
-      ...generateOutputForSection(mainboard, 'Mainboard'),
-      ...generateOutputForSection(maybes, 'Maybes'),
-      ...generateOutputForSection(sideboard, 'Sideboard'),
+      ...generateOutputForSection(decklist.mainboard, 'Mainboard'),
+      ...generateOutputForSection(decklist.maybes, 'Maybes'),
+      ...generateOutputForSection(decklist.sideboard, 'Sideboard'),
     ]
   }
 
@@ -96,7 +92,7 @@ export default function useExport(
     // may want to handle the below as individual steps
     // externally to this hook - via a 'Download' button
     createTxtFileUrl,
-    exportUrl,
+    exportUrl: readonly(exportUrl),
     revokeExportUrl,
   }
 }
