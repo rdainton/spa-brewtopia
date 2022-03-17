@@ -7,7 +7,7 @@ import axios from 'axios'
 import applySessionTimeoutInterceptor from './client.session-timeout'
 
 const brewtopiaClient = axios.create({
-  baseURL: 'http://localhost',
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true, // required to handle XRSF token.
 })
 
