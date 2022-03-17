@@ -35,7 +35,7 @@ const { handleSubmit, values, setValues } = useForm({
 
 const onSubmit = handleSubmit(values => {
   readonly.value = true
-  emit('updated', values.name)
+  emit('updated', values.name as string)
 })
 
 // this needs to only trigger on a decklist change.

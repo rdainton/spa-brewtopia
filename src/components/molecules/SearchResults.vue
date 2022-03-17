@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { watch, ref } from 'vue'
-import { ICard } from '../../types/cards'
-import Card from '../molecules/Card.vue'
-import CardSkeleton from '../atoms/CardSkeleton.vue'
+import { ICard } from '@/types/cards'
+import Card from '@/components/molecules/Card.vue'
+import CardSkeleton from '@/components/atoms/CardSkeleton.vue'
 
 interface SearchResultsProps {
   searching: boolean
@@ -12,8 +12,8 @@ interface SearchResultsProps {
 const props = defineProps<SearchResultsProps>()
 
 const emit = defineEmits<{
-  (event: 'result-dragstart', card: ICard): void
-  (event: 'result-dblclick', card: ICard): void
+  (event: 'dragstart', card: ICard): void
+  (event: 'dblclick', card: ICard): void
 }>()
 
 // handle no results found
@@ -49,8 +49,8 @@ watch(
         :id="card.scryId"
         :key="card.scryId"
         :data="card"
-        @dragstart="emit('result-dragstart', card)"
-        @dblclick="emit('result-dblclick', card)"
+        @dragstart="emit('dragstart', card)"
+        @dblclick="emit('dblclick', card)"
       />
     </template>
   </div>

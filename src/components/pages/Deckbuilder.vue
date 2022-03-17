@@ -110,8 +110,8 @@ const { exportToTxtFile } = useExport(decklistStore.decklist)
 
 <template>
   <CardSearch
-    @card-dragstart="handleNullOriginDragstart"
-    @card-dblclick="handleNullOriginDblClick"
+    @dragstart="handleNullOriginDragstart"
+    @dblclick="handleNullOriginDblClick"
   />
 
   <div

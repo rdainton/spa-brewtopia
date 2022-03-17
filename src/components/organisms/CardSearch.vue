@@ -6,12 +6,12 @@ import useToasts from '@/composables/useToasts'
 import { parseErrorMap } from '@/apis/scryfall'
 
 // Components
-import SearchInput from '../molecules/SearchInput.vue'
-import SearchResults from '../molecules/SearchResults.vue'
+import SearchInput from '@/components/molecules/SearchInput.vue'
+import SearchResults from '@/components/molecules/SearchResults.vue'
 
 const emit = defineEmits<{
-  (event: 'card-dragstart', card: ICard): void
-  (event: 'card-dblclick', card: ICard): void
+  (event: 'dragstart', card: ICard): void
+  (event: 'dblclick', card: ICard): void
 }>()
 
 const dispatch = useToasts()
@@ -74,8 +74,8 @@ const onSearch = (searchTerm: string) => {
     <SearchResults
       :searching="searching"
       :results="searchResults"
-      @result-dragstart="card => emit('card-dragstart', card)"
-      @result-dblclick="card => emit('card-dblclick', card)"
+      @dragstart="card => emit('dragstart', card)"
+      @dblclick="card => emit('dblclick', card)"
     />
   </div>
 </template>
