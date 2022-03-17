@@ -44,6 +44,10 @@ module.exports = {
         68: '17rem',
       },
 
+      height: {
+        'fit-content': 'fit-content',
+      },
+
       minWidth: {
         42: '10.5rem',
         100: '25rem',
