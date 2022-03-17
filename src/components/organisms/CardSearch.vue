@@ -48,6 +48,7 @@ const onSearch = (searchTerm: string) => {
           name: item.name,
           imgUrl: item.image_uris?.normal || '',
           manaValue: item.cmc,
+          manaCost: item.mana_cost,
           cardType: getPrimaryCardType(item.type_line),
           cardTypeLine: item.type_line,
           flatColors: colorsArr.join(),

@@ -31,6 +31,7 @@ export interface ICard {
   imgUrl: string
   name: string
   manaValue: number
+  manaCost: string
   cardType: PrimaryCardType
   cardTypeLine: string
   flatColors: string

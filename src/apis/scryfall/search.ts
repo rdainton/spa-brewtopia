@@ -5,6 +5,7 @@ export interface ScryfallCard {
   id: string
   name: string
   cmc: number
+  mana_cost: string
   type_line: string
   colors?: ManaColor[]
   color_identity?: ManaColor[]
