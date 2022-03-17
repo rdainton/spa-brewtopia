@@ -57,10 +57,7 @@ export const useDecklistStore = defineStore('decklist', {
       this.error = null
       this.unsavedChanges = false
 
-      useLocalStorage<PersistableDecklist>('decklist').store({
-        ...decklist,
-        unsavedChanges: this.unsavedChanges,
-      })
+      this.persistToLocalStorage()
     },
 
     clearDecklist() {
