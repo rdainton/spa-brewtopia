@@ -29,6 +29,7 @@ const emit = defineEmits<{
   (event: 'duplicate', card: ICard): void
   (event: 'playset', card: ICard): void
   (event: 'delete', card: ICard): void
+  (event: 'dblclick', card: ICard): void
 }>()
 
 const dragging = ref(false)
@@ -59,7 +60,7 @@ const dragStyles = computed(() => {
 
 <template>
   <div
-    class="relative flex flex-shrink-0 w-40 h-56 bg-black rounded-md  trigger card"
+    class="relative flex flex-shrink-0 w-40 h-56 bg-black rounded-md trigger card"
     :class="[{ 'opacity-25': dragging }, { '-mt-49': stacked }, dragStyles]"
     draggable="true"
     @dragstart="onDragStart"
@@ -67,6 +68,7 @@ const dragStyles = computed(() => {
     @dragenter="handleDragenter"
     @dragleave="handleDragleave"
     @drop="reset"
+    @dblclick="emit('dblclick', data)"
     @contextmenu.prevent="emit('delete', data)"
   >
     <img

@@ -10,7 +10,8 @@ import SearchInput from '../molecules/SearchInput.vue'
 import SearchResults from '../molecules/SearchResults.vue'
 
 const emit = defineEmits<{
-  (event: 'dragstart', card: ICard): void
+  (event: 'card-dragstart', card: ICard): void
+  (event: 'card-dblclick', card: ICard): void
 }>()
 
 const dispatch = useToasts()
@@ -72,7 +73,8 @@ const onSearch = (searchTerm: string) => {
     <SearchResults
       :searching="searching"
       :results="searchResults"
-      @dragstart="card => emit('dragstart', card)"
+      @result-dragstart="card => emit('card-dragstart', card)"
+      @result-dblclick="card => emit('card-dblclick', card)"
     />
   </div>
 </template>

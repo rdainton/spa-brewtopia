@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { parseErrorMap } from '@/apis/brewtopia'
+import { v4 as uuid } from 'uuid'
 
 // Imported
-import { CardSections } from '@/types/cards'
+import { CardSections, ICard } from '@/types/cards'
 import { ControlOptions } from '@/types/deckbuilder'
 
 // Composables
@@ -55,6 +56,14 @@ const {
 
 const { sort, flatten } = useSort(handleDecklistChanges)
 
+function handleNullOriginDblClick(card: ICard) {
+  const insertable = {
+    ...card,
+    uuid: uuid(),
+  }
+  cardActions.insertAtIndex(decklist.value.mainboard, 0, insertable, -1)
+}
+
 /**
  * Save/load decklists
  */
@@ -100,7 +109,10 @@ const { exportToTxtFile } = useExport(decklistStore.decklist)
 </script>
 
 <template>
-  <CardSearch @dragstart="handleNullOriginDragstart" />
+  <CardSearch
+    @card-dragstart="handleNullOriginDragstart"
+    @card-dblclick="handleNullOriginDblClick"
+  />
 
   <div
     class="flex flex-1 px-4 overflow-x-auto bg-transparent gap-x-2 min-w-screen"

@@ -12,7 +12,8 @@ interface SearchResultsProps {
 const props = defineProps<SearchResultsProps>()
 
 const emit = defineEmits<{
-  (event: 'dragstart', card: ICard): void
+  (event: 'result-dragstart', card: ICard): void
+  (event: 'result-dblclick', card: ICard): void
 }>()
 
 // handle no results found
@@ -48,7 +49,8 @@ watch(
         :id="card.scryId"
         :key="card.scryId"
         :data="card"
-        @dragstart="emit('dragstart', card)"
+        @dragstart="emit('result-dragstart', card)"
+        @dblclick="emit('result-dblclick', card)"
       />
     </template>
   </div>

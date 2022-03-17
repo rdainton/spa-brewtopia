@@ -1,10 +1,6 @@
 import { mount, shallowMount } from '@vue/test-utils'
 import IconButtonLabelled from '@/components/atoms/IconButtonLabelled.vue'
 
-const props = {
-  label: 'Test',
-}
-
 describe('atoms/IconButtonLabelled.vue', () => {
   test('renders an svg icon', () => {
     const wrapper = mount(IconButtonLabelled)

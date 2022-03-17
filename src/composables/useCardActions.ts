@@ -90,7 +90,7 @@ export default function useCardActions(onComplete?: () => void): CardActions {
   }
 
   /**
-   * Inser the card into the column at the instertion index.
+   * Insert the card into the column at the instertion index.
    */
   const insertAtIndex = (
     section: CardSection,
