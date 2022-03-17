@@ -1,10 +1,37 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import { computed } from 'vue'
+
+// Store
+import { useAuthStore } from '@/stores/useAuthStore'
+
+// Components
+import TheHeader from '@/components/TheHeader.vue'
+import TheToastNotifications from '@/components/TheToastNotifications.vue'
+
+const authStore = useAuthStore()
+
+const attemptedAutoLogin = computed(() => authStore.autoAttempted)
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <div
+    v-if="attemptedAutoLogin"
+    class="relative flex-col hidden max-h-screen min-h-screen lg:flex min-w-screen dark:bg-gray-900"
+  >
+    <TheHeader />
+
+    <RouterView />
+  </div>
+
+  <div
+    class="flex items-center justify-center w-screen min-h-screen lg:hidden dark:bg-gray-900"
+  >
+    <h1
+      class="text-2xl text-center text-primary-medium dark:text-dark__primary-light"
+    >
+      Hey, please try a viewing this on a larger screen.
+    </h1>
+  </div>
+
+  <TheToastNotifications />
 </template>
