@@ -67,7 +67,7 @@ const dragStyles = computed(() => {
     @dragend="onDragEnds"
     @dragenter="handleDragenter"
     @dragleave="handleDragleave"
-    @drop="reset"
+    @drop.prevent="reset"
     @dblclick="emit('dblclick', data)"
     @contextmenu.prevent="emit('delete', data)"
   >

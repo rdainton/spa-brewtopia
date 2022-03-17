@@ -126,7 +126,7 @@ const { exportToTxtFile } = useExport(decklistStore.decklist)
           (card, colIdx) => handleDragstart(decklist.mainboard, colIdx, card)
         "
         @dragover="colIdx => handleDragover(decklist.mainboard, colIdx)"
-        @drop="
+        @drop.prevent="
           (e, colIdx, forceCardIdx) =>
             handleDrop(e, decklist.mainboard, colIdx, forceCardIdx)
         "
@@ -167,7 +167,7 @@ const { exportToTxtFile } = useExport(decklistStore.decklist)
           (card, colIdx) => handleDragstart(decklist.sideboard, colIdx, card)
         "
         @dragover="colIdx => handleDragover(decklist.sideboard, colIdx)"
-        @drop="
+        @drop.prevent="
           (e, colIdx, forceCardIdx) =>
             handleDrop(e, decklist.sideboard, colIdx, forceCardIdx)
         "
@@ -205,7 +205,7 @@ const { exportToTxtFile } = useExport(decklistStore.decklist)
           (card, colIdx) => handleDragstart(decklist.maybes, colIdx, card)
         "
         @dragover="colIdx => handleDragover(decklist.maybes, colIdx)"
-        @drop="
+        @drop.prevent="
           (e, colIdx, forceCardIdx) =>
             handleDrop(e, decklist.maybes, colIdx, forceCardIdx)
         "
