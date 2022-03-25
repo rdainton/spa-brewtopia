@@ -1,10 +1,10 @@
-import { nextTick, ref, readonly } from 'vue'
+import { nextTick, ref, readonly, Ref } from 'vue'
 import { DecklistContent, CardSection, ICard } from '@/types/cards'
 
 /**
  * Generate an downloadable export of a Decklist
  */
-export default function useExport(decklist: DecklistContent) {
+export default function useExport(decklist: Ref<DecklistContent>) {
   const exportUrl = ref('')
 
   const revokeExportUrl = (): void => {
@@ -44,9 +44,9 @@ export default function useExport(decklist: DecklistContent) {
 
   const generateOutput = (): string[] => {
     return [
-      ...generateOutputForSection(decklist.mainboard, 'Mainboard'),
-      ...generateOutputForSection(decklist.maybes, 'Maybes'),
-      ...generateOutputForSection(decklist.sideboard, 'Sideboard'),
+      ...generateOutputForSection(decklist.value.mainboard, 'Mainboard'),
+      ...generateOutputForSection(decklist.value.maybes, 'Maybes'),
+      ...generateOutputForSection(decklist.value.sideboard, 'Sideboard'),
     ]
   }
 
