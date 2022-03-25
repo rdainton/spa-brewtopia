@@ -105,7 +105,7 @@ function viewDecklists() {
 /**
  * Export to .txt
  */
-const { exportToTxtFile } = useExport(decklistStore.decklist)
+const { exportToTxtFile } = useExport(decklist)
 </script>
 
 <template>
