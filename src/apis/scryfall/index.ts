@@ -1,9 +1,16 @@
-import axios from 'axios'
+/**
+ * Combine API modules for consumption.
+ */
+import search from './search'
 
-const scryfallClient = axios.create({
-  baseURL: 'https://api.scryfall.com',
-})
+export default {
+  search,
+}
 
+/**
+ * A helper function to parse the
+ * error map returned from the API
+ */
 type ScryfallErrorMap = {
   code: string
   details: string
@@ -17,5 +24,3 @@ export function parseErrorMap(map: ScryfallErrorMap) {
 
   return `${map.status}: ${map.details}`
 }
-
-export default scryfallClient

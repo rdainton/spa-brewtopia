@@ -1,4 +1,4 @@
-import scryfall from '.'
+import scryfallClient from './client'
 import { ManaColor } from '@/types/cards'
 
 export interface ScryfallCard {
@@ -18,8 +18,8 @@ export interface ScryfallCard {
  * The Scryfall search services
  */
 export default {
-  search(searchTerm: string) {
-    return scryfall.get<{ data: ScryfallCard[] }>(
+  simple(searchTerm: string) {
+    return scryfallClient.get<{ data: ScryfallCard[] }>(
       `/cards/search?q=${searchTerm}`
     )
   },

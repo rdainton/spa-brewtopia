@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import scryfall from '@/apis/scryfall/search'
 import { ICard, PrimaryCardType, primaryCardTypes } from '@/types/cards'
 import useToasts from '@/composables/useToasts'
-import { parseErrorMap } from '@/apis/scryfall'
+import scryfall, { parseErrorMap } from '@/apis/scryfall'
 
 // Components
 import SearchInput from '@/components/molecules/SearchInput.vue'
@@ -37,8 +36,8 @@ const onSearch = (searchTerm: string) => {
   if (searching.value) return
   searching.value = true
 
-  scryfall
-    .search(searchTerm)
+  scryfall.search
+    .simple(searchTerm)
     .then(res => {
       searchResults.value = res.data?.data.map(item => {
         const colorsArr = item.colors || item.color_identity || []
