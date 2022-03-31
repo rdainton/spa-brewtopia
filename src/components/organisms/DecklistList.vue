@@ -15,6 +15,7 @@ withDefaults(defineProps<DecklistListProps>(), {})
 defineEmits<{
   (event: 'load', id: number): void
   (event: 'delete', id: number): void
+  (event: 'duplicate', id: number): void
 }>()
 
 const listClasses = 'w-full gap-4 grid grid-cols-4'
@@ -35,6 +36,7 @@ const listClasses = 'w-full gap-4 grid grid-cols-4'
       :cover-image-url="decklist.coverImageUrl"
       @load="$emit('load', decklist.id)"
       @delete="$emit('delete', decklist.id)"
+      @duplicate="$emit('duplicate', decklist.id)"
     />
 
     <slot name="last-child" />
