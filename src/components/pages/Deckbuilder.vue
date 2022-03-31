@@ -40,7 +40,7 @@ const UIStore = useUIStore()
  */
 const decklistStore = useDecklistStore()
 decklistStore.init()
-const { decklist } = storeToRefs(decklistStore)
+const { decklist, name } = storeToRefs(decklistStore)
 
 function handleDecklistChanges() {
   decklistStore.unsavedChanges = true
@@ -119,7 +119,7 @@ function viewDecklists() {
 /**
  * Export to .txt
  */
-const { exportToTxtFile } = useExport(decklist)
+const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
 </script>
 
 <template>
