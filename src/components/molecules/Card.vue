@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { ICard } from '../../types/cards'
-import useDraggedOver from '../../composables/useDraggedOver'
+import { ICard } from '@/types/cards'
+import useDraggedOver from '@/composables/useDraggedOver'
 
 // Icons
-import IconButton from '../atoms/IconButton.vue'
-import ImageIcon from '../atoms/icons/ImageIcon.vue'
-import PlusIcon from '../atoms/icons/PlusIcon.vue'
-import PlaysetIcon from '../atoms/icons/PlaysetIcon.vue'
+import IconButton from '@/components/atoms/IconButton.vue'
+import ImageIcon from '@/components/atoms/icons/ImageIcon.vue'
+import PlusIcon from '@/components/atoms/icons/PlusIcon.vue'
+import PlaysetIcon from '@/components/atoms/icons/PlaysetIcon.vue'
 
 interface CardProps {
   id: string
+  name: string
+  imgUrl?: string
   data: ICard
   size?: 'sm' | 'md' | 'lg'
   stacked?: boolean
@@ -18,6 +20,7 @@ interface CardProps {
 }
 
 const props = withDefaults(defineProps<CardProps>(), {
+  imgUrl: '',
   size: 'md',
   stacked: false,
   withControls: false,
@@ -72,10 +75,10 @@ const dragStyles = computed(() => {
     @contextmenu.prevent="emit('delete', data)"
   >
     <img
-      v-if="data.imgUrl"
+      v-if="imgUrl"
       :id="data.uuid ?? ''"
-      :name="data.name"
-      :src="data.imgUrl"
+      :name="name"
+      :src="imgUrl"
       class="w-full max-w-full rounded-md"
     />
     <article
@@ -84,7 +87,7 @@ const dragStyles = computed(() => {
       class="relative flex items-center justify-center flex-1 rounded-md"
     >
       <p class="absolute w-10/12 text-xs text-white break-words top-2 left-2">
-        {{ data.name }}
+        {{ name }}
       </p>
 
       <div class="w-32 h-32 dark:text-gray-900">

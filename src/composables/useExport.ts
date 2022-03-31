@@ -1,10 +1,19 @@
 import { nextTick, ref, readonly, Ref } from 'vue'
-import { DecklistContent, CardSection, ICard } from '@/types/cards'
+import {
+  DecklistContent,
+  CardSection,
+  ICard,
+  StoreableCard,
+} from '@/types/cards'
 
 /**
  * Generate an downloadable export of a Decklist
  */
-export default function useExport(decklist: Ref<DecklistContent>) {
+export default function useExport(
+  decklist: Ref<DecklistContent>,
+  decklistName: Ref<string>,
+  cardStore: Record<StoreableCard['id'], StoreableCard>
+) {
   const exportUrl = ref('')
 
   const revokeExportUrl = (): void => {
@@ -14,6 +23,12 @@ export default function useExport(decklist: Ref<DecklistContent>) {
       window.URL.revokeObjectURL(exportUrl.value)
       exportUrl.value = ''
     }
+  }
+
+  const generateFileName = (): string => {
+    if (!decklistName.value) return 'decklist'
+
+    return decklistName.value.trim().replaceAll(' ', '_')
   }
 
   const generateOutputForSection = (
@@ -26,7 +41,8 @@ export default function useExport(decklist: Ref<DecklistContent>) {
 
     const groupedByCardName = flatSection.reduce(
       (map: { [key: string]: ICard[] }, x) => {
-        ;(map[x['name']] = map[x['name']] || []).push(x)
+        const fullCard = cardStore[x.scryId]
+        ;(map[fullCard['name']] = map[fullCard['name']] || []).push(x)
         return map
       },
       {}
@@ -57,7 +73,7 @@ export default function useExport(decklist: Ref<DecklistContent>) {
   const triggerDownload = (): void => {
     const link = document.createElement('a')
     // 'download' attribute is suggested filename
-    link.setAttribute('download', 'decklist.txt')
+    link.setAttribute('download', generateFileName())
     link.href = exportUrl.value
     document.body.appendChild(link)
 

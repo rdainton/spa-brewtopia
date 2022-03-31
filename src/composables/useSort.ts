@@ -1,21 +1,20 @@
-import { CardList, CardSection, ICard } from '@/types/cards'
+import { CardList, CardSection, StoreableCard } from '@/types/cards'
 
-type RemoveUuidField<Type> = {
-  [Property in keyof Type as Exclude<Property, 'uuid'>]: Type[Property]
-}
-
-// uuid is optional, so remove it from the type
-export type SortKey = keyof RemoveUuidField<ICard>
+export type SortKey = 'cmc' | 'cardType'
 
 /**
  * A composable to house sorting logic for CardSections
  *
  * @param onComplete - optional hook called on action completion
  */
-export default function useSort(onComplete?: () => void) {
+export default function useSort(
+  cardStore: Record<StoreableCard['id'], StoreableCard>,
+  onComplete?: () => void
+) {
   const _groupBy = (list: CardList, key: SortKey) => {
     return list.reduce((map: { [key: string]: CardList }, card) => {
-      ;(map[card[key]] = map[card[key]] || []).push(card)
+      const fullCard = cardStore[card.scryId]
+      ;(map[fullCard[key]] = map[fullCard[key]] || []).push(card)
       return map
     }, {})
   }
@@ -43,7 +42,11 @@ export default function useSort(onComplete?: () => void) {
       // to group identical cards
       return groupedBySortKey[sortKey]
         .sort((a, b) => (a.scryId > b.scryId ? 1 : -1))
-        .sort((a, b) => (a.flatColors > b.flatColors ? 1 : -1))
+        .sort((a, b) => {
+          const fullA = cardStore[a.scryId]
+          const fullB = cardStore[b.scryId]
+          return fullA.flatColors > fullB.flatColors ? 1 : -1
+        })
     })
 
     section.splice(0, section.length, ...sortedSection, [])
@@ -55,7 +58,11 @@ export default function useSort(onComplete?: () => void) {
     const flatSection = section
       .flat()
       .sort((a, b) => (a.scryId > b.scryId ? 1 : -1))
-      .sort((a, b) => (a.flatColors > b.flatColors ? 1 : -1))
+      .sort((a, b) => {
+        const fullA = cardStore[a.scryId]
+        const fullB = cardStore[b.scryId]
+        return fullA.flatColors > fullB.flatColors ? 1 : -1
+      })
 
     section.splice(0, section.length, flatSection, [])
 

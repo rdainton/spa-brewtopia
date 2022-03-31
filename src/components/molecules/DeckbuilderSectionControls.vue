@@ -30,7 +30,7 @@ const emit = defineEmits<{
   <div class="flex gap-x-1">
     <IconButton
       v-if="options.includes(ControlOptions.SortManaValueAsc)"
-      @clicked="emit('sort', 'manaValue', 'ASC')"
+      @clicked="emit('sort', 'cmc', 'ASC')"
       size="lg"
       tooltip="Sort by ascending Mana Value"
       :tooltip-below="true"
@@ -40,7 +40,7 @@ const emit = defineEmits<{
 
     <IconButton
       v-if="options.includes(ControlOptions.SortManaValueDesc)"
-      @clicked="emit('sort', 'manaValue', 'DESC')"
+      @clicked="emit('sort', 'cmc', 'DESC')"
       size="lg"
       tooltip="Sort by descending Mana Value"
       :tooltip-below="true"

@@ -1,3 +1,5 @@
+import { ScryfallCard } from '@/apis/scryfall/types'
+
 // Array.includes(searchElement) won't let searchElement be a supertype of the array type
 // a 'string' in this instance. So I override the standard library via 'declaration merging'
 // to accept supertypes.
@@ -9,8 +11,6 @@ declare global {
     ): boolean
   }
 }
-
-export type ManaColor = 'B' | 'U' | 'R' | 'G' | 'R'
 
 export const primaryCardTypes = [
   'Creature',
@@ -28,12 +28,10 @@ export type PrimaryCardType = typeof primaryCardTypes[number]
 export interface ICard {
   scryId: string
   uuid?: string
-  imgUrl: string
-  name: string
-  manaValue: number
-  manaCost: string
+}
+
+export interface StoreableCard extends ScryfallCard {
   cardType: PrimaryCardType
-  cardTypeLine: string
   flatColors: string
 }
 
