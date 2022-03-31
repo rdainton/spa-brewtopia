@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import config from '@/config'
 import { ref } from 'vue'
 import brewtopia, { parseErrorMap } from '@/apis/brewtopia'
 import { DecklistMeta } from '@/apis/brewtopia/decklists'
@@ -22,7 +23,7 @@ defineEmits<{
   (event: 'load', id: number): void
 }>()
 
-const maxDecklists = 10
+const maxDecklists = config.maxDecklists
 const dispatch = useToasts()
 const decklistStore = useDecklistStore()
 const UIStore = useUIStore()
@@ -67,6 +68,22 @@ function deleteDecklist(id: number) {
       UIStore.loading = false
     })
 }
+
+function duplicateDecklist(id: number) {
+  UIStore.loading = true
+
+  brewtopia.decklists
+    .duplicate(id)
+    .then(() => {
+      fetchDecklists()
+    })
+    .catch(err => {
+      dispatch.errorToast(parseErrorMap(err.response.data))
+    })
+    .finally(() => {
+      UIStore.loading = false
+    })
+}
 </script>
 
 <template>
@@ -91,6 +108,7 @@ function deleteDecklist(id: number) {
       :decklists="decklists"
       @load="id => $emit('load', id)"
       @delete="deleteDecklist"
+      @duplicate="duplicateDecklist"
     >
       <template v-if="decklists.length < maxDecklists" #last-child>
         <button

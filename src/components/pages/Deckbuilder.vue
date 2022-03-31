@@ -4,8 +4,9 @@ import { parseErrorMap } from '@/apis/brewtopia'
 import { v4 as uuid } from 'uuid'
 
 // Imported
-import { CardSections, ICard } from '@/types/cards'
+import { CardSections } from '@/types/cards'
 import { ControlOptions } from '@/types/deckbuilder'
+import { ScryfallCard } from '@/apis/scryfall/types'
 
 // Composables
 import useCardActions from '@/composables/useCardActions'
@@ -17,6 +18,7 @@ import useToasts from '@/composables/useToasts'
 // Stores
 import { storeToRefs } from 'pinia'
 import { useDecklistStore } from '@/stores/useDecklistStore'
+import { useCardStore } from '@/stores/useCardStore'
 import { useUIStore } from '@/stores/useUIStore'
 
 // Components
@@ -38,7 +40,7 @@ const UIStore = useUIStore()
  */
 const decklistStore = useDecklistStore()
 decklistStore.init()
-const { decklist } = storeToRefs(decklistStore)
+const { decklist, name } = storeToRefs(decklistStore)
 
 function handleDecklistChanges() {
   decklistStore.unsavedChanges = true
@@ -54,11 +56,23 @@ const {
   handleDrop,
 } = useCardDrag(cardActions)
 
-const { sort, flatten } = useSort(handleDecklistChanges)
+const cardStore = useCardStore()
+const { sort, flatten } = useSort(cardStore.cards, handleDecklistChanges)
 
-function handleNullOriginDblClick(card: ICard) {
+function handleSearchDragstart(card: ScryfallCard) {
+  // Really we only want to do this once the drop is complete
+  cardStore.add(card)
+
+  handleNullOriginDragstart({
+    scryId: card.id,
+  })
+}
+
+function handleSearchDblClick(card: ScryfallCard) {
+  cardStore.add(card)
+
   const insertable = {
-    ...card,
+    scryId: card.id,
     uuid: uuid(),
   }
   cardActions.insertAtIndex(decklist.value.mainboard, 0, insertable, -1)
@@ -105,13 +119,13 @@ function viewDecklists() {
 /**
  * Export to .txt
  */
-const { exportToTxtFile } = useExport(decklist)
+const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
 </script>
 
 <template>
   <CardSearch
-    @dragstart="handleNullOriginDragstart"
-    @dblclick="handleNullOriginDblClick"
+    @dragstart="handleSearchDragstart"
+    @dblclick="handleSearchDblClick"
   />
 
   <div
@@ -251,5 +265,7 @@ const { exportToTxtFile } = useExport(decklist)
     />
   </BrewModal>
 
-  <BlockUI v-if="UIStore.loading || decklistStore.loading" />
+  <BlockUI
+    v-if="UIStore.loading || decklistStore.loading || cardStore.updating"
+  />
 </template>

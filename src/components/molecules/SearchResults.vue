@@ -1,19 +1,21 @@
 <script lang="ts" setup>
 import { watch, ref } from 'vue'
-import { ICard } from '@/types/cards'
+import { ScryfallCard } from '@/apis/scryfall/types'
+
+// Components
 import Card from '@/components/molecules/Card.vue'
 import CardSkeleton from '@/components/atoms/CardSkeleton.vue'
 
 interface SearchResultsProps {
   searching: boolean
-  results: ICard[]
+  results: ScryfallCard[]
 }
 
 const props = defineProps<SearchResultsProps>()
 
 const emit = defineEmits<{
-  (event: 'dragstart', card: ICard): void
-  (event: 'dblclick', card: ICard): void
+  (event: 'dragstart', card: ScryfallCard): void
+  (event: 'dblclick', card: ScryfallCard): void
 }>()
 
 // handle no results found
@@ -46,9 +48,12 @@ watch(
     <template v-else>
       <Card
         v-for="card in results"
-        :id="card.scryId"
-        :key="card.scryId"
+        :id="`search_${card.id}`"
+        :key="card.id"
         :data="card"
+        :i-card="{
+          scryId: card.id,
+        }"
         @dragstart="emit('dragstart', card)"
         @dblclick="emit('dblclick', card)"
       />

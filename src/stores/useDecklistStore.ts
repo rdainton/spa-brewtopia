@@ -1,7 +1,13 @@
 import { defineStore } from 'pinia'
 import brewtopia, { ErrorMap } from '@/apis/brewtopia'
-import useLocalStorage from '@/composables/useLocalStorage'
 import { CardSections, Decklist, DecklistContent } from '@/types/cards'
+
+// Stores
+import { useCardStore } from '@/stores/useCardStore'
+
+// Composables
+import useLocalStorage from '@/composables/useLocalStorage'
+import useToasts from '@/composables/useToasts'
 
 interface State extends Decklist {
   loading: boolean
@@ -38,14 +44,24 @@ export const useDecklistStore = defineStore('decklist', {
   },
 
   actions: {
-    init() {
+    async init() {
       const stored = useLocalStorage<PersistableDecklist>('decklist').load()
+
       if (stored) {
-        this.$patch({
-          ...stored,
-          loading: false,
-          error: null,
-        })
+        const cardStore = useCardStore()
+        const dispatch = useToasts()
+        cardStore
+          .getCollectionForDecklist(stored.decklist)
+          .then(() => {
+            this.$patch({
+              ...stored,
+              loading: false,
+              error: null,
+            })
+          })
+          .catch(_ => {
+            dispatch.errorToast('Error initialising decklist')
+          })
       }
     },
 
@@ -128,12 +144,22 @@ export const useDecklistStore = defineStore('decklist', {
 
       this.$reset()
       this.loading = true
+      const cardStore = useCardStore()
+      const dispatch = useToasts()
 
       return brewtopia.decklists
         .get(id)
         .then(res => {
-          this.setDecklist(res.data)
-          return res.data
+          return cardStore
+            .getCollectionForDecklist(res.data.decklist)
+            .then(() => {
+              this.setDecklist(res.data)
+              return res.data
+            })
+            .catch(err => {
+              dispatch.errorToast('Error initialising decklist')
+              throw err
+            })
         })
         .catch(err => {
           this.error = err

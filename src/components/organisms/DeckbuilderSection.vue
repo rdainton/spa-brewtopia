@@ -1,12 +1,15 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { ICard } from '../../types/cards'
+import { ICard } from '@/types/cards'
+
+// Stores
+import { useCardStore } from '@/stores/useCardStore'
 
 // Components
-import Title from '../atoms/SectionTitle.vue'
+import Title from '@/components/atoms/SectionTitle.vue'
 import Column from './DeckbuilderSectionColumn.vue'
-import Card from '../molecules/Card.vue'
-import BrewText from '../atoms/BrewText.vue'
+import Card from '@/components/molecules/Card.vue'
+import BrewText from '@/components/atoms/BrewText.vue'
 
 interface DeckbuildingSectionProps {
   title: string
@@ -28,6 +31,8 @@ const emit = defineEmits<{
   (event: 'playset', card: ICard, columnIndex: number): void
   (event: 'delete', card: ICard, columnIndex: number): void
 }>()
+
+const cardStore = useCardStore()
 
 // Count
 const cardsInSection = computed(() => {
@@ -100,7 +105,8 @@ function handleDrop(e: DragEvent, columnIndex = 0, forceCardIdx = -1) {
             v-for="(card, idx) in column"
             :id="card.scryId"
             :key="card.uuid"
-            :data="card"
+            :data="cardStore.cards[card.scryId]"
+            :i-card="card"
             :stacked="idx !== 0"
             :with-controls="true"
             @dragstart="emit('dragstart', card, columnIndex)"

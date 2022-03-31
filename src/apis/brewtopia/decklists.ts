@@ -54,4 +54,8 @@ export default {
   delete(id: number) {
     return brewtopiaClient.delete(`${apiPrefix}/decklists/${id}`)
   },
+
+  duplicate(id: number) {
+    return brewtopiaClient.post(`${apiPrefix}/decklists/duplicate/${id}`)
+  },
 }
