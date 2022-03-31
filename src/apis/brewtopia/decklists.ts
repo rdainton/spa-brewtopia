@@ -56,6 +56,6 @@ export default {
   },
 
   duplicate(id: number) {
-    return brewtopiaClient.post(`${apiPrefix}/decklists/${id}/duplicate`)
+    return brewtopiaClient.post(`${apiPrefix}/decklists/duplicate/${id}`)
   },
 }
