@@ -1,36 +1,22 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { ICard, PrimaryCardType, primaryCardTypes } from '@/types/cards'
 import useToasts from '@/composables/useToasts'
 import scryfall, { parseErrorMap } from '@/apis/scryfall'
+import { ScryfallCard } from '@/apis/scryfall/types'
 
 // Components
 import SearchInput from '@/components/molecules/SearchInput.vue'
 import SearchResults from '@/components/molecules/SearchResults.vue'
 
 const emit = defineEmits<{
-  (event: 'dragstart', card: ICard): void
-  (event: 'dblclick', card: ICard): void
+  (event: 'dragstart', card: ScryfallCard): void
+  (event: 'dblclick', card: ScryfallCard): void
 }>()
 
 const dispatch = useToasts()
 
-const searchResults = ref<ICard[]>([])
+const searchResults = ref<ScryfallCard[]>([])
 const searching = ref(false)
-
-const cardTypesArray = primaryCardTypes.filter(t => t !== 'Unknown')
-
-function getPrimaryCardType(typeLine: string): PrimaryCardType {
-  // can the below be replaced by a regex?
-  const arr = typeLine.split(' ')
-  for (const word of arr) {
-    if (cardTypesArray.includes(word)) {
-      return word as PrimaryCardType
-    }
-  }
-
-  return 'Unknown'
-}
 
 const onSearch = (searchTerm: string) => {
   if (searching.value) return
@@ -39,20 +25,7 @@ const onSearch = (searchTerm: string) => {
   scryfall.search
     .simple(searchTerm)
     .then(res => {
-      searchResults.value = res.data?.data.map(item => {
-        const colorsArr = item.colors || item.color_identity || []
-
-        return {
-          scryId: item.id,
-          name: item.name,
-          imgUrl: item.image_uris?.normal || '',
-          manaValue: item.cmc,
-          manaCost: item.mana_cost,
-          cardType: getPrimaryCardType(item.type_line),
-          cardTypeLine: item.type_line,
-          flatColors: colorsArr.join(),
-        }
-      })
+      searchResults.value = res.data?.data
     })
     .catch(err => {
       searchResults.value = []

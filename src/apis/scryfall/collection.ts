@@ -1,23 +1,23 @@
 import scryfallClient from './client'
 import { ScryfallCard } from './types'
 
-interface IdendifiableScryId {
+export interface IdentifiableScryId {
   id: string
 }
 
-interface IdendifiableName {
+export interface IdentifiableName {
   name: string
 }
 
-interface IdendifiableSetName {
+export interface IdentifiableSetName {
   name: string
   set: string
 }
 
 export type Identifiable =
-  | IdendifiableName
-  | IdendifiableSetName
-  | IdendifiableScryId
+  | IdentifiableName
+  | IdentifiableSetName
+  | IdentifiableScryId
 
 interface CollectionResponse {
   not_found: Identifiable[]
@@ -29,9 +29,8 @@ interface CollectionResponse {
  */
 export default {
   all(identifiables: Identifiable[]) {
-    return scryfallClient.post<CollectionResponse>(
-      '/cards/collection',
-      identifiables
-    )
+    return scryfallClient.post<CollectionResponse>('/cards/collection', {
+      identifiers: identifiables,
+    })
   },
 }
