@@ -48,11 +48,10 @@ watch(
     <template v-else>
       <Card
         v-for="card in results"
-        :id="card.id"
+        :id="`search_${card.id}`"
         :key="card.id"
-        :name="card.name"
-        :img-url="card.image_uris?.normal || ''"
-        :data="{
+        :data="card"
+        :i-card="{
           scryId: card.id,
         }"
         @dragstart="emit('dragstart', card)"
