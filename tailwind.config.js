@@ -42,6 +42,8 @@ module.exports = {
         42: '10.5rem',
         49: '12.25rem',
         68: '17rem',
+        88: '22rem',
+        100: '25rem',
       },
 
       height: {
@@ -60,6 +62,7 @@ module.exports = {
       },
 
       minHeight: {
+        100: '25rem',
         150: '37.5rem',
       },
     },

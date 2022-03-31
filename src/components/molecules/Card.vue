@@ -7,6 +7,9 @@ import useDraggedOver from '@/composables/useDraggedOver'
 import { ScryfallCard } from '@/apis/scryfall/types'
 import { StoreableCard } from '@/types/cards'
 
+// Components
+import CardPreview from '@/components/atoms/CardPreview.vue'
+
 // Icons
 import IconButton from '@/components/atoms/IconButton.vue'
 import ImageIcon from '@/components/atoms/icons/ImageIcon.vue'
@@ -38,11 +41,19 @@ const emit = defineEmits<{
 }>()
 
 /**
+ * Preview
+ */
+const showPreview = ref(false)
+// controlled cards are not used in search results currently.
+const previewPosition = computed(() => (props.withControls ? 'top' : 'bottom'))
+
+/**
  * Manage drag state
  */
 const dragging = ref(false)
 
 function onDragStart() {
+  showPreview.value = false
   dragging.value = true
   emit('dragstart', props.iCard)
 }
@@ -90,6 +101,8 @@ const cardImageUrl = computed(() => {
     @drop.prevent="reset"
     @dblclick="emit('dblclick', iCard)"
     @contextmenu.prevent="emit('delete', iCard)"
+    @mouseover="showPreview = true"
+    @mouseleave="showPreview = false"
   >
     <img
       v-if="cardImageUrl"
@@ -121,6 +134,12 @@ const cardImageUrl = computed(() => {
       </IconButton>
     </div>
   </div>
+
+  <CardPreview
+    v-if="showPreview"
+    :card-data="data"
+    :y-position="previewPosition"
+  />
 </template>
 
 <style lang="scss">

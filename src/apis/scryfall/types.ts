@@ -9,6 +9,7 @@ interface CardFace {
     art_crop?: string
     border_crop?: string
   }
+  oracle_text?: string
 }
 export interface ScryfallCard {
   id: string
@@ -29,6 +30,7 @@ export interface ScryfallCard {
     art_crop?: string
     border_crop?: string
   }
+  oracle_text?: string
   set: string
   set_name: string
   set_type: string
