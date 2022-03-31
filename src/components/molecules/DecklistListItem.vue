@@ -4,6 +4,7 @@ import moment from 'moment'
 // Components
 import IconButtonConfirmable from '@/components/atoms/IconButtonConfirmable.vue'
 import DeleteIcon from '@/components/atoms/icons/DeleteIcon.vue'
+import DuplicateIcon from '@/components/atoms/icons/DuplicateIcon.vue'
 
 interface DecklistListItemProps {
   name: string
@@ -20,6 +21,7 @@ withDefaults(defineProps<DecklistListItemProps>(), {
 defineEmits<{
   (event: 'load'): void
   (event: 'delete'): void
+  (event: 'duplicate'): void
 }>()
 
 function formatDate(dateString: string): string {
@@ -35,6 +37,15 @@ function formatDate(dateString: string): string {
         @clicked="$emit('delete')"
       >
         <DeleteIcon />
+      </IconButtonConfirmable>
+    </span>
+
+    <span class="absolute top-5 right-2">
+      <IconButtonConfirmable
+        confirmationText="Confirm duplicate"
+        @clicked="$emit('duplicate')"
+      >
+        <DuplicateIcon />
       </IconButtonConfirmable>
     </span>
 
