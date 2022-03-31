@@ -1,5 +1,16 @@
 export type ManaColor = 'B' | 'U' | 'R' | 'G' | 'R'
 
+interface CardFace {
+  image_uris?: {
+    small?: string
+    normal?: string
+    large?: string
+    png?: string
+    art_crop?: string
+    border_crop?: string
+  }
+  oracle_text?: string
+}
 export interface ScryfallCard {
   id: string
   name: string
@@ -10,7 +21,8 @@ export interface ScryfallCard {
   color_identity?: ManaColor[]
   power?: string
   toughness?: string
-  image_uris: {
+  card_faces?: CardFace[]
+  image_uris?: {
     small?: string
     normal?: string
     large?: string
@@ -18,6 +30,7 @@ export interface ScryfallCard {
     art_crop?: string
     border_crop?: string
   }
+  oracle_text?: string
   set: string
   set_name: string
   set_type: string
