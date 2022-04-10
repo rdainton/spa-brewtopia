@@ -1,9 +1,14 @@
 import { mount, shallowMount } from '@vue/test-utils'
 import IconButtonLabelled from '@/components/atoms/IconButtonLabelled.vue'
 
+const config = {
+  props: {
+    label: 'test label',
+  },
+}
 describe('atoms/IconButtonLabelled.vue', () => {
   test('renders an svg icon', () => {
-    const wrapper = mount(IconButtonLabelled)
+    const wrapper = mount(IconButtonLabelled, config)
 
     const icon = wrapper.findAll('svg')
 
@@ -11,7 +16,7 @@ describe('atoms/IconButtonLabelled.vue', () => {
   })
 
   test('emits a click event', () => {
-    const wrapper = shallowMount(IconButtonLabelled)
+    const wrapper = shallowMount(IconButtonLabelled, config)
 
     wrapper.find('button').trigger('click')
 
