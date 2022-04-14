@@ -45,8 +45,9 @@ export const useDecklistStore = defineStore('decklist', {
 
   actions: {
     async init() {
-      const stored = useLocalStorage<PersistableDecklist>('decklist').load()
+      const { load, clear } = useLocalStorage<PersistableDecklist>('decklist')
 
+      const stored = load()
       if (stored) {
         const cardStore = useCardStore()
         const dispatch = useToasts()
@@ -60,7 +61,10 @@ export const useDecklistStore = defineStore('decklist', {
             })
           })
           .catch(_ => {
-            dispatch.errorToast('Error initialising decklist')
+            dispatch.errorToast(
+              'Error initialising decklist, please refresh the page.'
+            )
+            clear()
           })
       }
     },
@@ -97,6 +101,31 @@ export const useDecklistStore = defineStore('decklist', {
       this.persistToLocalStorage()
     },
 
+    appendEmptyColumns(decklist: Decklist) {
+      let sectionKey: keyof DecklistContent
+      for (sectionKey in decklist.decklist) {
+        // API will strip empty columns from sections
+        // with data, so we need to re-add n empty array
+        // a to the end of a section to drag cards into.
+        if (
+          decklist.decklist[sectionKey][
+            decklist.decklist[sectionKey].length - 1
+          ].length !== 0
+        ) {
+          decklist.decklist[sectionKey] = [...decklist.decklist[sectionKey], []]
+        }
+
+        // apply default columns to an empty section.
+        if (decklist.decklist[sectionKey].length === 0) {
+          decklist.decklist[sectionKey] = [
+            ...createDefaultDecklist()[sectionKey],
+          ]
+        }
+      }
+
+      return decklist
+    },
+
     async store() {
       if (this.loading) return
 
@@ -108,7 +137,7 @@ export const useDecklistStore = defineStore('decklist', {
           decklist: this.decklist,
         })
         .then(res => {
-          this.setDecklist(res.data)
+          this.setDecklist(this.appendEmptyColumns(res.data))
           return res.data
         })
         .catch(err => {
@@ -129,7 +158,7 @@ export const useDecklistStore = defineStore('decklist', {
           decklist: this.decklist,
         })
         .then(res => {
-          this.setDecklist(res.data)
+          this.setDecklist(this.appendEmptyColumns(res.data))
           return res.data
         })
         .catch(err => {
@@ -153,7 +182,7 @@ export const useDecklistStore = defineStore('decklist', {
           return cardStore
             .getCollectionForDecklist(res.data.decklist)
             .then(() => {
-              this.setDecklist(res.data)
+              this.setDecklist(this.appendEmptyColumns(res.data))
               return res.data
             })
             .catch(err => {
