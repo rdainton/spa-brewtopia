@@ -105,8 +105,8 @@ export const useDecklistStore = defineStore('decklist', {
       let sectionKey: keyof DecklistContent
       for (sectionKey in decklist.decklist) {
         // API will strip empty columns from sections
-        // with data, so we need to re-add n empty array
-        // a to the end of a section to drag cards into.
+        // with data, so we need to re-add an empty array
+        // to the end of a section to drag cards into.
         if (
           decklist.decklist[sectionKey][
             decklist.decklist[sectionKey].length - 1
