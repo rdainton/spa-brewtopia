@@ -16,7 +16,10 @@ const isLoggedIn = computed(() => authStore.isLoggedIn)
   <header
     class="flex items-center w-full h-12 px-4 py-2 bg-white dark:bg-gray-900"
   >
-    <RouterLink :to="{ name: 'deckbuilder' }">
+    <RouterLink
+      :to="{ name: 'deckbuilder' }"
+      class="fixed z-10 flex items-center left-1 -top-4"
+    >
       <TheLogo />
     </RouterLink>
 
