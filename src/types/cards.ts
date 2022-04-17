@@ -80,4 +80,9 @@ export interface CardActions {
     insertionIndex: number
   ): void
   remove(ection: ICard[][], columnIndex: number, card: ICard): void
+  changeScryId(
+    decklist: DecklistContent,
+    currentScryId: string,
+    newScryId: string
+  ): void
 }
