@@ -13,14 +13,12 @@ import BrewText from '@/components/atoms/BrewText.vue'
 
 interface DeckbuildingSectionProps {
   title: string
-  totalCardsRequired?: number
   sectionData: ICard[][]
   alignment?: 'left' | 'center' | 'right'
 }
 
 const props = withDefaults(defineProps<DeckbuildingSectionProps>(), {
   alignment: 'center',
-  totalCardsRequired: 60,
 })
 
 const emit = defineEmits<{
@@ -30,6 +28,7 @@ const emit = defineEmits<{
   (event: 'duplicate', card: ICard, columnIndex: number): void
   (event: 'playset', card: ICard, columnIndex: number): void
   (event: 'delete', card: ICard, columnIndex: number): void
+  (event: 'change-art', card: ICard): void
 }>()
 
 const cardStore = useCardStore()
@@ -41,13 +40,7 @@ const cardsInSection = computed(() => {
   }, 0)
 })
 
-const titleOutput = computed(() => {
-  if (props.totalCardsRequired < Infinity) {
-    return `${props.title} ${cardsInSection.value}/${props.totalCardsRequired}`
-  }
-
-  return `${props.title} ${cardsInSection.value}`
-})
+const titleOutput = computed(() => `${props.title} (${cardsInSection.value})`)
 
 function handleColumnDragover(columnIndex: number) {
   emit('dragover', columnIndex)
@@ -113,6 +106,7 @@ function handleDrop(e: DragEvent, columnIndex = 0, forceCardIdx = -1) {
             @duplicate="emit('duplicate', card, columnIndex)"
             @playset="emit('playset', card, columnIndex)"
             @delete="emit('delete', card, columnIndex)"
+            @change-art="emit('change-art', card)"
           />
         </Column>
       </div>

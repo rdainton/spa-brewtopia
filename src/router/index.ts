@@ -59,22 +59,14 @@ const routes: Array<RouteRecordRaw> = [
       middleware: [attemptAutoLogin, auth],
     },
   },
-  {
-    path: '/profile',
-    name: 'profile',
-    component: () => import('../components/pages/Profile.vue'),
-    meta: {
-      middleware: [attemptAutoLogin, auth],
-    },
-  },
-  {
-    path: '/decks',
-    name: 'decks',
-    component: () => import('../components/pages/Decks.vue'),
-    meta: {
-      middleware: [attemptAutoLogin, auth],
-    },
-  },
+  // {
+  //   path: '/profile',
+  //   name: 'profile',
+  //   component: () => import('../components/pages/Profile.vue'),
+  //   meta: {
+  //     middleware: [attemptAutoLogin, auth],
+  //   },
+  // },
   {
     path: '/:notFound(.*)',
     redirect: '/', // could create a 404 component here instead.

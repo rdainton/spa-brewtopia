@@ -65,10 +65,16 @@ module.exports = {
         100: '25rem',
         150: '37.5rem',
       },
+
+      maxHeight: {
+        'modal-content': 'calc(100vh - 0.5rem)',
+      },
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      display: ['dark'],
+    },
   },
   plugins: [],
 }

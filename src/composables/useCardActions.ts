@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid'
-import { ICard, CardActions, CardSection } from '@/types/cards'
+import { ICard, CardActions, CardSection, DecklistContent } from '@/types/cards'
 
 /**
  * A collection of methods to immuteably update the object<ICard> listing
@@ -120,11 +120,39 @@ export default function useCardActions(onComplete?: () => void): CardActions {
     if (typeof onComplete === 'function') onComplete()
   }
 
+  /**
+   * Change cards of the matching scryId
+   * to have the new scryId
+   */
+  const changeScryId = (
+    decklist: DecklistContent,
+    currentScryId: string,
+    newScryId: string
+  ): void => {
+    let sectionKey: keyof DecklistContent
+    for (sectionKey in decklist) {
+      decklist[sectionKey] = decklist[sectionKey].map(col =>
+        col.map(iCard => {
+          if (iCard.scryId === currentScryId) {
+            return {
+              ...iCard,
+              scryId: newScryId,
+            }
+          }
+          return iCard
+        })
+      )
+    }
+
+    if (typeof onComplete === 'function') onComplete()
+  }
+
   return {
     moveIndex,
     duplicate,
     toPlayset,
     insertAtIndex,
     remove,
+    changeScryId,
   }
 }

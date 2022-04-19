@@ -23,11 +23,7 @@ const noResults = ref(false)
 watch(
   () => props.searching,
   (_, prev) => {
-    if (prev && !props.results.length) {
-      noResults.value = true
-      return
-    }
-    noResults.value = false
+    noResults.value = prev && !props.results.length
   }
 )
 </script>

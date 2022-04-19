@@ -15,6 +15,7 @@ import IconButton from '@/components/atoms/IconButton.vue'
 import ImageIcon from '@/components/atoms/icons/ImageIcon.vue'
 import PlusIcon from '@/components/atoms/icons/PlusIcon.vue'
 import PlaysetIcon from '@/components/atoms/icons/PlaysetIcon.vue'
+import EditIcon from '@/components/atoms/icons/EditIcon.vue'
 
 interface CardProps {
   id: string
@@ -23,12 +24,16 @@ interface CardProps {
   size?: 'sm' | 'md' | 'lg'
   stacked?: boolean
   withControls?: boolean
+  previewable?: boolean
+  clickable?: boolean
 }
 
 const props = withDefaults(defineProps<CardProps>(), {
   size: 'md',
   stacked: false,
   withControls: false,
+  previewable: true,
+  clickable: false,
 })
 
 const emit = defineEmits<{
@@ -37,7 +42,9 @@ const emit = defineEmits<{
   (event: 'duplicate', card: ICard): void
   (event: 'playset', card: ICard): void
   (event: 'delete', card: ICard): void
+  (event: 'click', card: ICard): void
   (event: 'dblclick', card: ICard): void
+  (event: 'change-art', card: ICard): void
 }>()
 
 /**
@@ -92,13 +99,19 @@ const cardImageUrl = computed(() => {
 <template>
   <div
     class="relative flex flex-shrink-0 w-40 h-56 bg-black rounded-md trigger card"
-    :class="[{ 'opacity-25': dragging }, { '-mt-49': stacked }, dragStyles]"
+    :class="[
+      { 'opacity-25': dragging },
+      { '-mt-49': stacked },
+      { 'cursor-pointer': clickable },
+      dragStyles,
+    ]"
     draggable="true"
     @dragstart="onDragStart"
     @dragend="onDragEnds"
     @dragenter="handleDragenter"
     @dragleave="handleDragleave"
     @drop.prevent="reset"
+    @click="emit('click', iCard)"
     @dblclick="emit('dblclick', iCard)"
     @contextmenu.prevent="emit('delete', iCard)"
     @mouseover="showPreview = true"
@@ -132,11 +145,18 @@ const cardImageUrl = computed(() => {
       <IconButton size="md" variant="primary" @click="emit('playset', iCard)">
         <PlaysetIcon />
       </IconButton>
+      <IconButton
+        size="md"
+        variant="secondary"
+        @click="emit('change-art', iCard)"
+      >
+        <EditIcon />
+      </IconButton>
     </div>
   </div>
 
   <CardPreview
-    v-if="showPreview"
+    v-if="previewable && showPreview"
     :card-data="data"
     :y-position="previewPosition"
   />

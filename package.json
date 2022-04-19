@@ -26,7 +26,7 @@
     "@types/node": "^17.0.21",
     "@types/uuid": "^8.3.4",
     "@vitejs/plugin-vue": "^1.9.3",
-    "@vue/test-utils": "^2.0.0-rc.18",
+    "@vue/test-utils": "^2.0.0-rc.20",
     "autoprefixer": "^10.3.7",
     "jest": "^26.6.3",
     "postcss": "^8.3.11",
