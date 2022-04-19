@@ -3,6 +3,7 @@ import { ScryfallCard } from './types'
 
 export interface SearchResponse {
   data: ScryfallCard[]
+  has_more: boolean
 }
 
 /**
@@ -13,9 +14,9 @@ export default {
     return scryfallClient.get<SearchResponse>(`/cards/search?q=${searchTerm}`)
   },
 
-  arts(cardName: string) {
+  arts(cardName: string, page = 1) {
     return scryfallClient.get<SearchResponse>(
-      `/cards/search?q=${cardName}&unique=prints`
+      `/cards/search?q=${cardName}&unique=prints&order=released&page=${page}`
     )
   },
 }

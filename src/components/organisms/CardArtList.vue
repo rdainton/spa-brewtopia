@@ -16,6 +16,7 @@ import BrewText from '@/components/atoms/BrewText.vue'
 import IconButton from '@/components/atoms/IconButton.vue'
 import Card from '@/components/molecules/Card.vue'
 import CardSkeleton from '@/components/atoms/CardSkeleton.vue'
+import BrewPaginator from '@/components/molecules/BrewPaginator.vue'
 
 interface CardArtListProps {
   cardId: string
@@ -35,6 +36,9 @@ const cardName = computed(() => cardStore.cards[props.cardId].name)
 
 const loading = ref(false)
 const cardVersions = ref<ScryfallCard[]>([])
+const paginatable = ref(false)
+const paginating = ref(false)
+const nextPage = ref(1)
 
 function fetchCardVersions() {
   if (loading.value) return
@@ -48,6 +52,8 @@ function fetchCardVersions() {
         // filter out results that aren't the exact name
         result => result.name === cardName.value
       )
+      paginatable.value = res.data.has_more
+      nextPage.value = 2
     })
     .catch(err => {
       cardVersions.value = []
@@ -63,6 +69,35 @@ function fetchCardVersions() {
 }
 
 fetchCardVersions()
+
+function handlePaginate() {
+  if (loading.value || paginating.value) return
+
+  paginating.value = true
+
+  scryfall.search
+    .arts(cardName.value, nextPage.value)
+    .then(res => {
+      cardVersions.value = [
+        ...cardVersions.value,
+        ...res.data.data.filter(
+          // filter out results that aren't the exact name
+          result => result.name === cardName.value
+        ),
+      ]
+      paginatable.value = res.data.has_more
+      nextPage.value = nextPage.value + 1
+    })
+    .catch(err => {
+      // scryfall gives a 404 on cards not found - which shouldn't be an error
+      if (err.response.data.status === 404) return
+
+      dispatch.errorToast(parseErrorMap(err.response.data))
+    })
+    .finally(() => {
+      paginating.value = false
+    })
+}
 
 // handle no results found
 const noResults = ref(false)
@@ -114,6 +149,11 @@ watch(loading, (_, prev) => {
           :previewable="false"
           :clickable="true"
           @click="$emit('change', card)"
+        />
+        <BrewPaginator
+          :paginatable="paginatable"
+          :paginating="paginating"
+          @paginate="handlePaginate"
         />
       </template>
     </div>
