@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { parseErrorMap } from '@/apis/brewtopia'
 import { v4 as uuid } from 'uuid'
 
 // Imported
-import { CardSections } from '@/types/cards'
+import { CardSections, ICard } from '@/types/cards'
 import { ControlOptions } from '@/types/deckbuilder'
 import { ScryfallCard } from '@/apis/scryfall/types'
 
@@ -30,6 +30,7 @@ import DeckbuilderDock from '@/components/molecules/DeckbuilderDock.vue'
 import DeckbuilderSectionControls from '@/components/molecules/DeckbuilderSectionControls.vue'
 import BrewModal from '@/components/atoms/BrewModal.vue'
 import Decklists from '@/components/organisms/Decklists.vue'
+import CardArtList from '@/components/organisms/CardArtList.vue'
 import DecklistForm from '@/components/organisms/DecklistForm.vue'
 import BlockUI from '@/components/molecules/BlockUI.vue'
 
@@ -117,6 +118,29 @@ function viewDecklists() {
 }
 
 /**
+ * Change card art
+ */
+const changingArtForScryId = ref('')
+
+const cardArtModalShowing = computed(() => !!changingArtForScryId.value)
+
+function handleChangeArtForScryId(iCard: ICard) {
+  changingArtForScryId.value = iCard.scryId
+}
+
+function handleCardArtChange(newCard: ScryfallCard) {
+  cardStore.add(newCard)
+
+  cardActions.changeScryId(
+    decklist.value,
+    changingArtForScryId.value,
+    newCard.id
+  )
+
+  changingArtForScryId.value = ''
+}
+
+/**
  * Export to .txt
  */
 const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
@@ -155,6 +179,7 @@ const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
         @delete="
           (card, colIdx) => cardActions.remove(decklist.mainboard, colIdx, card)
         "
+        @change-art="handleChangeArtForScryId"
       >
         <DeckbuilderSectionControls
           :options="[
@@ -175,7 +200,6 @@ const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
       <DeckbuilderSection
         title="Sideboard"
         alignment="left"
-        :total-cards-required="15"
         :section-data="decklist.sideboard"
         @dragstart="
           (card, colIdx) => handleDragstart(decklist.sideboard, colIdx, card)
@@ -196,6 +220,7 @@ const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
         @delete="
           (card, colIdx) => cardActions.remove(decklist.sideboard, colIdx, card)
         "
+        @change-art="handleChangeArtForScryId"
       >
         <DeckbuilderSectionControls
           :options="[
@@ -213,7 +238,6 @@ const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
 
       <DeckbuilderSection
         title="Maybes"
-        :total-cards-required="Infinity"
         :section-data="decklist.maybes"
         @dragstart="
           (card, colIdx) => handleDragstart(decklist.maybes, colIdx, card)
@@ -232,6 +256,7 @@ const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
         @delete="
           (card, colIdx) => cardActions.remove(decklist.maybes, colIdx, card)
         "
+        @change-art="handleChangeArtForScryId"
       >
         <DeckbuilderSectionControls
           :options="[
@@ -262,6 +287,18 @@ const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
       @load="loadDecklist"
       @create-new="newDecklist"
       @cancel="decklistsModalShowing = false"
+    />
+  </BrewModal>
+
+  <BrewModal
+    size="lg"
+    :show="cardArtModalShowing"
+    @hide="changingArtForScryId = ''"
+  >
+    <CardArtList
+      :card-id="changingArtForScryId"
+      @change="handleCardArtChange"
+      @cancel="changingArtForScryId = ''"
     />
   </BrewModal>
 

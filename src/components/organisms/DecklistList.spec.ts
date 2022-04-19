@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { v4 as uuidv4 } from 'uuid'
+import { v4 as uuid } from 'uuid'
 import DecklistListItem from '@/components/molecules/DecklistListItem.vue'
 import DecklistListItemSkeleton from '@/components/atoms/DecklistListItemSkeleton.vue'
 import DecklistList from '@/components/organisms/DecklistList.vue'
@@ -7,12 +7,12 @@ import DecklistList from '@/components/organisms/DecklistList.vue'
 const props = {
   decklists: [
     {
-      id: uuidv4(),
+      id: uuid(),
       name: 'Decklist 1',
       createdAt: new Date().toISOString(),
     },
     {
-      id: uuidv4(),
+      id: uuid(),
       name: 'Decklist 2',
       createdAt: new Date().toISOString(),
     },
@@ -24,7 +24,7 @@ describe('organisms/DecklistList.vue', () => {
   test('renders a DecklistListItem component with data for each item in a decklists prop', () => {
     const wrapper = mount(DecklistList, {
       props,
-    })
+    } as any)
 
     const items = wrapper.findAllComponents(DecklistListItem)
 
@@ -43,7 +43,7 @@ describe('organisms/DecklistList.vue', () => {
         ...props,
         loading: true,
       },
-    })
+    } as any)
 
     const skeletons = wrapper.findAllComponents(DecklistListItemSkeleton)
 

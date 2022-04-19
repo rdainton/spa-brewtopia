@@ -17,9 +17,6 @@
         "src/*"
       ]
     },
-    // until "@vue/test-utils": "^2.0.0-rc.19"
-    // is released and fixes bug where
-    // test-util types are ignored by tsc
     "skipLibCheck": true,
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
@@ -27,6 +24,5 @@
     "node_modules",
     "./node_modules",
     "./node_modules/*",
-    "./src/**/*.spec.ts", // same as 'skipLibCheck'
   ],
 }

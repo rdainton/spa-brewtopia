@@ -11,4 +11,5 @@ module.exports = {
   transformIgnorePatterns: [
     '<rootDir>/node_modules/(?!vee-validate/dist/rules)',
   ],
+  roots: ['<rootDir>/src'],
 }
