@@ -33,7 +33,8 @@ export default function useExport(
 
   const generateOutputForSection = (
     section: CardSection,
-    sectionName: string
+    sectionName: string,
+    withSet = true
   ): string[] => {
     const flatSection = section.flat() // requires polyfill for IE support
 
@@ -51,7 +52,10 @@ export default function useExport(
     const output = [`// ${sectionName}\n`]
     // generate string from card name + count
     for (const key in groupedByCardName) {
-      output.push(`${groupedByCardName[key].length}x ${key}\n`)
+      const set = withSet
+        ? ` (${cardStore[groupedByCardName[key][0].scryId].set})`
+        : ''
+      output.push(`${groupedByCardName[key].length}x ${key}${set}\n`)
     }
     output.push('\n')
 
