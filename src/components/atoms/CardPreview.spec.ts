@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 
+// Types
 import { ScryfallCard } from '@/apis/scryfall/types'
 
 // Fixtures
@@ -105,7 +106,6 @@ describe('atoms/CardPreview.vue', () => {
       expect(wrapper.findAllComponents(CardPreviewDescription)).toHaveLength(2)
     })
 
-    // check props are passed down correctly to description (DF)
     test('correct props are passed to the CardPreviewDescription components', () => {
       const wrapper = mount(CardPreview, config)
 
