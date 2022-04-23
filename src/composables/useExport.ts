@@ -65,8 +65,8 @@ export default function useExport(
   const generateOutput = (): string[] => {
     return [
       ...generateOutputForSection(decklist.value.mainboard, 'Mainboard'),
-      ...generateOutputForSection(decklist.value.maybes, 'Maybes'),
       ...generateOutputForSection(decklist.value.sideboard, 'Sideboard'),
+      ...generateOutputForSection(decklist.value.maybes, 'Maybes'),
     ]
   }
 

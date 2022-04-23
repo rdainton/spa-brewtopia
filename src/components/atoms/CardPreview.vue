@@ -2,8 +2,12 @@
 import { computed } from 'vue'
 
 // Imported types
-import { ScryfallCard } from '@/apis/scryfall/types'
+import { ScryfallCard, CardFace } from '@/apis/scryfall/types'
 import { StoreableCard } from '@/types/cards'
+
+// Components
+import CardPreviewDescription from '@/components/atoms/CardPreviewDescription.vue'
+import CardPreviewImage from '@/components/atoms/CardPreviewImage.vue'
 
 interface CardPreviewProps {
   cardData: ScryfallCard | StoreableCard
@@ -23,20 +27,54 @@ const yPositionClassMap: Record<string, string> = {
 /**
  * Content
  */
-const previewImageUrl = computed(() => {
-  if (props.cardData.image_uris?.large) return props.cardData.image_uris?.large
+const hasTwoFaces = computed(
+  () => !!props.cardData?.card_faces && props.cardData.card_faces.length === 2
+)
 
-  if (props.cardData.card_faces?.length)
-    return props.cardData.card_faces[0].image_uris?.normal || ''
+const isSplitFace = computed(
+  () =>
+    hasTwoFaces.value &&
+    props.cardData.card_faces!.reduce(
+      (prevBool, face) => face?.image_uris === undefined && prevBool,
+      true
+    )
+)
 
-  return ''
+const cardFrontData = computed(() => {
+  let source: CardFace | ScryfallCard | StoreableCard = hasTwoFaces.value
+    ? // assert type here as doesn't infer from computed.
+      (props.cardData.card_faces as CardFace[])[0]
+    : props.cardData
+
+  return {
+    name: source.name,
+    manaCost: source?.mana_cost,
+    typeLine: source.type_line,
+    oracleText: source.oracle_text,
+    power: source.power,
+    toughness: source.toughness,
+    imageUrl: isSplitFace.value
+      ? props.cardData.image_uris?.large
+      : source.image_uris?.large,
+  }
 })
 
-const previewOracleText = computed(() => {
-  if (props.cardData.oracle_text) return props.cardData.oracle_text
+const cardBackData = computed(() => {
+  if (!hasTwoFaces.value) return undefined
 
-  if (props.cardData.card_faces?.length)
-    return props.cardData.card_faces[0].oracle_text || ''
+  // assert type here as doesn't its defined
+  // from hasTwoFaces computed infer from computed.
+  const source = (props.cardData.card_faces as CardFace[])[1]
+
+  return {
+    name: source.name,
+    manaCost: source.mana_cost,
+    typeLine: source.type_line,
+    oracleText: source.oracle_text,
+    power: source.power,
+    toughness: source.toughness,
+    imageUrl: isSplitFace.value ? '' : source.image_uris?.large,
+  }
 })
 </script>
 
@@ -46,45 +84,35 @@ const previewOracleText = computed(() => {
       class="fixed flex bg-gray-100 shadow-md dark:bg-black right-6 rounded-xl"
       :class="[yPositionClassMap[yPosition]]"
     >
-      <div
-        class="flex flex-col justify-between p-4 w-72 min-h-100 dark:text-white"
-      >
-        <div class="flex justify-between">
-          <h1>
-            {{ cardData.name }}
-          </h1>
+      <CardPreviewDescription
+        :name="cardFrontData.name"
+        :mana-cost="cardFrontData.manaCost"
+        :type-line="cardFrontData.typeLine"
+        :oracle-text="cardFrontData.oracleText"
+        :power="cardFrontData.power"
+        :toughness="cardFrontData.toughness"
+      />
 
-          <div class="flex-shrink-0 mr-2">
-            <span>{{ cardData.mana_cost }}</span>
-          </div>
-        </div>
+      <CardPreviewImage
+        :name="cardFrontData.name"
+        :image-url="cardFrontData.imageUrl"
+      />
 
-        <div class="mt-auto">
-          <h2 class="mb-1">
-            {{ cardData.type_line }}
-          </h2>
-          <p class="text-sm">
-            {{ previewOracleText }}
-          </p>
-        </div>
-
-        <div class="h-8 text-right">
-          <p v-if="cardData.power && cardData.toughness">
-            {{ cardData.power }} / {{ cardData.toughness }}
-          </p>
-        </div>
-      </div>
-
-      <div v-if="previewImageUrl" class="w-72">
-        <img
-          :id="`preview_${cardData.id}`"
-          :name="cardData.name"
-          :src="previewImageUrl"
-          class="w-full max-w-full rounded-xl"
+      <template v-if="cardBackData">
+        <CardPreviewImage
+          v-if="!isSplitFace"
+          :name="cardBackData.name"
+          :image-url="cardBackData.imageUrl"
         />
-      </div>
+        <CardPreviewDescription
+          :name="cardBackData.name"
+          :mana-cost="cardBackData.manaCost"
+          :type-line="cardBackData.typeLine"
+          :oracle-text="cardBackData.oracleText"
+          :power="cardBackData.power"
+          :toughness="cardBackData.toughness"
+        />
+      </template>
     </div>
   </Teleport>
 </template>
-
-<style lang="scss"></style>
