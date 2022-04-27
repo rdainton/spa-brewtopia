@@ -11,7 +11,7 @@ import CardPreviewImage from '@/components/atoms/CardPreviewImage.vue'
 
 interface CardPreviewProps {
   cardData: ScryfallCard | StoreableCard
-  yPosition: 'top' | 'bottom'
+  position: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 }
 
 const props = defineProps<CardPreviewProps>()
@@ -19,9 +19,11 @@ const props = defineProps<CardPreviewProps>()
 /**
  * Positioning
  */
-const yPositionClassMap: Record<string, string> = {
-  top: 'top-12',
-  bottom: 'top-88',
+const positionClassMap: Record<string, string> = {
+  'top-right': 'top-4 right-4',
+  'top-left': 'top-4 left-4',
+  'bottom-right': 'bottom-4 right-4',
+  'bottom-left': 'bottom-4 left-4',
 }
 
 /**
@@ -81,8 +83,8 @@ const cardBackData = computed(() => {
 <template>
   <Teleport to="body">
     <div
-      class="fixed flex bg-gray-100 shadow-md dark:bg-black right-6 rounded-xl"
-      :class="[yPositionClassMap[yPosition]]"
+      class="fixed z-10 flex bg-gray-100 shadow-md dark:bg-black rounded-xl"
+      :class="[positionClassMap[position]]"
     >
       <CardPreviewDescription
         :name="cardFrontData.name"

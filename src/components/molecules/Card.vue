@@ -51,8 +51,33 @@ const emit = defineEmits<{
  * Preview
  */
 const showPreview = ref(false)
-// controlled cards are not used in search results currently.
-const previewPosition = computed(() => (props.withControls ? 'top' : 'bottom'))
+const previewPosition = ref<
+  'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
+>('bottom-right')
+
+function setPreviewPosition(e: MouseEvent) {
+  const mouse = {
+    x: e.clientX,
+    y: e.clientY,
+  }
+
+  const client = {
+    height: window.innerHeight,
+    width: window.innerWidth,
+  }
+
+  const mouseInTop = client.height / 2 > mouse.y
+  const mouseOnLeft = client.width / 2 > mouse.x
+
+  previewPosition.value = `${mouseInTop ? 'bottom' : 'top'}-${
+    mouseOnLeft ? 'right' : 'left'
+  }`
+}
+
+function handleMouseOver(e: MouseEvent) {
+  setPreviewPosition(e)
+  showPreview.value = true
+}
 
 /**
  * Manage drag state
@@ -114,7 +139,7 @@ const cardImageUrl = computed(() => {
     @click="emit('click', iCard)"
     @dblclick="emit('dblclick', iCard)"
     @contextmenu.prevent="emit('delete', iCard)"
-    @mouseover="showPreview = true"
+    @mouseover="handleMouseOver"
     @mouseleave="showPreview = false"
   >
     <img
@@ -158,7 +183,7 @@ const cardImageUrl = computed(() => {
   <CardPreview
     v-if="previewable && showPreview"
     :card-data="data"
-    :y-position="previewPosition"
+    :position="previewPosition"
   />
 </template>
 

@@ -4,6 +4,7 @@ import debounce from 'lodash/debounce'
 import SearchIcon from '../atoms/icons/SearchIcon.vue'
 
 const emit = defineEmits<{
+  (event: 'focus'): void
   (event: 'submit', searchTerm: string): void
 }>()
 
@@ -39,7 +40,7 @@ watch(search, (newSearch, prevSearch) => {
 <template>
   <form
     @submit.prevent="initSearch"
-    class="absolute flex items-center w-full gap-2 transform -translate-x-1/2 h-14 md:w-auto -top-12 left-1/2"
+    class="absolute top-0 flex items-center w-full gap-2 transform -translate-x-1/2 h-14 md:w-auto left-1/2"
   >
     <div class="flex-shrink-0 w-8 h-8 ml-4 text-gray-900 dark:text-white">
       <SearchIcon />
@@ -53,6 +54,7 @@ watch(search, (newSearch, prevSearch) => {
         :minlength="MINLEN"
         type="text"
         @keyup="debounceSearch"
+        @focus="$emit('focus')"
       />
     </div>
   </form>
