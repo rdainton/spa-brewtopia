@@ -33,6 +33,8 @@ import Decklists from '@/components/organisms/Decklists.vue'
 import CardArtList from '@/components/organisms/CardArtList.vue'
 import DecklistForm from '@/components/organisms/DecklistForm.vue'
 import BlockUI from '@/components/molecules/BlockUI.vue'
+import IconButton from '@/components/atoms/IconButton.vue'
+import ChevronDownIcon from '@/components/atoms/icons/ChevronDownIcon.vue'
 
 const UIStore = useUIStore()
 
@@ -144,17 +146,40 @@ function handleCardArtChange(newCard: ScryfallCard) {
  * Export to .txt
  */
 const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
+
+/**
+ * Toggle Deckbuilder expansion
+ */
+const decklistExpanded = ref(false)
 </script>
 
 <template>
   <CardSearch
+    :hide-results="decklistExpanded"
     @dragstart="handleSearchDragstart"
     @dblclick="handleSearchDblClick"
+    @show-results="decklistExpanded = false"
   />
 
   <div
-    class="flex flex-1 px-4 overflow-x-auto bg-transparent gap-x-2 min-w-screen"
+    class="relative z-0 flex flex-1 px-4 overflow-x-auto bg-transparent gap-x-2 min-w-screen"
   >
+    <span class="absolute z-10 -translate-y-1/2 left-1/2 transfrom">
+      <IconButton
+        @clicked="decklistExpanded = !decklistExpanded"
+        size="lg"
+        tooltip="Toggle expansion"
+        :tooltip-below="true"
+      >
+        <ChevronDownIcon
+          class="transition-transform duration-500 ease-in-out transform"
+          :class="{
+            'rotate-180': !decklistExpanded,
+          }"
+        />
+      </IconButton>
+    </span>
+
     <DeckbuilderMain>
       <DeckbuilderSection
         title="Mainboard"

@@ -12,7 +12,9 @@ defineProps<CardPreviewProps>()
 </script>
 
 <template>
-  <div class="flex flex-col justify-between p-4 w-72 min-h-100 dark:text-white">
+  <div
+    class="flex flex-col justify-between p-4 text-sm w-60 xl:w-72 min-h-84 xl:min-h-100 dark:text-white xl:text-base"
+  >
     <div class="flex justify-between">
       <h1>
         {{ name }}
@@ -27,7 +29,7 @@ defineProps<CardPreviewProps>()
       <h2 class="mb-1">
         {{ typeLine }}
       </h2>
-      <p v-if="oracleText" class="text-sm whitespace-pre-line">
+      <p v-if="oracleText" class="text-xs whitespace-pre-line xl:text-sm">
         {{ oracleText }}
       </p>
     </div>
