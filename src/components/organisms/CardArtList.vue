@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
 import scryfall, { parseErrorMap } from '@/apis/scryfall'
-import { ScryfallCard } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/scryfall/types'
 
 // Composables
 import useToasts from '@/composables/useToasts'
@@ -25,7 +25,7 @@ interface CardArtListProps {
 const props = withDefaults(defineProps<CardArtListProps>(), {})
 
 defineEmits<{
-  (e: 'change', newCard: ScryfallCard): void
+  (e: 'change', newCard: CardRaw): void
   (e: 'cancel'): void
 }>()
 
@@ -35,7 +35,7 @@ const cardStore = useCardStore()
 const cardName = computed(() => cardStore.cards[props.cardId].name)
 
 const loading = ref(false)
-const cardVersions = ref<ScryfallCard[]>([])
+const cardVersions = ref<CardRaw[]>([])
 const paginatable = ref(false)
 const paginating = ref(false)
 const nextPage = ref(1)

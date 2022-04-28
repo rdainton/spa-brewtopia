@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { watch, ref } from 'vue'
-import { ScryfallCard } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/scryfall/types'
 
 // Components
 import Card from '@/components/molecules/Card.vue'
@@ -8,14 +8,14 @@ import CardSkeleton from '@/components/atoms/CardSkeleton.vue'
 
 interface SearchResultsProps {
   searching: boolean
-  results: ScryfallCard[]
+  results: CardRaw[]
 }
 
 const props = defineProps<SearchResultsProps>()
 
 const emit = defineEmits<{
-  (event: 'dragstart', card: ScryfallCard): void
-  (event: 'dblclick', card: ScryfallCard): void
+  (event: 'dragstart', card: CardRaw): void
+  (event: 'dblclick', card: CardRaw): void
 }>()
 
 // handle no results found

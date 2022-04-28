@@ -1,5 +1,5 @@
 import scryfallClient from './client'
-import { ScryfallCard } from './types'
+import { CardRaw } from './types'
 
 export interface IdentifiableScryId {
   id: string
@@ -21,7 +21,7 @@ export type Identifiable =
 
 interface CollectionResponse {
   not_found: Identifiable[]
-  data: ScryfallCard[]
+  data: CardRaw[]
 }
 
 /**

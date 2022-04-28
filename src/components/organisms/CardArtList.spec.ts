@@ -3,7 +3,7 @@ import { createTestingPinia } from '@pinia/testing'
 import scryfall from '@/apis/scryfall'
 
 // Types
-import { ScryfallCard } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/scryfall/types'
 import { SearchResponse } from '@/apis/scryfall/search'
 
 // Fixtures
@@ -33,13 +33,13 @@ const config = {
 }
 
 const mockSuccessResponse = createAxiosSuccessResponseMock<SearchResponse>({
-  data: mockArtsResults as ScryfallCard[],
+  data: mockArtsResults as CardRaw[],
   has_more: true,
 })
 
 describe('CardArtList.vue', () => {
   beforeAll(() => {
-    useCardStore().add(mockArtsResults[0] as ScryfallCard)
+    useCardStore().add(mockArtsResults[0] as CardRaw)
   })
 
   const apiSpy = jest.spyOn(scryfall.search, 'arts')

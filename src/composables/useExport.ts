@@ -3,7 +3,7 @@ import {
   DecklistContent,
   CardSection,
   CardProxy,
-  StoreableCard,
+  CardStoreable,
 } from '@/types/cards'
 
 /**
@@ -12,7 +12,7 @@ import {
 export default function useExport(
   decklist: Ref<DecklistContent>,
   decklistName: Ref<string>,
-  cardStore: Record<StoreableCard['id'], StoreableCard>
+  cardStore: Record<CardStoreable['id'], CardStoreable>
 ) {
   const exportUrl = ref('')
 

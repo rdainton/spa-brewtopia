@@ -1,6 +1,6 @@
 import { shallowMount, mount } from '@vue/test-utils'
 import { v4 as uuid } from 'uuid'
-import { ScryfallCard } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/scryfall/types'
 
 // Fixtures
 import { singleFacedCard } from '../../../jest/fixtures/card'
@@ -17,7 +17,7 @@ const cardProxy = {
 
 const props = {
   id: cardProxy.uuid,
-  data: singleFacedCard as ScryfallCard,
+  data: singleFacedCard as CardRaw,
   cardProxy,
 }
 

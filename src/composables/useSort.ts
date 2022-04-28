@@ -1,4 +1,4 @@
-import { CardList, CardSection, StoreableCard } from '@/types/cards'
+import { CardList, CardSection, CardStoreable } from '@/types/cards'
 
 export type SortKey = 'cmc' | 'cardType'
 
@@ -8,7 +8,7 @@ export type SortKey = 'cmc' | 'cardType'
  * @param onComplete - optional hook called on action completion
  */
 export default function useSort(
-  cardStore: Record<StoreableCard['id'], StoreableCard>,
+  cardStore: Record<CardStoreable['id'], CardStoreable>,
   onComplete?: () => void
 ) {
   const _groupBy = (list: CardList, key: SortKey) => {

@@ -1,4 +1,4 @@
-import { ScryfallCard } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/scryfall/types'
 
 // Array.includes(searchElement) won't let searchElement be a supertype of the array type
 // a 'string' in this instance. So I override the standard library via 'declaration merging'
@@ -25,12 +25,13 @@ export const primaryCardTypes = [
 
 // the index of the primaryCardTypes is a number
 export type PrimaryCardType = typeof primaryCardTypes[number]
+
 export interface CardProxy {
   scryId: string
   uuid?: string
 }
 
-export interface StoreableCard extends ScryfallCard {
+export interface CardStoreable extends CardRaw {
   cardType: PrimaryCardType
   flatColors: string
 }

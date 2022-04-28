@@ -2,15 +2,15 @@
 import { computed } from 'vue'
 
 // Imported types
-import { ScryfallCard, CardFace } from '@/apis/scryfall/types'
-import { StoreableCard } from '@/types/cards'
+import { CardRaw, CardFace } from '@/apis/scryfall/types'
+import { CardStoreable } from '@/types/cards'
 
 // Components
 import CardPreviewDescription from '@/components/atoms/CardPreviewDescription.vue'
 import CardPreviewImage from '@/components/atoms/CardPreviewImage.vue'
 
 interface CardPreviewProps {
-  cardData: ScryfallCard | StoreableCard
+  cardData: CardRaw | CardStoreable
   position: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 }
 
@@ -43,7 +43,7 @@ const isSplitFace = computed(
 )
 
 const cardFrontData = computed(() => {
-  let source: CardFace | ScryfallCard | StoreableCard = hasTwoFaces.value
+  let source: CardFace | CardRaw | CardStoreable = hasTwoFaces.value
     ? // assert type here as doesn't infer from computed.
       (props.cardData.card_faces as CardFace[])[0]
     : props.cardData

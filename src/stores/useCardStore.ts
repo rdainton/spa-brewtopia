@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 import scryfall, { ErrorMap } from '@/apis/scryfall'
 import { IdentifiableScryId } from '@/apis/scryfall/collection'
-import { ScryfallCard } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/scryfall/types'
 import {
-  StoreableCard,
+  CardStoreable,
   DecklistContent,
   CardProxy,
   PrimaryCardType,
@@ -11,7 +11,7 @@ import {
 } from '@/types/cards'
 
 interface State {
-  cards: Record<string, StoreableCard>
+  cards: Record<string, CardStoreable>
   updating: boolean
   error: ErrorMap | null
 }
@@ -113,7 +113,7 @@ export const useCardStore = defineStore('card', {
         .finally(() => [(this.updating = false)])
     },
 
-    mapSearchResultoStoreable(result: ScryfallCard): StoreableCard {
+    mapSearchResultoStoreable(result: CardRaw): CardStoreable {
       const colorsArr = result.colors || result.color_identity || []
 
       return {
@@ -123,7 +123,7 @@ export const useCardStore = defineStore('card', {
       }
     },
 
-    add(result: ScryfallCard) {
+    add(result: CardRaw) {
       const storable = this.mapSearchResultoStoreable(result)
       this.cards[storable.id] = storable
     },

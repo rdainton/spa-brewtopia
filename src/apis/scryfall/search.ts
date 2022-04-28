@@ -1,8 +1,8 @@
 import scryfallClient from './client'
-import { ScryfallCard } from './types'
+import { CardRaw } from './types'
 
 export interface SearchResponse {
-  data: ScryfallCard[]
+  data: CardRaw[]
   has_more: boolean
 }
 

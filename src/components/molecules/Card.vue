@@ -4,8 +4,8 @@ import { CardProxy } from '@/types/cards'
 import useDraggedOver from '@/composables/useDraggedOver'
 
 // Imported types
-import { ScryfallCard } from '@/apis/scryfall/types'
-import { StoreableCard } from '@/types/cards'
+import { CardRaw } from '@/apis/scryfall/types'
+import { CardStoreable } from '@/types/cards'
 
 // Components
 import CardPreview from '@/components/atoms/CardPreview.vue'
@@ -19,7 +19,7 @@ import EditIcon from '@/components/atoms/icons/EditIcon.vue'
 
 interface CardProps {
   id: string
-  data: ScryfallCard | StoreableCard
+  data: CardRaw | CardStoreable
   cardProxy: CardProxy
   size?: 'sm' | 'md' | 'lg'
   stacked?: boolean

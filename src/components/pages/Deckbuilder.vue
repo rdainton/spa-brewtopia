@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid'
 // Imported
 import { CardSections, CardProxy } from '@/types/cards'
 import { ControlOptions } from '@/types/deckbuilder'
-import { ScryfallCard } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/scryfall/types'
 
 // Composables
 import useCardActions from '@/composables/useCardActions'
@@ -62,7 +62,7 @@ const {
 const cardStore = useCardStore()
 const { sort, flatten } = useSort(cardStore.cards, handleDecklistChanges)
 
-function handleSearchDragstart(card: ScryfallCard) {
+function handleSearchDragstart(card: CardRaw) {
   // Really we only want to do this once the drop is complete
   cardStore.add(card)
 
@@ -71,7 +71,7 @@ function handleSearchDragstart(card: ScryfallCard) {
   })
 }
 
-function handleSearchDblClick(card: ScryfallCard) {
+function handleSearchDblClick(card: CardRaw) {
   cardStore.add(card)
 
   const insertable = {
@@ -130,7 +130,7 @@ function handleChangeArtForScryId(cardProxy: CardProxy) {
   changingArtForScryId.value = cardProxy.scryId
 }
 
-function handleCardArtChange(newCard: ScryfallCard) {
+function handleCardArtChange(newCard: CardRaw) {
   cardStore.add(newCard)
 
   cardActions.changeScryId(

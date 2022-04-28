@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 
 // Types
-import { ScryfallCard } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/scryfall/types'
 
 // Fixtures
 import {
@@ -19,7 +19,7 @@ describe('atoms/CardPreview.vue', () => {
   describe('Single face', () => {
     const config = {
       props: {
-        cardData: singleFacedCard as ScryfallCard,
+        cardData: singleFacedCard as CardRaw,
         yPosition: 'top',
       } as any,
       global: {
@@ -64,7 +64,7 @@ describe('atoms/CardPreview.vue', () => {
   describe('Split face', () => {
     const config = {
       props: {
-        cardData: splitFacedCard as ScryfallCard,
+        cardData: splitFacedCard as CardRaw,
         yPosition: 'top',
       } as any,
       global: {
@@ -91,7 +91,7 @@ describe('atoms/CardPreview.vue', () => {
   describe('Double face', () => {
     const config = {
       props: {
-        cardData: doubleFacedCard as ScryfallCard,
+        cardData: doubleFacedCard as CardRaw,
         yPosition: 'top',
       } as any,
       global: {

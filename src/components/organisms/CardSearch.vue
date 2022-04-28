@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import useToasts from '@/composables/useToasts'
 import scryfall, { parseErrorMap } from '@/apis/scryfall'
-import { ScryfallCard } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/scryfall/types'
 
 // Components
 import SearchInput from '@/components/molecules/SearchInput.vue'
@@ -18,13 +18,13 @@ const props = withDefaults(defineProps<CardSearchProps>(), {
 
 const emit = defineEmits<{
   (event: 'show-results'): void
-  (event: 'dragstart', card: ScryfallCard): void
-  (event: 'dblclick', card: ScryfallCard): void
+  (event: 'dragstart', card: CardRaw): void
+  (event: 'dblclick', card: CardRaw): void
 }>()
 
 const dispatch = useToasts()
 
-const searchResults = ref<ScryfallCard[]>([])
+const searchResults = ref<CardRaw[]>([])
 const searching = ref(false)
 
 const onSearch = (searchTerm: string) => {

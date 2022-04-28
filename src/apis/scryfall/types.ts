@@ -16,7 +16,7 @@ export interface CardFace {
   power?: string
   toughness?: string
 }
-export interface ScryfallCard {
+export interface CardRaw {
   id: string
   name: string
   cmc: number
