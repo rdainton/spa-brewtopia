@@ -2,7 +2,7 @@ import { nextTick, ref, readonly, Ref } from 'vue'
 import {
   DecklistContent,
   CardSection,
-  ICard,
+  CardProxy,
   StoreableCard,
 } from '@/types/cards'
 
@@ -41,7 +41,7 @@ export default function useExport(
     if (!flatSection.length) return []
 
     const groupedByCardName = flatSection.reduce(
-      (map: { [key: string]: ICard[] }, x) => {
+      (map: { [key: string]: CardProxy[] }, x) => {
         const fullCard = cardStore[x.scryId]
         ;(map[fullCard['name']] = map[fullCard['name']] || []).push(x)
         return map

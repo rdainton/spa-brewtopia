@@ -10,15 +10,15 @@ import Card from '@/components/molecules/Card.vue'
 import IconButton from '@/components/atoms/IconButton.vue'
 import EditIcon from '@/components/atoms/icons/EditIcon.vue'
 
-const iCard = {
+const cardProxy = {
   uuid: uuid(),
   scryId: singleFacedCard.id,
 }
 
 const props = {
-  id: iCard.uuid,
+  id: cardProxy.uuid,
   data: singleFacedCard as ScryfallCard,
-  iCard,
+  cardProxy,
 }
 
 describe('Card.vue', () => {

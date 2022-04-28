@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { ICard } from '@/types/cards'
+import { CardProxy } from '@/types/cards'
 
 // Stores
 import { useCardStore } from '@/stores/useCardStore'
@@ -13,7 +13,7 @@ import BrewText from '@/components/atoms/BrewText.vue'
 
 interface DeckbuildingSectionProps {
   title: string
-  sectionData: ICard[][]
+  sectionData: CardProxy[][]
   alignment?: 'left' | 'center' | 'right'
 }
 
@@ -23,12 +23,12 @@ const props = withDefaults(defineProps<DeckbuildingSectionProps>(), {
 
 const emit = defineEmits<{
   (event: 'drop', e: DragEvent, columnIndex: number, forceCardIdx: number): void
-  (event: 'dragstart', card: ICard, columnIndex: number): void
+  (event: 'dragstart', card: CardProxy, columnIndex: number): void
   (event: 'dragover', columnIndex: number): void
-  (event: 'duplicate', card: ICard, columnIndex: number): void
-  (event: 'playset', card: ICard, columnIndex: number): void
-  (event: 'delete', card: ICard, columnIndex: number): void
-  (event: 'change-art', card: ICard): void
+  (event: 'duplicate', card: CardProxy, columnIndex: number): void
+  (event: 'playset', card: CardProxy, columnIndex: number): void
+  (event: 'delete', card: CardProxy, columnIndex: number): void
+  (event: 'change-art', card: CardProxy): void
 }>()
 
 const cardStore = useCardStore()
@@ -99,7 +99,7 @@ function handleDrop(e: DragEvent, columnIndex = 0, forceCardIdx = -1) {
             :id="card.scryId"
             :key="card.uuid"
             :data="cardStore.cards[card.scryId]"
-            :i-card="card"
+            :card-proxy="card"
             :stacked="idx !== 0"
             :with-controls="true"
             @dragstart="emit('dragstart', card, columnIndex)"

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { ICard } from '@/types/cards'
+import { CardProxy } from '@/types/cards'
 import useDraggedOver from '@/composables/useDraggedOver'
 
 // Imported types
@@ -20,7 +20,7 @@ import EditIcon from '@/components/atoms/icons/EditIcon.vue'
 interface CardProps {
   id: string
   data: ScryfallCard | StoreableCard
-  iCard: ICard
+  cardProxy: CardProxy
   size?: 'sm' | 'md' | 'lg'
   stacked?: boolean
   withControls?: boolean
@@ -37,14 +37,14 @@ const props = withDefaults(defineProps<CardProps>(), {
 })
 
 const emit = defineEmits<{
-  (event: 'dragstart', card: ICard): void
-  (event: 'dragend', card: ICard): void
-  (event: 'duplicate', card: ICard): void
-  (event: 'playset', card: ICard): void
-  (event: 'delete', card: ICard): void
-  (event: 'click', card: ICard): void
-  (event: 'dblclick', card: ICard): void
-  (event: 'change-art', card: ICard): void
+  (event: 'dragstart', card: CardProxy): void
+  (event: 'dragend', card: CardProxy): void
+  (event: 'duplicate', card: CardProxy): void
+  (event: 'playset', card: CardProxy): void
+  (event: 'delete', card: CardProxy): void
+  (event: 'click', card: CardProxy): void
+  (event: 'dblclick', card: CardProxy): void
+  (event: 'change-art', card: CardProxy): void
 }>()
 
 /**
@@ -87,12 +87,12 @@ const dragging = ref(false)
 function onDragStart() {
   showPreview.value = false
   dragging.value = true
-  emit('dragstart', props.iCard)
+  emit('dragstart', props.cardProxy)
 }
 
 function onDragEnds() {
   dragging.value = false
-  emit('dragend', props.iCard)
+  emit('dragend', props.cardProxy)
 }
 
 /**
@@ -136,22 +136,22 @@ const cardImageUrl = computed(() => {
     @dragenter="handleDragenter"
     @dragleave="handleDragleave"
     @drop.prevent="reset"
-    @click="emit('click', iCard)"
-    @dblclick="emit('dblclick', iCard)"
-    @contextmenu.prevent="emit('delete', iCard)"
+    @click="emit('click', cardProxy)"
+    @dblclick="emit('dblclick', cardProxy)"
+    @contextmenu.prevent="emit('delete', cardProxy)"
     @mouseover="handleMouseOver"
     @mouseleave="showPreview = false"
   >
     <img
       v-if="cardImageUrl"
-      :id="iCard.uuid ?? ''"
+      :id="cardProxy.uuid ?? ''"
       :name="data.name"
       :src="cardImageUrl"
       class="w-full max-w-full rounded-md"
     />
     <article
       v-else
-      :id="iCard.uuid ?? ''"
+      :id="cardProxy.uuid ?? ''"
       class="relative flex items-center justify-center flex-1 rounded-md"
     >
       <p class="absolute w-10/12 text-xs text-white break-words top-2 left-2">
@@ -164,16 +164,24 @@ const cardImageUrl = computed(() => {
     </article>
 
     <div v-if="withControls" class="absolute left-0 flex -top-2 gap-x-1">
-      <IconButton size="md" variant="primary" @click="emit('duplicate', iCard)">
+      <IconButton
+        size="md"
+        variant="primary"
+        @click="emit('duplicate', cardProxy)"
+      >
         <PlusIcon />
       </IconButton>
-      <IconButton size="md" variant="primary" @click="emit('playset', iCard)">
+      <IconButton
+        size="md"
+        variant="primary"
+        @click="emit('playset', cardProxy)"
+      >
         <PlaysetIcon />
       </IconButton>
       <IconButton
         size="md"
         variant="secondary"
-        @click="emit('change-art', iCard)"
+        @click="emit('change-art', cardProxy)"
       >
         <EditIcon />
       </IconButton>

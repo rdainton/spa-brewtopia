@@ -47,7 +47,7 @@ watch(
         :id="`search_${card.id}`"
         :key="card.id"
         :data="card"
-        :i-card="{
+        :card-proxy="{
           scryId: card.id,
         }"
         @dragstart="emit('dragstart', card)"

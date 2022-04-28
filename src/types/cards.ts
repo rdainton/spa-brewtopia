@@ -25,7 +25,7 @@ export const primaryCardTypes = [
 
 // the index of the primaryCardTypes is a number
 export type PrimaryCardType = typeof primaryCardTypes[number]
-export interface ICard {
+export interface CardProxy {
   scryId: string
   uuid?: string
 }
@@ -35,7 +35,7 @@ export interface StoreableCard extends ScryfallCard {
   flatColors: string
 }
 
-export type CardList = ICard[]
+export type CardList = CardProxy[]
 
 export type CardSection = CardList[]
 
@@ -45,7 +45,7 @@ export enum CardSections {
   MAYBES = 'maybes',
 }
 export interface CardAddress {
-  section: ICard[][] | null
+  section: CardProxy[][] | null
   columnIndex: number
 }
 
@@ -66,20 +66,20 @@ export type Decklist = {
  */
 export interface CardActions {
   moveIndex(
-    section: ICard[][],
+    section: CardProxy[][],
     columnIndex: number,
-    card: ICard,
+    card: CardProxy,
     newIdx: number
   ): void
-  duplicate(section: ICard[][], columnIndex: number, card: ICard): void
-  toPlayset(section: ICard[][], columnIndex: number, card: ICard): void
+  duplicate(section: CardProxy[][], columnIndex: number, card: CardProxy): void
+  toPlayset(section: CardProxy[][], columnIndex: number, card: CardProxy): void
   insertAtIndex(
-    section: ICard[][],
+    section: CardProxy[][],
     columnIndex: number,
-    card: ICard,
+    card: CardProxy,
     insertionIndex: number
   ): void
-  remove(ection: ICard[][], columnIndex: number, card: ICard): void
+  remove(ection: CardProxy[][], columnIndex: number, card: CardProxy): void
   changeScryId(
     decklist: DecklistContent,
     currentScryId: string,

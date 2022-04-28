@@ -1,9 +1,14 @@
 import { v4 as uuid } from 'uuid'
-import { ICard, CardActions, CardSection, DecklistContent } from '@/types/cards'
+import {
+  CardProxy,
+  CardActions,
+  CardSection,
+  DecklistContent,
+} from '@/types/cards'
 
 /**
- * A collection of methods to immuteably update the object<ICard> listing
- * within a column<ICard[]>, within a section<ICard[][]>.
+ * A collection of methods to immuteably update the object<CardProxy> listing
+ * within a column<CardProxy[]>, within a section<CardProxy[][]>.
  *
  * @param onComplete - optional hook called on action completion
  */
@@ -14,7 +19,7 @@ export default function useCardActions(onComplete?: () => void): CardActions {
   const moveIndex = (
     section: CardSection,
     columnIndex: number,
-    card: ICard,
+    card: CardProxy,
     newIdx: number
   ): void => {
     const currentIdx = section[columnIndex].findIndex(c => c.uuid === card.uuid)
@@ -38,7 +43,7 @@ export default function useCardActions(onComplete?: () => void): CardActions {
   const duplicate = (
     section: CardSection,
     columnIndex: number,
-    card: ICard
+    card: CardProxy
   ): void => {
     const currentIdx = section[columnIndex].findIndex(
       c => c.scryId === card.scryId
@@ -61,7 +66,7 @@ export default function useCardActions(onComplete?: () => void): CardActions {
   const toPlayset = (
     section: CardSection,
     columnIndex: number,
-    card: ICard
+    card: CardProxy
   ): void => {
     // count instances of card 'scryId'
     let currentCount = section[columnIndex].filter(
@@ -95,7 +100,7 @@ export default function useCardActions(onComplete?: () => void): CardActions {
   const insertAtIndex = (
     section: CardSection,
     columnIndex: number,
-    card: ICard,
+    card: CardProxy,
     insertionIndex: number
   ): void => {
     const copy = [...section[columnIndex]]
@@ -111,7 +116,7 @@ export default function useCardActions(onComplete?: () => void): CardActions {
   const remove = (
     section: CardSection,
     columnIndex: number,
-    card: ICard
+    card: CardProxy
   ): void => {
     section[columnIndex] = section[columnIndex].filter(
       c => c.uuid !== card.uuid
@@ -132,14 +137,14 @@ export default function useCardActions(onComplete?: () => void): CardActions {
     let sectionKey: keyof DecklistContent
     for (sectionKey in decklist) {
       decklist[sectionKey] = decklist[sectionKey].map(col =>
-        col.map(iCard => {
-          if (iCard.scryId === currentScryId) {
+        col.map(cardProxy => {
+          if (cardProxy.scryId === currentScryId) {
             return {
-              ...iCard,
+              ...cardProxy,
               scryId: newScryId,
             }
           }
-          return iCard
+          return cardProxy
         })
       )
     }

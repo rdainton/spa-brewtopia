@@ -5,7 +5,7 @@ import { ScryfallCard } from '@/apis/scryfall/types'
 import {
   StoreableCard,
   DecklistContent,
-  ICard,
+  CardProxy,
   PrimaryCardType,
   primaryCardTypes,
 } from '@/types/cards'
@@ -49,10 +49,10 @@ export const useCardStore = defineStore('card', {
           ...section.reduce((ids, cardList) => {
             ids = [...ids, ...cardList.map(card => card.scryId)]
             return ids
-          }, [] as ICard['scryId'][]),
+          }, [] as CardProxy['scryId'][]),
         ]
         return ids
-      }, [] as ICard['scryId'][])
+      }, [] as CardProxy['scryId'][])
 
       const uniqueIds = [...new Set(scryIdList)]
 
@@ -128,7 +128,7 @@ export const useCardStore = defineStore('card', {
       this.cards[storable.id] = storable
     },
 
-    delete(card: ICard) {
+    delete(card: CardProxy) {
       if (this.cards.hasOwnProperty(card.scryId)) {
         delete this.cards[card.scryId]
       }

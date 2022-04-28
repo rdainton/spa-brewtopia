@@ -1,12 +1,12 @@
 import useCardActions from '@/composables/useCardActions'
-import { DecklistContent, ICard } from '@/types/cards'
+import { DecklistContent, CardProxy } from '@/types/cards'
 import { v4 as uuid } from 'uuid'
 
 const CARD_1_ID = 'card_1_ID'
 const CARD_2_ID = 'card_2'
 const CARD_3_ID = 'card_3'
 
-function createMockCard(scryId: string): ICard {
+function createMockCardProxy(scryId: string): CardProxy {
   return {
     scryId,
     uuid: uuid(),
@@ -17,14 +17,17 @@ function createMockDecklistContent(): DecklistContent {
   return {
     mainboard: [
       [
-        createMockCard(CARD_1_ID),
-        createMockCard(CARD_1_ID),
-        createMockCard(CARD_2_ID),
-        createMockCard(CARD_2_ID),
+        createMockCardProxy(CARD_1_ID),
+        createMockCardProxy(CARD_1_ID),
+        createMockCardProxy(CARD_2_ID),
+        createMockCardProxy(CARD_2_ID),
       ],
       [],
     ],
-    sideboard: [[createMockCard(CARD_3_ID)], [createMockCard(CARD_1_ID)]],
+    sideboard: [
+      [createMockCardProxy(CARD_3_ID)],
+      [createMockCardProxy(CARD_1_ID)],
+    ],
     maybes: [[], []],
   }
 }

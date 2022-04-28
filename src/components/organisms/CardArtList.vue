@@ -143,7 +143,7 @@ watch(loading, (_, prev) => {
           :id="`arts_${card.id}`"
           :key="card.id"
           :data="card"
-          :i-card="{
+          :card-proxy="{
             scryId: card.id,
           }"
           :previewable="false"

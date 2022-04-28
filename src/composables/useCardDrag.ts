@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { v4 as uuid } from 'uuid'
-import { CardActions, ICard, CardAddress, CardSection } from '@/types/cards'
+import { CardActions, CardProxy, CardAddress, CardSection } from '@/types/cards'
 
 const nullCardAddress = Object.freeze({
   section: null, // null is from external (Search, or Binder)
@@ -8,11 +8,11 @@ const nullCardAddress = Object.freeze({
 })
 
 /**
- * Primary logic for moving an ICard around the UI.
+ * Primary logic for moving an CardProxy around the UI.
  * TODO: clean this hook up, make better use of CardAddress? unify the exposed dragstart functions
  */
 export default function useCardDrag(cardActions: CardActions) {
-  const currentlyDragging = ref<ICard>()
+  const currentlyDragging = ref<CardProxy>()
   const origin = ref<CardAddress>(nullCardAddress)
   const destination = ref<CardAddress>(nullCardAddress)
   const destinationIndex = ref(-1)
@@ -34,7 +34,7 @@ export default function useCardDrag(cardActions: CardActions) {
   const handleDragstart = (
     section: CardSection,
     columnIndex: number,
-    card: ICard
+    card: CardProxy
   ): void => {
     currentlyDragging.value = card
     origin.value = {
@@ -43,7 +43,7 @@ export default function useCardDrag(cardActions: CardActions) {
     }
   }
 
-  const handleNullOriginDragstart = (card: ICard): void => {
+  const handleNullOriginDragstart = (card: CardProxy): void => {
     currentlyDragging.value = { ...card } // always want a new instance when dragging from start
     origin.value = nullCardAddress
   }
@@ -56,10 +56,10 @@ export default function useCardDrag(cardActions: CardActions) {
     if (dropIndex > -1) destinationIndex.value = dropIndex + 1
   }
 
-  const getCardDropTarget = (e: DragEvent): ICard | undefined => {
+  const getCardDropTarget = (e: DragEvent): CardProxy | undefined => {
     const targetUuid = e.target && (e.target as HTMLDivElement).id
 
-    // if no dropTarget (ICard)
+    // if no dropTarget (CardProxy)
     if (!targetUuid) return undefined
 
     const { section, columnIndex } = destination.value

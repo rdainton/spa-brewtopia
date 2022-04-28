@@ -4,7 +4,7 @@ import { parseErrorMap } from '@/apis/brewtopia'
 import { v4 as uuid } from 'uuid'
 
 // Imported
-import { CardSections, ICard } from '@/types/cards'
+import { CardSections, CardProxy } from '@/types/cards'
 import { ControlOptions } from '@/types/deckbuilder'
 import { ScryfallCard } from '@/apis/scryfall/types'
 
@@ -126,8 +126,8 @@ const changingArtForScryId = ref('')
 
 const cardArtModalShowing = computed(() => !!changingArtForScryId.value)
 
-function handleChangeArtForScryId(iCard: ICard) {
-  changingArtForScryId.value = iCard.scryId
+function handleChangeArtForScryId(cardProxy: CardProxy) {
+  changingArtForScryId.value = cardProxy.scryId
 }
 
 function handleCardArtChange(newCard: ScryfallCard) {
