@@ -1,4 +1,4 @@
 export default {
-  simple: jest.fn,
-  arts: jest.fn,
+  simple: vi.fn,
+  arts: vi.fn,
 }

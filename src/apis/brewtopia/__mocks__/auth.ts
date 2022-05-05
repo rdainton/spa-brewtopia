@@ -1,8 +1,8 @@
 export default {
-  login: jest.fn(),
-  logout: jest.fn(),
-  forgotPassword: jest.fn(),
-  getUser: jest.fn(),
-  resetPassword: jest.fn(),
-  register: jest.fn(),
+  login: vi.fn(),
+  logout: vi.fn(),
+  forgotPassword: vi.fn(),
+  getUser: vi.fn(),
+  resetPassword: vi.fn(),
+  register: vi.fn(),
 }

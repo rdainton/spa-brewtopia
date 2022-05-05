@@ -33,7 +33,7 @@ function createMockDecklistContent(): DecklistContent {
 }
 
 describe('useCardActions.ts', () => {
-  const onComplete = jest.fn()
+  const onComplete = vi.fn()
   const cardActions = useCardActions(onComplete)
 
   afterEach(() => {

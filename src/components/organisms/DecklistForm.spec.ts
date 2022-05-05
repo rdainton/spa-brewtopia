@@ -5,8 +5,8 @@ import { flushPromises, mount } from '@vue/test-utils'
 import DecklistForm from '@/components/organisms/DecklistForm.vue'
 import { useDecklistStore } from '@/stores/useDecklistStore'
 
-jest.mock('@/config/index.ts')
-jest.mock('@/apis/brewtopia/index.ts')
+vi.mock('@/config/index.ts')
+vi.mock('@/apis/brewtopia/index.ts')
 
 const config = {
   global: {
