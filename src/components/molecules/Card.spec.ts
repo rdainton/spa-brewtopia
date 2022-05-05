@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid'
 import { CardRaw } from '@/apis/scryfall/types'
 
 // Fixtures
-import { singleFacedCard } from '../../../jest/fixtures/card'
+import { singleFacedCard } from '../../../testing/fixtures/card'
 
 // Components
 import Card from '@/components/molecules/Card.vue'

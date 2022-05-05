@@ -8,7 +8,7 @@ import {
   singleFacedCard,
   doubleFacedCard,
   splitFacedCard,
-} from '../../../jest/fixtures/card'
+} from '../../../testing/fixtures/card'
 
 // Components
 import CardPreview from '@/components/atoms/CardPreview.vue'
@@ -20,7 +20,7 @@ describe('atoms/CardPreview.vue', () => {
     const config = {
       props: {
         cardData: singleFacedCard as CardRaw,
-        yPosition: 'top',
+        position: 'top-right',
       } as any,
       global: {
         stubs: ['Teleport'],
@@ -65,7 +65,7 @@ describe('atoms/CardPreview.vue', () => {
     const config = {
       props: {
         cardData: splitFacedCard as CardRaw,
-        yPosition: 'top',
+        position: 'top-right',
       } as any,
       global: {
         stubs: ['Teleport'],
@@ -92,7 +92,7 @@ describe('atoms/CardPreview.vue', () => {
     const config = {
       props: {
         cardData: doubleFacedCard as CardRaw,
-        yPosition: 'top',
+        position: 'top-right',
       } as any,
       global: {
         stubs: ['Teleport'],

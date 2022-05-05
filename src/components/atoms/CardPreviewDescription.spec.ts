@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils'
 import CardPreviewDescription from '@/components/atoms/CardPreviewDescription.vue'
-import { singleFacedCard } from '../../../jest/fixtures/card'
+import { singleFacedCard } from '../../../testing/fixtures/card'
 
 const requiredProps = {
   name: singleFacedCard.name,

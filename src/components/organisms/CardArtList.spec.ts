@@ -7,8 +7,8 @@ import { CardRaw } from '@/apis/scryfall/types'
 import { SearchResponse } from '@/apis/scryfall/search'
 
 // Fixtures
-import { createAxiosSuccessResponseMock } from '../../../jest/helpers'
-import { mockArtsResults } from '../../../jest/fixtures/cards'
+import { createAxiosSuccessResponseMock } from '../../../testing/helpers'
+import { mockArtsResults } from '../../../testing/fixtures/cards'
 
 // Stores
 import { useCardStore } from '@/stores/useCardStore'
