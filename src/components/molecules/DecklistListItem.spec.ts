@@ -5,8 +5,7 @@ import DecklistListItem from '@/components/molecules/DecklistListItem.vue'
 const props = {
   name: 'Hello world',
   createdAt: new Date().toISOString(),
-  coverImageUrl:
-    'https://c1.scryfall.com/file/scryfall-cards/art_crop/front/6/9/69daba76-96e8-4bcc-ab79-2f00189ad8fb.jpg?1619398799',
+  coverImageUrl: 'https://brewtopia.io/example-card-url',
 }
 
 describe('molecules/DecklistListItem.vue', () => {

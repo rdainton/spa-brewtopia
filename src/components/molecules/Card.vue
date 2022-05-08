@@ -4,7 +4,7 @@ import { CardProxy } from '@/types/cards'
 import useDraggedOver from '@/composables/useDraggedOver'
 
 // Imported types
-import { CardRaw } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/brewtopia/cards'
 import { CardStoreable } from '@/types/cards'
 
 // Components
@@ -112,10 +112,9 @@ const dragStyles = computed(() => {
  * Presentation helpers.
  */
 const cardImageUrl = computed(() => {
-  if (props.data.image_uris?.normal) return props.data.image_uris?.normal
+  if (props.data.imgUrl) return props.data.imgUrl
 
-  if (props.data.card_faces?.length)
-    return props.data.card_faces[0].image_uris?.normal || ''
+  if (props.data.cardFaces?.length) return props.data.cardFaces[0].imgUrl || ''
 
   return ''
 })

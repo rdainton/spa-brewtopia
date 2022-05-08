@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
-import scryfall, { ErrorMap } from '@/apis/scryfall'
-import { IdentifiableScryId } from '@/apis/scryfall/collection'
-import { CardRaw } from '@/apis/scryfall/types'
+import brewtopia, { ErrorMap } from '@/apis/brewtopia'
+import { IdentifiableScryId, CardRaw } from '@/apis/brewtopia/cards'
 import {
   CardStoreable,
   DecklistContent,
@@ -65,25 +64,6 @@ export const useCardStore = defineStore('card', {
       return identifiables.filter(({ id }) => !this.cards.hasOwnProperty(id))
     },
 
-    chunkIdentifiables(
-      identifiables: IdentifiableScryId[]
-    ): IdentifiableScryId[][] {
-      // scryfall api asked to limit to 75 idenifiables per request.
-      const CHUNK_SIZE = 75
-
-      return identifiables.reduce((chunkedIdentifiables, item, index) => {
-        const chunkIndex = Math.floor(index / CHUNK_SIZE) // allocate a chunk
-
-        if (!chunkedIdentifiables[chunkIndex]) {
-          chunkedIdentifiables[chunkIndex] = [] // start a new chunk
-        }
-
-        chunkedIdentifiables[chunkIndex].push(item)
-
-        return chunkedIdentifiables
-      }, [] as IdentifiableScryId[][])
-    },
-
     async getCollectionForDecklist(decklist: DecklistContent) {
       if (this.updating) return
 
@@ -93,15 +73,11 @@ export const useCardStore = defineStore('card', {
         this.mapDecklistToIdentifiables(decklist)
       )
 
-      const chunks = this.chunkIdentifiables(identifiables)
-      const promises = chunks.map(chunk => scryfall.collection.all(chunk))
-
-      return Promise.all(promises)
-        .then(responses => {
-          for (const response of responses) {
-            for (const result of response.data.data) {
-              this.add(result)
-            }
+      return brewtopia.cards
+        .collection(identifiables)
+        .then(res => {
+          for (const item of res.data.collection) {
+            this.add(item)
           }
 
           return true
@@ -114,11 +90,11 @@ export const useCardStore = defineStore('card', {
     },
 
     mapSearchResultoStoreable(result: CardRaw): CardStoreable {
-      const colorsArr = result.colors || result.color_identity || []
+      const colorsArr = result.colors || result.colorIdentity || []
 
       return {
         ...result,
-        cardType: getPrimaryCardType(result.type_line),
+        cardType: getPrimaryCardType(result.typeLine),
         flatColors: colorsArr.join(),
       }
     },

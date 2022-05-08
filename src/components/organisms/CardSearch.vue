@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
 import useToasts from '@/composables/useToasts'
-import scryfall, { parseErrorMap } from '@/apis/scryfall'
-import { CardRaw } from '@/apis/scryfall/types'
+import brewtopia, { parseErrorMap } from '@/apis/brewtopia'
+import { CardRaw } from '@/apis/brewtopia/cards'
 
 // Components
 import SearchInput from '@/components/molecules/SearchInput.vue'
@@ -31,16 +31,13 @@ const onSearch = (searchTerm: string) => {
   if (searching.value) return
   searching.value = true
 
-  scryfall.search
-    .simple(searchTerm)
+  brewtopia.cards
+    .search(searchTerm)
     .then(res => {
-      searchResults.value = res.data?.data
+      searchResults.value = res.data?.results
     })
     .catch(err => {
       searchResults.value = []
-      // scryfall gives a 404 on cards not found - which shouldn't be an error
-      if (err.response.data.status === 404) return
-
       dispatch.errorToast(parseErrorMap(err.response.data))
     })
     .finally(() => {

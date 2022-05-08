@@ -37,7 +37,7 @@ export default function useSort(
     }
 
     const sortedSection = sortedKeys.map(sortKey => {
-      // sort the keys by scryfall id to group by card
+      // sort the keys by card id to group by card
       // and then sort by flatColor to group by color
       // to group identical cards
       return groupedBySortKey[sortKey]

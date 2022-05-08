@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
-import scryfall, { parseErrorMap } from '@/apis/scryfall'
-import { CardRaw } from '@/apis/scryfall/types'
+import brewtopia, { parseErrorMap } from '@/apis/brewtopia'
+import { CardRaw } from '@/apis/brewtopia/cards'
 
 // Composables
 import useToasts from '@/composables/useToasts'
@@ -45,22 +45,15 @@ function fetchCardVersions() {
 
   loading.value = true
 
-  scryfall.search
+  brewtopia.cards
     .arts(cardName.value)
     .then(res => {
-      cardVersions.value = res.data.data.filter(
-        // filter out results that aren't the exact name
-        result => result.name === cardName.value
-      )
-      paginatable.value = res.data.has_more
+      cardVersions.value = res.data.results
+      paginatable.value = res.data.hasMore
       nextPage.value = 2
     })
     .catch(err => {
       cardVersions.value = []
-
-      // scryfall gives a 404 on cards not found - which shouldn't be an error
-      if (err.response.data.status === 404) return
-
       dispatch.errorToast(parseErrorMap(err.response.data))
     })
     .finally(() => {
@@ -75,23 +68,14 @@ function handlePaginate() {
 
   paginating.value = true
 
-  scryfall.search
+  brewtopia.cards
     .arts(cardName.value, nextPage.value)
     .then(res => {
-      cardVersions.value = [
-        ...cardVersions.value,
-        ...res.data.data.filter(
-          // filter out results that aren't the exact name
-          result => result.name === cardName.value
-        ),
-      ]
-      paginatable.value = res.data.has_more
+      cardVersions.value = [...cardVersions.value, ...res.data.results]
+      paginatable.value = res.data.hasMore
       nextPage.value = nextPage.value + 1
     })
     .catch(err => {
-      // scryfall gives a 404 on cards not found - which shouldn't be an error
-      if (err.response.data.status === 404) return
-
       dispatch.errorToast(parseErrorMap(err.response.data))
     })
     .finally(() => {

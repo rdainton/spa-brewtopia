@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { watch, ref } from 'vue'
-import { CardRaw } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/brewtopia/cards'
 
 // Components
 import Card from '@/components/molecules/Card.vue'

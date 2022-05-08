@@ -1,10 +1,9 @@
 import { flushPromises, mount, shallowMount } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
-import scryfall from '@/apis/scryfall'
+import brewtopia from '@/apis/brewtopia'
 
 // Types
-import { CardRaw } from '@/apis/scryfall/types'
-import { SearchResponse } from '@/apis/scryfall/search'
+import { CardRaw, SearchResponse } from '@/apis/brewtopia/cards'
 
 // Fixtures
 import { createAxiosSuccessResponseMock } from '../../../testing/helpers'
@@ -39,12 +38,12 @@ const config = {
 }
 
 const mockSuccessResponse = createAxiosSuccessResponseMock<SearchResponse>({
-  data: mockArtsResults as CardRaw[],
-  has_more: true,
+  results: mockArtsResults as CardRaw[],
+  hasMore: true,
 })
 
 describe('CardArtList.vue', () => {
-  const apiSpy = vi.spyOn(scryfall.search, 'arts')
+  const apiSpy = vi.spyOn(brewtopia.cards, 'arts')
   beforeEach(() => {
     apiSpy.mockResolvedValueOnce(mockSuccessResponse)
   })
@@ -67,7 +66,7 @@ describe('CardArtList.vue', () => {
 
   it('displays "No arts found" if has fetched, but got no results', async () => {
     vi.resetAllMocks()
-      .spyOn(scryfall.search, 'arts')
+      .spyOn(brewtopia.cards, 'arts')
       .mockRejectedValueOnce({
         response: { data: { status: 404 } },
       })

@@ -4,9 +4,9 @@ import { singleFacedCard } from '../../../testing/fixtures/card'
 
 const requiredProps = {
   name: singleFacedCard.name,
-  manaCost: singleFacedCard.mana_cost,
-  typeLine: singleFacedCard.type_line,
-  oracleText: singleFacedCard.oracle_text,
+  manaCost: singleFacedCard.manaCost,
+  typeLine: singleFacedCard.typeLine,
+  oracleText: singleFacedCard.oracleText,
 }
 
 describe('atoms/CardPreviewDescrption.vue', () => {

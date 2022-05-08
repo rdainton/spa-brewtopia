@@ -1,6 +1,6 @@
 import { shallowMount, mount } from '@vue/test-utils'
 import { v4 as uuid } from 'uuid'
-import { CardRaw } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/brewtopia/cards'
 
 // Fixtures
 import { singleFacedCard } from '../../../testing/fixtures/card'

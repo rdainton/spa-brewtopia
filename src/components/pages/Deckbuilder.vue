@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid'
 // Imported
 import { CardSections, CardProxy } from '@/types/cards'
 import { ControlOptions } from '@/types/deckbuilder'
-import { CardRaw } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/brewtopia/cards'
 
 // Composables
 import useCardActions from '@/composables/useCardActions'

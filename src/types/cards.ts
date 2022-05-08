@@ -1,4 +1,4 @@
-import { CardRaw } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/brewtopia/cards'
 
 // Array.includes(searchElement) won't let searchElement be a supertype of the array type
 // a 'string' in this instance. So I override the standard library via 'declaration merging'

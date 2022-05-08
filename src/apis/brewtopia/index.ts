@@ -4,10 +4,12 @@
 
 import auth from './auth'
 import decklists from './decklists'
+import cards from './cards'
 
 export default {
   auth,
   decklists,
+  cards,
 }
 
 /**
