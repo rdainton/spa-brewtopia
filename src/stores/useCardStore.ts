@@ -1,17 +1,16 @@
 import { defineStore } from 'pinia'
-import scryfall, { ErrorMap } from '@/apis/scryfall'
-import { IdentifiableScryId } from '@/apis/scryfall/collection'
-import { ScryfallCard } from '@/apis/scryfall/types'
+import brewtopia, { ErrorMap } from '@/apis/brewtopia'
+import { IdentifiableCardId, CardRaw } from '@/apis/brewtopia/cards'
 import {
-  StoreableCard,
+  CardStoreable,
   DecklistContent,
-  ICard,
+  CardProxy,
   PrimaryCardType,
   primaryCardTypes,
 } from '@/types/cards'
 
 interface State {
-  cards: Record<string, StoreableCard>
+  cards: Record<string, CardStoreable>
   updating: boolean
   error: ErrorMap | null
 }
@@ -40,48 +39,29 @@ export const useCardStore = defineStore('card', {
   actions: {
     mapDecklistToIdentifiables(
       decklist: DecklistContent
-    ): IdentifiableScryId[] {
+    ): IdentifiableCardId[] {
       const sections = Object.values(decklist)
 
-      const scryIdList = sections.reduce((ids, section) => {
+      const cardIdList = sections.reduce((ids, section) => {
         ids = [
           ...ids,
           ...section.reduce((ids, cardList) => {
             ids = [...ids, ...cardList.map(card => card.scryId)]
             return ids
-          }, [] as ICard['scryId'][]),
+          }, [] as CardProxy['scryId'][]),
         ]
         return ids
-      }, [] as ICard['scryId'][])
+      }, [] as CardProxy['scryId'][])
 
-      const uniqueIds = [...new Set(scryIdList)]
+      const uniqueIds = [...new Set(cardIdList)]
 
-      return uniqueIds.map(scryId => ({
-        id: scryId,
+      return uniqueIds.map(cardId => ({
+        id: cardId,
       }))
     },
 
-    filterRedundantIdentifiables(identifiables: IdentifiableScryId[]) {
+    filterRedundantIdentifiables(identifiables: IdentifiableCardId[]) {
       return identifiables.filter(({ id }) => !this.cards.hasOwnProperty(id))
-    },
-
-    chunkIdentifiables(
-      identifiables: IdentifiableScryId[]
-    ): IdentifiableScryId[][] {
-      // scryfall api asked to limit to 75 idenifiables per request.
-      const CHUNK_SIZE = 75
-
-      return identifiables.reduce((chunkedIdentifiables, item, index) => {
-        const chunkIndex = Math.floor(index / CHUNK_SIZE) // allocate a chunk
-
-        if (!chunkedIdentifiables[chunkIndex]) {
-          chunkedIdentifiables[chunkIndex] = [] // start a new chunk
-        }
-
-        chunkedIdentifiables[chunkIndex].push(item)
-
-        return chunkedIdentifiables
-      }, [] as IdentifiableScryId[][])
     },
 
     async getCollectionForDecklist(decklist: DecklistContent) {
@@ -93,15 +73,18 @@ export const useCardStore = defineStore('card', {
         this.mapDecklistToIdentifiables(decklist)
       )
 
-      const chunks = this.chunkIdentifiables(identifiables)
-      const promises = chunks.map(chunk => scryfall.collection.all(chunk))
+      if (!identifiables.length) {
+        // empty decklist, or
+        // collection already loaded.
+        this.updating = false
+        return
+      }
 
-      return Promise.all(promises)
-        .then(responses => {
-          for (const response of responses) {
-            for (const result of response.data.data) {
-              this.add(result)
-            }
+      return brewtopia.cards
+        .collection(identifiables)
+        .then(res => {
+          for (const item of res.data.collection) {
+            this.add(item)
           }
 
           return true
@@ -113,22 +96,22 @@ export const useCardStore = defineStore('card', {
         .finally(() => [(this.updating = false)])
     },
 
-    mapSearchResultoStoreable(result: ScryfallCard): StoreableCard {
-      const colorsArr = result.colors || result.color_identity || []
+    mapSearchResultoStoreable(result: CardRaw): CardStoreable {
+      const colorsArr = result.colors || result.colorIdentity || []
 
       return {
         ...result,
-        cardType: getPrimaryCardType(result.type_line),
+        cardType: getPrimaryCardType(result.typeLine),
         flatColors: colorsArr.join(),
       }
     },
 
-    add(result: ScryfallCard) {
+    add(result: CardRaw) {
       const storable = this.mapSearchResultoStoreable(result)
       this.cards[storable.id] = storable
     },
 
-    delete(card: ICard) {
+    delete(card: CardProxy) {
       if (this.cards.hasOwnProperty(card.scryId)) {
         delete this.cards[card.scryId]
       }

@@ -1,4 +1,4 @@
-import { ScryfallCard } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/brewtopia/cards'
 
 // Array.includes(searchElement) won't let searchElement be a supertype of the array type
 // a 'string' in this instance. So I override the standard library via 'declaration merging'
@@ -25,17 +25,18 @@ export const primaryCardTypes = [
 
 // the index of the primaryCardTypes is a number
 export type PrimaryCardType = typeof primaryCardTypes[number]
-export interface ICard {
+
+export interface CardProxy {
   scryId: string
   uuid?: string
 }
 
-export interface StoreableCard extends ScryfallCard {
+export interface CardStoreable extends CardRaw {
   cardType: PrimaryCardType
   flatColors: string
 }
 
-export type CardList = ICard[]
+export type CardList = CardProxy[]
 
 export type CardSection = CardList[]
 
@@ -45,7 +46,7 @@ export enum CardSections {
   MAYBES = 'maybes',
 }
 export interface CardAddress {
-  section: ICard[][] | null
+  section: CardProxy[][] | null
   columnIndex: number
 }
 
@@ -66,23 +67,23 @@ export type Decklist = {
  */
 export interface CardActions {
   moveIndex(
-    section: ICard[][],
+    section: CardProxy[][],
     columnIndex: number,
-    card: ICard,
+    card: CardProxy,
     newIdx: number
   ): void
-  duplicate(section: ICard[][], columnIndex: number, card: ICard): void
-  toPlayset(section: ICard[][], columnIndex: number, card: ICard): void
+  duplicate(section: CardProxy[][], columnIndex: number, card: CardProxy): void
+  toPlayset(section: CardProxy[][], columnIndex: number, card: CardProxy): void
   insertAtIndex(
-    section: ICard[][],
+    section: CardProxy[][],
     columnIndex: number,
-    card: ICard,
+    card: CardProxy,
     insertionIndex: number
   ): void
-  remove(ection: ICard[][], columnIndex: number, card: ICard): void
-  changeScryId(
+  remove(ection: CardProxy[][], columnIndex: number, card: CardProxy): void
+  changeCardId(
     decklist: DecklistContent,
-    currentScryId: string,
-    newScryId: string
+    currentCardId: string,
+    newCardId: string
   ): void
 }

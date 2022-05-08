@@ -5,8 +5,8 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
-    "test:unit": "jest src",
-    "test:unit:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --no-cache --runInBand"
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "axios": "^0.23.0",
@@ -20,22 +20,21 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@pinia/testing": "^0.0.9",
-    "@types/jest": "^26.0.2",
+    "@pinia/testing": "^0.0.12",
     "@types/lodash": "^4.14.176",
     "@types/node": "^17.0.21",
     "@types/uuid": "^8.3.4",
-    "@vitejs/plugin-vue": "^1.9.3",
+    "@vitejs/plugin-vue": "^2.3",
     "@vue/test-utils": "^2.0.0-rc.20",
     "autoprefixer": "^10.3.7",
-    "jest": "^26.6.3",
+    "c8": "^7.11.2",
+    "jsdom": "^19.0.0",
     "postcss": "^8.3.11",
     "sass": "^1.43.4",
     "tailwindcss": "^2.2.17",
-    "ts-jest": "^26.5.6",
     "typescript": "^4.4.3",
-    "vite": "^2.6.4",
-    "vue-jest": "^5.0.0-alpha.10",
+    "vite": "^2.9",
+    "vitest": "^0.10.2",
     "vue-tsc": "^0.3.0"
   }
 }

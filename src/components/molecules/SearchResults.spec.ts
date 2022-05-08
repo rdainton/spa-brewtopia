@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils'
 
 // Fixtures
-import { mockSearchResults } from '../../../jest/fixtures/cards'
+import { mockSearchResults } from '../../../testing/fixtures/cards'
 
 // Components
 import SearchResults from '@/components/molecules/SearchResults.vue'

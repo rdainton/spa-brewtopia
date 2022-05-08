@@ -52,6 +52,7 @@ watch(search, (newSearch, prevSearch) => {
         v-model="search"
         placeholder="Type to search"
         :minlength="MINLEN"
+        maxlength="50"
         type="text"
         @keyup="debounceSearch"
         @focus="$emit('focus')"

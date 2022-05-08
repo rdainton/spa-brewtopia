@@ -1,24 +1,24 @@
 import { shallowMount, mount } from '@vue/test-utils'
 import { v4 as uuid } from 'uuid'
-import { ScryfallCard } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/brewtopia/cards'
 
 // Fixtures
-import { singleFacedCard } from '../../../jest/fixtures/card'
+import { singleFacedCard } from '../../../testing/fixtures/card'
 
 // Components
 import Card from '@/components/molecules/Card.vue'
 import IconButton from '@/components/atoms/IconButton.vue'
 import EditIcon from '@/components/atoms/icons/EditIcon.vue'
 
-const iCard = {
+const cardProxy = {
   uuid: uuid(),
   scryId: singleFacedCard.id,
 }
 
 const props = {
-  id: iCard.uuid,
-  data: singleFacedCard as ScryfallCard,
-  iCard,
+  id: cardProxy.uuid,
+  data: singleFacedCard as CardRaw,
+  cardProxy,
 }
 
 describe('Card.vue', () => {

@@ -8,12 +8,12 @@ Currently still in development.
 This front-end is being developed with Vue 3 and Typescript, in Vite. The project uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
 ### Getting it going
-Simply run `yarn install && yarn dev`, then open the URL `http://localhost:3000/` in a browser to have a play.
+Simply run `yarn install && yarn dev`, then open the URL `http://localhost:3000/` in a browser.
 
-Note that without running an instance of the Brewtopia.io API (another repo), you will not be able to log in and make use of decklist save/load features. However, you can still build and deck, and export to `.txt`.
+Note that without running an instance of the Brewtopia.io API (another repo), you won't be able to do much except enjoy the logo.
 
 ### Testing
-Unit tests are a work in progres. Run those that do exist with `yarn test:unit`
+Unit tests powered by Vitest. Run the existing suite with `yarn test`
 
 ## License
 This project is currently UNLICENSED.

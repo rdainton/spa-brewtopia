@@ -1,17 +1,13 @@
 import { flushPromises, mount, shallowMount } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
-import scryfall from '@/apis/scryfall'
+import brewtopia from '@/apis/brewtopia'
 
 // Types
-import { ScryfallCard } from '@/apis/scryfall/types'
-import { SearchResponse } from '@/apis/scryfall/search'
+import { CardRaw, SearchResponse } from '@/apis/brewtopia/cards'
 
 // Fixtures
-import { createAxiosSuccessResponseMock } from '../../../jest/helpers'
-import { mockArtsResults } from '../../../jest/fixtures/cards'
-
-// Stores
-import { useCardStore } from '@/stores/useCardStore'
+import { createAxiosSuccessResponseMock } from '../../../testing/helpers'
+import { mockArtsResults } from '../../../testing/fixtures/cards'
 
 // Components
 import CardArtList from '@/components/organisms/CardArtList.vue'
@@ -20,12 +16,21 @@ import CardSkeleton from '@/components/atoms/CardSkeleton.vue'
 import BrewTitle from '@/components/atoms/BrewTitle.vue'
 import BrewPaginator from '@/components/molecules/BrewPaginator.vue'
 
-jest.mock('@/config')
-jest.mock('@/apis/scryfall')
+vi.mock('@/config')
 
 const config = {
   global: {
-    plugins: [createTestingPinia()],
+    plugins: [
+      createTestingPinia({
+        initialState: {
+          card: {
+            cards: {
+              [mockArtsResults[0].id]: mockArtsResults[0],
+            },
+          },
+        },
+      }),
+    ],
   },
   props: {
     cardId: mockArtsResults[0].id,
@@ -33,38 +38,35 @@ const config = {
 }
 
 const mockSuccessResponse = createAxiosSuccessResponseMock<SearchResponse>({
-  data: mockArtsResults as ScryfallCard[],
-  has_more: true,
+  results: mockArtsResults as CardRaw[],
+  hasMore: true,
 })
 
 describe('CardArtList.vue', () => {
-  beforeAll(() => {
-    useCardStore().add(mockArtsResults[0] as ScryfallCard)
-  })
-
-  const apiSpy = jest.spyOn(scryfall.search, 'arts')
+  const apiSpy = vi.spyOn(brewtopia.cards, 'arts')
   beforeEach(() => {
     apiSpy.mockResolvedValueOnce(mockSuccessResponse)
   })
 
-  afterEach(() => jest.resetAllMocks())
+  afterEach(() => {
+    apiSpy.mockClear()
+  })
 
-  test('arts are fetched automatically on mount', async () => {
+  test('arts are fetched automatically on mount', () => {
     shallowMount(CardArtList, config)
 
     expect(apiSpy).toHaveBeenCalledTimes(1)
   })
 
-  test('skeleton content is rendered while fetching', async () => {
+  test('skeleton content is rendered while fetching', () => {
     const wrapper = shallowMount(CardArtList, config as any)
 
     expect(wrapper.findComponent(CardSkeleton).exists()).toBe(true)
   })
 
   it('displays "No arts found" if has fetched, but got no results', async () => {
-    jest
-      .resetAllMocks()
-      .spyOn(scryfall.search, 'arts')
+    vi.resetAllMocks()
+      .spyOn(brewtopia.cards, 'arts')
       .mockRejectedValueOnce({
         response: { data: { status: 404 } },
       })
@@ -82,7 +84,7 @@ describe('CardArtList.vue', () => {
     expect(results).toHaveLength(mockArtsResults.length)
   })
 
-  it('displays the card name based on the scryId prop', () => {
+  it('displays the card name based on the cardId prop', () => {
     const wrapper = mount(CardArtList, config as any)
 
     const title = wrapper.getComponent(BrewTitle)

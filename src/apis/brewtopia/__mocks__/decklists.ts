@@ -1,8 +1,8 @@
 export default {
-  all: jest.fn(),
-  get: jest.fn(),
-  store: jest.fn(),
-  update: jest.fn(),
-  delete: jest.fn(),
-  duplicate: jest.fn(),
+  all: vi.fn(),
+  get: vi.fn(),
+  store: vi.fn(),
+  update: vi.fn(),
+  delete: vi.fn(),
+  duplicate: vi.fn(),
 }

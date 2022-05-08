@@ -4,9 +4,9 @@ import { parseErrorMap } from '@/apis/brewtopia'
 import { v4 as uuid } from 'uuid'
 
 // Imported
-import { CardSections, ICard } from '@/types/cards'
+import { CardSections, CardProxy } from '@/types/cards'
 import { ControlOptions } from '@/types/deckbuilder'
-import { ScryfallCard } from '@/apis/scryfall/types'
+import { CardRaw } from '@/apis/brewtopia/cards'
 
 // Composables
 import useCardActions from '@/composables/useCardActions'
@@ -62,7 +62,7 @@ const {
 const cardStore = useCardStore()
 const { sort, flatten } = useSort(cardStore.cards, handleDecklistChanges)
 
-function handleSearchDragstart(card: ScryfallCard) {
+function handleSearchDragstart(card: CardRaw) {
   // Really we only want to do this once the drop is complete
   cardStore.add(card)
 
@@ -71,7 +71,7 @@ function handleSearchDragstart(card: ScryfallCard) {
   })
 }
 
-function handleSearchDblClick(card: ScryfallCard) {
+function handleSearchDblClick(card: CardRaw) {
   cardStore.add(card)
 
   const insertable = {
@@ -122,24 +122,24 @@ function viewDecklists() {
 /**
  * Change card art
  */
-const changingArtForScryId = ref('')
+const changingArtForCardId = ref('')
 
-const cardArtModalShowing = computed(() => !!changingArtForScryId.value)
+const cardArtModalShowing = computed(() => !!changingArtForCardId.value)
 
-function handleChangeArtForScryId(iCard: ICard) {
-  changingArtForScryId.value = iCard.scryId
+function handleChangeArtForCardId(cardProxy: CardProxy) {
+  changingArtForCardId.value = cardProxy.scryId
 }
 
-function handleCardArtChange(newCard: ScryfallCard) {
+function handleCardArtChange(newCard: CardRaw) {
   cardStore.add(newCard)
 
-  cardActions.changeScryId(
+  cardActions.changeCardId(
     decklist.value,
-    changingArtForScryId.value,
+    changingArtForCardId.value,
     newCard.id
   )
 
-  changingArtForScryId.value = ''
+  changingArtForCardId.value = ''
 }
 
 /**
@@ -204,7 +204,7 @@ const decklistExpanded = ref(false)
         @delete="
           (card, colIdx) => cardActions.remove(decklist.mainboard, colIdx, card)
         "
-        @change-art="handleChangeArtForScryId"
+        @change-art="handleChangeArtForCardId"
       >
         <DeckbuilderSectionControls
           :options="[
@@ -245,7 +245,7 @@ const decklistExpanded = ref(false)
         @delete="
           (card, colIdx) => cardActions.remove(decklist.sideboard, colIdx, card)
         "
-        @change-art="handleChangeArtForScryId"
+        @change-art="handleChangeArtForCardId"
       >
         <DeckbuilderSectionControls
           :options="[
@@ -281,7 +281,7 @@ const decklistExpanded = ref(false)
         @delete="
           (card, colIdx) => cardActions.remove(decklist.maybes, colIdx, card)
         "
-        @change-art="handleChangeArtForScryId"
+        @change-art="handleChangeArtForCardId"
       >
         <DeckbuilderSectionControls
           :options="[
@@ -318,12 +318,12 @@ const decklistExpanded = ref(false)
   <BrewModal
     size="lg"
     :show="cardArtModalShowing"
-    @hide="changingArtForScryId = ''"
+    @hide="changingArtForCardId = ''"
   >
     <CardArtList
-      :card-id="changingArtForScryId"
+      :card-id="changingArtForCardId"
       @change="handleCardArtChange"
-      @cancel="changingArtForScryId = ''"
+      @cancel="changingArtForCardId = ''"
     />
   </BrewModal>
 

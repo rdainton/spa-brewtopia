@@ -35,7 +35,7 @@ const lastColumnStyles = computed(() =>
 )
 
 /**
- * Handle an ICard drop.
+ * Handle an CardProxy drop.
  */
 function handleDrop(e: DragEvent, forceCardIndex = -1) {
   reset()

@@ -2,15 +2,15 @@
 import { computed } from 'vue'
 
 // Imported types
-import { ScryfallCard, CardFace } from '@/apis/scryfall/types'
-import { StoreableCard } from '@/types/cards'
+import { CardRaw, CardFace } from '@/apis/brewtopia/cards'
+import { CardStoreable } from '@/types/cards'
 
 // Components
 import CardPreviewDescription from '@/components/atoms/CardPreviewDescription.vue'
 import CardPreviewImage from '@/components/atoms/CardPreviewImage.vue'
 
 interface CardPreviewProps {
-  cardData: ScryfallCard | StoreableCard
+  cardData: CardRaw | CardStoreable
   position: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 }
 
@@ -30,34 +30,34 @@ const positionClassMap: Record<string, string> = {
  * Content
  */
 const hasTwoFaces = computed(
-  () => !!props.cardData?.card_faces && props.cardData.card_faces.length === 2
+  () => !!props.cardData?.cardFaces && props.cardData.cardFaces.length === 2
 )
 
 const isSplitFace = computed(
   () =>
     hasTwoFaces.value &&
-    props.cardData.card_faces!.reduce(
-      (prevBool, face) => face?.image_uris === undefined && prevBool,
+    props.cardData.cardFaces!.reduce(
+      (prevBool, face) => face?.imgUrl === undefined && prevBool,
       true
     )
 )
 
 const cardFrontData = computed(() => {
-  let source: CardFace | ScryfallCard | StoreableCard = hasTwoFaces.value
+  let source: CardFace | CardRaw | CardStoreable = hasTwoFaces.value
     ? // assert type here as doesn't infer from computed.
-      (props.cardData.card_faces as CardFace[])[0]
+      (props.cardData.cardFaces as CardFace[])[0]
     : props.cardData
 
   return {
     name: source.name,
-    manaCost: source?.mana_cost,
-    typeLine: source.type_line,
-    oracleText: source.oracle_text,
+    manaCost: source?.manaCost,
+    typeLine: source.typeLine,
+    oracleText: source.oracleText,
     power: source.power,
     toughness: source.toughness,
     imageUrl: isSplitFace.value
-      ? props.cardData.image_uris?.large
-      : source.image_uris?.large,
+      ? props.cardData.imgUrlLarge
+      : source.imgUrlLarge,
   }
 })
 
@@ -66,16 +66,16 @@ const cardBackData = computed(() => {
 
   // assert type here as doesn't its defined
   // from hasTwoFaces computed infer from computed.
-  const source = (props.cardData.card_faces as CardFace[])[1]
+  const source = (props.cardData.cardFaces as CardFace[])[1]
 
   return {
     name: source.name,
-    manaCost: source.mana_cost,
-    typeLine: source.type_line,
-    oracleText: source.oracle_text,
+    manaCost: source.manaCost,
+    typeLine: source.typeLine,
+    oracleText: source.oracleText,
     power: source.power,
     toughness: source.toughness,
-    imageUrl: isSplitFace.value ? '' : source.image_uris?.large,
+    imageUrl: isSplitFace.value ? '' : source.imgUrlLarge || '',
   }
 })
 </script>
