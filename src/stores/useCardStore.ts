@@ -73,6 +73,13 @@ export const useCardStore = defineStore('card', {
         this.mapDecklistToIdentifiables(decklist)
       )
 
+      if (!identifiables.length) {
+        // empty decklist, or
+        // collection already loaded.
+        this.updating = false
+        return
+      }
+
       return brewtopia.cards
         .collection(identifiables)
         .then(res => {
