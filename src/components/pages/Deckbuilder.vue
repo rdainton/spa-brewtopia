@@ -122,24 +122,24 @@ function viewDecklists() {
 /**
  * Change card art
  */
-const changingArtForScryId = ref('')
+const changingArtForCardId = ref('')
 
-const cardArtModalShowing = computed(() => !!changingArtForScryId.value)
+const cardArtModalShowing = computed(() => !!changingArtForCardId.value)
 
-function handleChangeArtForScryId(cardProxy: CardProxy) {
-  changingArtForScryId.value = cardProxy.scryId
+function handleChangeArtForCardId(cardProxy: CardProxy) {
+  changingArtForCardId.value = cardProxy.scryId
 }
 
 function handleCardArtChange(newCard: CardRaw) {
   cardStore.add(newCard)
 
-  cardActions.changeScryId(
+  cardActions.changeCardId(
     decklist.value,
-    changingArtForScryId.value,
+    changingArtForCardId.value,
     newCard.id
   )
 
-  changingArtForScryId.value = ''
+  changingArtForCardId.value = ''
 }
 
 /**
@@ -204,7 +204,7 @@ const decklistExpanded = ref(false)
         @delete="
           (card, colIdx) => cardActions.remove(decklist.mainboard, colIdx, card)
         "
-        @change-art="handleChangeArtForScryId"
+        @change-art="handleChangeArtForCardId"
       >
         <DeckbuilderSectionControls
           :options="[
@@ -245,7 +245,7 @@ const decklistExpanded = ref(false)
         @delete="
           (card, colIdx) => cardActions.remove(decklist.sideboard, colIdx, card)
         "
-        @change-art="handleChangeArtForScryId"
+        @change-art="handleChangeArtForCardId"
       >
         <DeckbuilderSectionControls
           :options="[
@@ -281,7 +281,7 @@ const decklistExpanded = ref(false)
         @delete="
           (card, colIdx) => cardActions.remove(decklist.maybes, colIdx, card)
         "
-        @change-art="handleChangeArtForScryId"
+        @change-art="handleChangeArtForCardId"
       >
         <DeckbuilderSectionControls
           :options="[
@@ -318,12 +318,12 @@ const decklistExpanded = ref(false)
   <BrewModal
     size="lg"
     :show="cardArtModalShowing"
-    @hide="changingArtForScryId = ''"
+    @hide="changingArtForCardId = ''"
   >
     <CardArtList
-      :card-id="changingArtForScryId"
+      :card-id="changingArtForCardId"
       @change="handleCardArtChange"
-      @cancel="changingArtForScryId = ''"
+      @cancel="changingArtForCardId = ''"
     />
   </BrewModal>
 

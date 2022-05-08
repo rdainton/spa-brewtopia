@@ -84,7 +84,7 @@ describe('CardArtList.vue', () => {
     expect(results).toHaveLength(mockArtsResults.length)
   })
 
-  it('displays the card name based on the scryId prop', () => {
+  it('displays the card name based on the cardId prop', () => {
     const wrapper = mount(CardArtList, config as any)
 
     const title = wrapper.getComponent(BrewTitle)

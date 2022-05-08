@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import brewtopia, { ErrorMap } from '@/apis/brewtopia'
-import { IdentifiableScryId, CardRaw } from '@/apis/brewtopia/cards'
+import { IdentifiableCardId, CardRaw } from '@/apis/brewtopia/cards'
 import {
   CardStoreable,
   DecklistContent,
@@ -39,10 +39,10 @@ export const useCardStore = defineStore('card', {
   actions: {
     mapDecklistToIdentifiables(
       decklist: DecklistContent
-    ): IdentifiableScryId[] {
+    ): IdentifiableCardId[] {
       const sections = Object.values(decklist)
 
-      const scryIdList = sections.reduce((ids, section) => {
+      const cardIdList = sections.reduce((ids, section) => {
         ids = [
           ...ids,
           ...section.reduce((ids, cardList) => {
@@ -53,14 +53,14 @@ export const useCardStore = defineStore('card', {
         return ids
       }, [] as CardProxy['scryId'][])
 
-      const uniqueIds = [...new Set(scryIdList)]
+      const uniqueIds = [...new Set(cardIdList)]
 
-      return uniqueIds.map(scryId => ({
-        id: scryId,
+      return uniqueIds.map(cardId => ({
+        id: cardId,
       }))
     },
 
-    filterRedundantIdentifiables(identifiables: IdentifiableScryId[]) {
+    filterRedundantIdentifiables(identifiables: IdentifiableCardId[]) {
       return identifiables.filter(({ id }) => !this.cards.hasOwnProperty(id))
     },
 

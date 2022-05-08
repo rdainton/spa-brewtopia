@@ -31,7 +31,7 @@ export interface CardRaw {
   setType: string
 }
 
-export interface IdentifiableScryId {
+export interface IdentifiableCardId {
   id: string
 }
 
@@ -47,7 +47,7 @@ export interface IdentifiableSetName {
 export type Identifiable =
   | IdentifiableName
   | IdentifiableSetName
-  | IdentifiableScryId
+  | IdentifiableCardId
 
 export interface SearchResponse {
   results: CardRaw[]

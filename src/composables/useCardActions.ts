@@ -68,7 +68,7 @@ export default function useCardActions(onComplete?: () => void): CardActions {
     columnIndex: number,
     card: CardProxy
   ): void => {
-    // count instances of card 'scryId'
+    // count instances of card 'cardId'
     let currentCount = section[columnIndex].filter(
       c => c.scryId === card.scryId
     ).length
@@ -129,19 +129,19 @@ export default function useCardActions(onComplete?: () => void): CardActions {
    * Change cards of the matching scryId
    * to have the new scryId
    */
-  const changeScryId = (
+  const changeCardId = (
     decklist: DecklistContent,
-    currentScryId: string,
-    newScryId: string
+    currentCardId: string,
+    newCardId: string
   ): void => {
     let sectionKey: keyof DecklistContent
     for (sectionKey in decklist) {
       decklist[sectionKey] = decklist[sectionKey].map(col =>
         col.map(cardProxy => {
-          if (cardProxy.scryId === currentScryId) {
+          if (cardProxy.scryId === currentCardId) {
             return {
               ...cardProxy,
-              scryId: newScryId,
+              scryId: newCardId,
             }
           }
           return cardProxy
@@ -158,6 +158,6 @@ export default function useCardActions(onComplete?: () => void): CardActions {
     toPlayset,
     insertAtIndex,
     remove,
-    changeScryId,
+    changeCardId,
   }
 }

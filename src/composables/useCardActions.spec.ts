@@ -6,9 +6,9 @@ const CARD_1_ID = 'card_1_ID'
 const CARD_2_ID = 'card_2'
 const CARD_3_ID = 'card_3'
 
-function createMockCardProxy(scryId: string): CardProxy {
+function createMockCardProxy(cardId: string): CardProxy {
   return {
-    scryId,
+    scryId: cardId,
     uuid: uuid(),
   }
 }
@@ -40,9 +40,9 @@ describe('useCardActions.ts', () => {
     onComplete.mockReset()
   })
 
-  describe('changeScryId', () => {
+  describe('changeCardId', () => {
     test('onComplete is called when a valid function', () => {
-      cardActions.changeScryId(
+      cardActions.changeCardId(
         createMockDecklistContent(),
         CARD_1_ID,
         'new-card-id'
@@ -51,20 +51,20 @@ describe('useCardActions.ts', () => {
       expect(onComplete).toHaveBeenCalled()
     })
 
-    test('the scryId is changed for all matches', () => {
+    test('the cardId is changed for all matches', () => {
       const decklist = createMockDecklistContent()
       const newId = 'new-card-id'
-      cardActions.changeScryId(decklist, CARD_1_ID, newId)
+      cardActions.changeCardId(decklist, CARD_1_ID, newId)
 
       expect(decklist.mainboard[0][0].scryId === newId)
       expect(decklist.mainboard[0][1].scryId === newId)
       expect(decklist.sideboard[1][0].scryId === newId)
     })
 
-    test('only the cards with a matching scryId are affected', () => {
+    test('only the cards with a matching cardId are affected', () => {
       const decklist = createMockDecklistContent()
       const newId = 'new-card-id'
-      cardActions.changeScryId(decklist, CARD_1_ID, newId)
+      cardActions.changeCardId(decklist, CARD_1_ID, newId)
 
       expect(decklist.mainboard[0][2].scryId === CARD_2_ID)
       expect(decklist.mainboard[0][3].scryId === CARD_2_ID)
