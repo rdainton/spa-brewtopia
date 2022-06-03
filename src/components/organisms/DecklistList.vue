@@ -18,7 +18,7 @@ defineEmits<{
   (event: 'duplicate', id: number): void
 }>()
 
-const listClasses = 'w-full gap-4 grid grid-cols-4'
+const listClasses = 'gap-4 grid grid-cols-4 w-230'
 </script>
 
 <template>

@@ -1,56 +1,40 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { parseErrorMap } from '@/apis/brewtopia'
+
+// Composables
+import useToasts from '@/composables/useToasts'
 
 // Store
-import { useAuthStore } from '@/stores/useAuthStore'
+import { useDecklistStore } from '@/stores/useDecklistStore'
 
 // Components
-import IconButtonLabelled from '@/components/atoms/IconButtonLabelled.vue'
+import DecklistForm from '@/components/organisms/DecklistForm.vue'
 
-// Icons
-import ExportIcon from '@/components/atoms/icons/ExportIcon.vue'
-import DecklistsIcon from '@/components/atoms/icons/DecklistsIcon.vue'
+/**
+ * Save decklists
+ */
+const decklistStore = useDecklistStore()
+const dispatch = useToasts()
 
-const emit = defineEmits<{
-  (event: 'view'): void
-  (event: 'export'): void
-}>()
+function saveDecklist(newName: string) {
+  decklistStore.name = newName
 
-const authStore = useAuthStore()
+  decklistStore
+    .saveChanges()
+    .then(() => {
+      dispatch.successToast('Saved successfully.')
+    })
+    .catch(err => {
+      dispatch.errorToast(parseErrorMap(err.response.data))
+    })
+}
 
-const isLoggedIn = computed(() => authStore.isLoggedIn)
+// TODO: this component will likely change
+// completely in the next feature addition
 </script>
 
 <template>
-  <div
-    class="fixed bottom-0 flex items-center px-2 pt-1 pb-3 transform -translate-x-1/2 bg-white shadow-lg left-1/2 rounded-t-md dark:bg-gray-900"
-  >
-    <template v-if="isLoggedIn">
-      <slot></slot>
-    </template>
-
-    <IconButtonLabelled
-      @click="emit('export')"
-      size="xl"
-      tooltip="Export decklist to .txt"
-      label="Export"
-    >
-      <ExportIcon />
-    </IconButtonLabelled>
-
-    <template v-if="isLoggedIn">
-      <div class="w-0.5 h-8 mx-2 bg-gray-500" />
-
-      <IconButtonLabelled
-        @click="emit('view')"
-        size="xl"
-        tooltip="View decklists"
-        label="Decks"
-      >
-        <DecklistsIcon />
-      </IconButtonLabelled>
-    </template>
+  <div class="flex items-center bg-transparent">
+    <DecklistForm @updated="saveDecklist" />
   </div>
 </template>
-
-<style lang="scss"></style>

@@ -56,7 +56,7 @@ function formatDate(dateString: string): string {
       }"
       @click="$emit('load')"
     >
-      <div class="w-full p-2 text-left rounded-b-lg h-15 bg-overlay">
+      <div class="w-full p-2 text-left rounded-b-lg bg-overlay">
         <h3 class="w-full mb-1 text-white">
           {{ name }}
         </h3>

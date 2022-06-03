@@ -6,6 +6,7 @@ import { useAuthStore } from '@/stores/useAuthStore'
 
 // Components
 import TheHeader from '@/components/TheHeader.vue'
+import TheSideNav from '@/components/TheSideNav.vue'
 import TheToastNotifications from '@/components/TheToastNotifications.vue'
 
 const authStore = useAuthStore()
@@ -19,8 +20,8 @@ const attemptedAutoLogin = computed(() => authStore.autoAttempted)
     class="relative flex-col hidden max-h-screen min-h-screen lg:flex min-w-screen dark:bg-gray-900"
   >
     <TheHeader />
-
     <RouterView />
+    <TheSideNav />
   </div>
 
   <div

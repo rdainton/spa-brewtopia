@@ -40,7 +40,7 @@ function reset() {
   confirming.value = false
 }
 
-const baseStyles = 'rounded-full flex items-center' // box shadow?
+const baseStyles = 'rounded-md flex items-center'
 
 const iconSizeStylesMap: Record<string, string> = {
   sm: 'h-4 w-4 p-1',

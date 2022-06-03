@@ -7,17 +7,13 @@ import { CardRaw } from '@/apis/brewtopia/cards'
 // Components
 import SearchInput from '@/components/molecules/SearchInput.vue'
 import SearchResults from '@/components/molecules/SearchResults.vue'
+import IconButton from '@/components/atoms/IconButton.vue'
 
-interface CardSearchProps {
-  hideResults?: boolean
-}
-
-const props = withDefaults(defineProps<CardSearchProps>(), {
-  hideResults: false,
-})
+// Icons
+import EyeIcon from '@/components/atoms/icons/EyeIcon.vue'
+import EyeOffIcon from '@/components/atoms/icons/EyeOffIcon.vue'
 
 const emit = defineEmits<{
-  (event: 'show-results'): void
   (event: 'dragstart', card: CardRaw): void
   (event: 'dblclick', card: CardRaw): void
 }>()
@@ -45,7 +41,12 @@ const onSearch = (searchTerm: string) => {
     })
 }
 
-const collapsableClasses = computed(() => (props.hideResults ? 'h-4' : 'h-68'))
+/**
+ * Results visibility
+ */
+const showResults = ref(false)
+
+const collapsableClasses = computed(() => (showResults.value ? 'h-64' : 'h-2'))
 </script>
 <template>
   <div
@@ -53,7 +54,19 @@ const collapsableClasses = computed(() => (props.hideResults ? 'h-4' : 'h-68'))
     :class="collapsableClasses"
   >
     <Teleport to="body">
-      <SearchInput @submit="onSearch" @focus="$emit('show-results')" />
+      <div class="fixed items-center hidden top-2 right-20 lg:flex gap-x-2">
+        <IconButton
+          @clicked="showResults = !showResults"
+          size="lg"
+          tooltip="Toggle results visibility"
+          :tooltip-below="true"
+        >
+          <EyeIcon v-if="showResults" />
+          <EyeOffIcon v-else />
+        </IconButton>
+
+        <SearchInput @submit="onSearch" @focus="showResults = true" />
+      </div>
     </Teleport>
 
     <SearchResults

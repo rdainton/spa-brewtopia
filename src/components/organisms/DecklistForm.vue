@@ -52,10 +52,14 @@ const showSubmitButton = computed(() => {
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit" class="w-96" @click="readonly = false">
+  <form
+    @submit.prevent="onSubmit"
+    class="flex items-center h-16 w-96"
+    @click="readonly = false"
+  >
     <fieldset
       :disabled="working || decklistStore.loading"
-      class="relative mt-1"
+      class="relative w-full"
     >
       <!-- Fields -->
       <VTextInput
@@ -71,7 +75,7 @@ const showSubmitButton = computed(() => {
 
       <span
         v-if="showSubmitButton"
-        class="absolute transform -translate-y-1/2 right-4 top-10"
+        class="absolute transform -translate-y-1/2 right-4 top-1/2"
         ><BrewButton size="xs" type="submit">Save changes</BrewButton></span
       >
     </fieldset>
