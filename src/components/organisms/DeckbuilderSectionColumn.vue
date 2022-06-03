@@ -50,7 +50,7 @@ function handleDropAtTop(e: DragEvent) {
 
 <template>
   <div
-    class="flex-1 flex-shrink-0 min-h-full px-1 pb-4 bg-transparent border rounded-md h-fit-content"
+    class="flex-1 shrink-0 min-h-full px-1 pb-4 bg-transparent border rounded-md h-fit-content"
     :class="[dragStyles, lastColumnStyles]"
     @dragenter.prevent="handleDragenter"
     @dragleave="handleDragleave"

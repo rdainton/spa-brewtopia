@@ -122,7 +122,7 @@ const cardImageUrl = computed(() => {
 
 <template>
   <div
-    class="relative flex flex-shrink-0 w-40 h-56 bg-black rounded-md trigger card"
+    class="relative flex shrink-0 w-40 h-56 bg-black rounded-md trigger card"
     :class="[
       { 'opacity-25': dragging },
       { '-mt-49': stacked },

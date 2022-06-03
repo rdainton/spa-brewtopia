@@ -1,6 +1,5 @@
 module.exports = {
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-  darkMode: 'media', // or 'media' or 'class'
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -44,6 +43,7 @@ module.exports = {
         68: '17rem',
         88: '22rem',
         100: '25rem',
+        230: '57.5rem',
       },
 
       height: {
@@ -70,11 +70,6 @@ module.exports = {
       maxHeight: {
         'modal-content': 'calc(100vh - 0.5rem)',
       },
-    },
-  },
-  variants: {
-    extend: {
-      display: ['dark'],
     },
   },
   plugins: [],
