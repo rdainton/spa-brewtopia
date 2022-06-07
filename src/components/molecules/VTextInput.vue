@@ -48,13 +48,13 @@ const wrapperClasses: Record<string, string> = {
 const labelClasses: Record<string, string> = {
   auth: 'block xl:text-xl mb-1 dark:text-white',
   discreet:
-    'block uppercase mb-1 text-sm text-primary-medium dark:text-dark__primary-light',
+    'block uppercase text-xs text-primary-medium dark:text-dark__primary-light mt-1',
 }
 
 const inputClasses: Record<string, string> = {
   auth: 'p-3 text-grey bg-white text-lg rounded-lg ',
   discreet:
-    'pb-3 pr-2 text-grey dark:text-gray-100 bg-transparent text-xl border-transparent',
+    'pr-2 text-grey dark:text-gray-100 bg-transparent text-xl border-transparent',
 }
 
 const readonlyClasses: Record<string, string> = {
@@ -64,7 +64,7 @@ const readonlyClasses: Record<string, string> = {
 
 const errorClassesMap: Record<string, string> = {
   auth: 'mb-3',
-  discreet: 'absolute bottom-0',
+  discreet: 'absolute -bottom-4 z-10',
 }
 
 const borderColorMap: Record<string, string> = {

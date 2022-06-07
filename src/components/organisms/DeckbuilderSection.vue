@@ -62,8 +62,8 @@ function handleDrop(e: DragEvent, columnIndex = 0, forceCardIdx = -1) {
 
 <template>
   <section :class="[baseStyles, alignmentmentStylesMap[alignment!]]">
-    <div class="mb-2">
-      <Title class="mb-1">
+    <div class="flex items-center mb-3">
+      <Title class="w-32 mb-1 mr-4">
         {{ titleOutput }}
       </Title>
 
@@ -78,7 +78,7 @@ function handleDrop(e: DragEvent, columnIndex = 0, forceCardIdx = -1) {
         >
           <BrewText
             v-if="columnIndex + 1 < sectionData.length"
-            extend-classes="mb-2 text-sm"
+            extend-classes="mb-2 text-sm text-center"
           >
             ({{ column.length }})
           </BrewText>

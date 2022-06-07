@@ -23,7 +23,7 @@ const emit = defineEmits<{
   (event: 'clicked'): void
 }>()
 
-const baseStyles = 'rounded-full' // box shadow?
+const baseStyles = 'rounded-md'
 
 const sizeStylesMap: Record<string, string> = {
   sm: 'h-4 w-4 p-1',

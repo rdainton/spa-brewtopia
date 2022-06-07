@@ -122,7 +122,7 @@ const cardImageUrl = computed(() => {
 
 <template>
   <div
-    class="relative flex flex-shrink-0 w-40 h-56 bg-black rounded-md trigger card"
+    class="relative flex w-40 h-56 bg-black rounded-md shrink-0 trigger card"
     :class="[
       { 'opacity-25': dragging },
       { '-mt-49': stacked },
@@ -162,7 +162,7 @@ const cardImageUrl = computed(() => {
       </div>
     </article>
 
-    <div v-if="withControls" class="absolute left-0 flex -top-2 gap-x-1">
+    <div v-if="withControls" class="absolute left-0 -top-2 gap-x-0.5">
       <IconButton
         size="md"
         variant="primary"
@@ -202,7 +202,7 @@ const cardImageUrl = computed(() => {
 
   &:hover {
     & > div {
-      display: block;
+      display: flex;
     }
   }
 }

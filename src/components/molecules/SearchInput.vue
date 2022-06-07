@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import debounce from 'lodash/debounce'
-import SearchIcon from '../atoms/icons/SearchIcon.vue'
+import SearchIcon from '@/components/atoms/icons/SearchIcon.vue'
 
 const emit = defineEmits<{
   (event: 'focus'): void
@@ -14,9 +14,9 @@ const search = ref('')
 const prevSearch = ref('')
 
 const initSearch = () => {
+  prevSearch.value = search.value
   if (search.value.length >= MINLEN) {
     emit('submit', search.value)
-    prevSearch.value = search.value
   }
 }
 
@@ -28,34 +28,42 @@ const debounceSearch = debounce(function () {
 }, 500)
 
 const clearSearch = () => {
+  console.log('clearSearch')
   search.value = ''
 }
 
-// reset search state is user clears the search field.
-watch(search, (newSearch, prevSearch) => {
-  if (prevSearch.length && !newSearch.length) clearSearch()
-})
+function handleFocus() {
+  emit('focus')
+  if (search.value) clearSearch()
+}
+
+function handleFocusout() {
+  if (!search.value && prevSearch.value.length) {
+    search.value = prevSearch.value
+  }
+}
 </script>
 
 <template>
   <form
     @submit.prevent="initSearch"
-    class="absolute top-0 flex items-center w-full gap-2 transform -translate-x-1/2 h-14 md:w-auto left-1/2"
+    class="flex items-center h-12 gap-2 bg-gray-100 rounded-lg dark:bg-gray-800 lg:w-68 xl:w-auto"
   >
-    <div class="flex-shrink-0 w-8 h-8 ml-4 text-gray-900 dark:text-white">
+    <div class="shrink-0 w-6 h-6 ml-4 text-gray-900 dark:text-white">
       <SearchIcon />
     </div>
 
-    <div class="relative w-full ml-1 border-b border-gray-500 md:w-96">
+    <div class="relative w-full ml-1 md:w-80 xl:w-96">
       <input
-        class="w-full py-2 text-2xl placeholder-gray-500 bg-transparent dark:text-white focus:outline-none"
+        class="w-full py-2 text-xl placeholder-gray-500 bg-transparent dark:text-white focus:outline-none"
         v-model="search"
-        placeholder="Type to search"
+        placeholder="Search for cards..."
         :minlength="MINLEN"
         maxlength="50"
         type="text"
         @keyup="debounceSearch"
-        @focus="$emit('focus')"
+        @focus="handleFocus"
+        @focusout="handleFocusout"
       />
     </div>
   </form>
