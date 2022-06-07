@@ -7,7 +7,7 @@ import { useAuthStore } from '@/stores/useAuthStore'
 
 // Components
 import TheLogo from '@/components/TheLogo.vue'
-import DeckbuilderDock from '@/components/molecules/DeckbuilderDock.vue'
+import DecklistMeta from '@/components/organisms/DecklistMeta.vue'
 
 const route = useRoute()
 
@@ -26,7 +26,7 @@ const isLoggedIn = computed(() => authStore.isLoggedIn)
       <TheLogo />
     </RouterLink>
 
-    <DeckbuilderDock v-if="route.name === 'deckbuilder' && isLoggedIn" />
+    <DecklistMeta v-if="route.name === 'deckbuilder' && isLoggedIn" />
 
     <div class="flex items-center ml-auto dark:text-white">
       <template v-if="isLoggedIn">

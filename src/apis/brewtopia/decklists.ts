@@ -1,5 +1,5 @@
 import brewtopiaClient, { apiPrefix } from './client'
-import { DecklistContent } from '../../types/cards'
+import { DecklistContent } from '@/types/cards'
 
 export interface DecklistMeta {
   id: number

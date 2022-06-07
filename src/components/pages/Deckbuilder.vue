@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
 import { v4 as uuid } from 'uuid'
+import { parseErrorMap } from '@/apis/brewtopia'
 
 // Imported
 import { CardSections, CardProxy } from '@/types/cards'
@@ -8,6 +9,7 @@ import { ControlOptions } from '@/types/deckbuilder'
 import { CardRaw } from '@/apis/brewtopia/cards'
 
 // Composables
+import useToasts from '@/composables/useToasts'
 import useCardActions from '@/composables/useCardActions'
 import useCardDrag from '@/composables/useCardDrag'
 import useSort from '@/composables/useSort'
@@ -27,6 +29,7 @@ import DeckbuilderSectionControls from '@/components/molecules/DeckbuilderSectio
 import BrewModal from '@/components/atoms/BrewModal.vue'
 import CardArtList from '@/components/organisms/CardArtList.vue'
 import BlockUI from '@/components/molecules/BlockUI.vue'
+import BrewButton from '@/components/molecules/BrewButton.vue'
 
 const UIStore = useUIStore()
 
@@ -94,6 +97,22 @@ function handleCardArtChange(newCard: CardRaw) {
   )
 
   changingArtForCardId.value = ''
+}
+
+/**
+ * Save changes
+ */
+const dispatch = useToasts()
+
+function saveChanges() {
+  decklistStore
+    .saveChanges()
+    .then(() => {
+      dispatch.successToast('Saved successfully.')
+    })
+    .catch(err => {
+      dispatch.errorToast(parseErrorMap(err.response.data))
+    })
 }
 </script>
 
@@ -224,6 +243,12 @@ function handleCardArtChange(newCard: CardRaw) {
       </DeckbuilderSection>
     </DeckbuilderSide>
   </div>
+
+  <span
+    v-if="decklistStore.unsavedChanges && !decklistStore.loading"
+    class="fixed transform translate-x-1/2 right-1/2 bottom-6"
+    ><BrewButton size="xs" @click="saveChanges">Save changes</BrewButton></span
+  >
 
   <BrewModal
     size="lg"

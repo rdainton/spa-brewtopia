@@ -41,6 +41,10 @@ export const useDecklistStore = defineStore('decklist', {
     hasCurrent(state) {
       return !!state.id
     },
+
+    hasName(state) {
+      return !!state.name
+    },
   },
 
   actions: {
