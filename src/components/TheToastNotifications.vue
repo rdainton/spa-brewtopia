@@ -33,7 +33,7 @@ const componentMap: Record<NotificationType, any> = {
   <teleport to="body">
     <div
       v-if="toastsArray.length"
-      class="fixed right-0 z-50 flex flex-col items-center justify-end mr-2 pointer-events-none bottom-2 md:bottom-auto md:top-20 sm:justify-start sm:items-end w-96"
+      class="fixed right-0 z-50 flex flex-col-reverse items-center mr-2 pointer-events-none bottom-4 top-20 w-96"
     >
       <div
         v-for="toast in toastsArray"
@@ -48,7 +48,7 @@ const componentMap: Record<NotificationType, any> = {
         <div class="w-full rounded-sm shadow-xs">
           <div class="relative flex items-center flex-1 p-2 md:p-3">
             <span
-              class="flex items-center justify-center flex-shrink-0 w-8 h-8 mr-3 text-gray-900 dark:text-white md:w-10 md:h-10"
+              class="flex items-center justify-center shrink-0 w-8 h-8 mr-3 text-gray-900 dark:text-white md:w-10 md:h-10"
             >
               <component :is="componentMap[toast.type]" />
             </span>

@@ -68,6 +68,14 @@ const routes: Array<RouteRecordRaw> = [
   //   },
   // },
   {
+    path: '/decklists',
+    name: 'decklists',
+    component: () => import('../components/pages/Decklists.vue'),
+    meta: {
+      middleware: [attemptAutoLogin, auth],
+    },
+  },
+  {
     path: '/:notFound(.*)',
     redirect: '/', // could create a 404 component here instead.
   },

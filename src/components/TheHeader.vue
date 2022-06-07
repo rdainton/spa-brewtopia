@@ -1,27 +1,32 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 
 // Store
 import { useAuthStore } from '@/stores/useAuthStore'
 
 // Components
 import TheLogo from '@/components/TheLogo.vue'
+import DecklistMeta from '@/components/organisms/DecklistMeta.vue'
+
+const route = useRoute()
 
 const authStore = useAuthStore()
-
 const isLoggedIn = computed(() => authStore.isLoggedIn)
 </script>
 
 <template>
   <header
-    class="flex items-center w-full h-12 px-4 py-2 bg-white dark:bg-gray-900"
+    class="flex items-center justify-end w-full h-16 px-4 py-2 bg-white border-b-2 border-gray-100 shrink-0 dark:border-gray-800 dark:bg-gray-900"
   >
     <RouterLink
       :to="{ name: 'deckbuilder' }"
-      class="fixed z-10 flex items-center left-1 -top-4"
+      class="relative flex items-center mr-4 -left-1 -top-0.5"
     >
       <TheLogo />
     </RouterLink>
+
+    <DecklistMeta v-if="route.name === 'deckbuilder' && isLoggedIn" />
 
     <div class="flex items-center ml-auto dark:text-white">
       <template v-if="isLoggedIn">
@@ -33,10 +38,6 @@ const isLoggedIn = computed(() => authStore.isLoggedIn)
       <template v-else>
         <RouterLink :to="{ name: 'login' }" class="hover:underline">
           Login
-        </RouterLink>
-        <span class="mx-2">|</span>
-        <RouterLink :to="{ name: 'register' }" class="hover:underline">
-          Register
         </RouterLink>
       </template>
     </div>

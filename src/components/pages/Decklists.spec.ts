@@ -1,10 +1,12 @@
 import { shallowMount } from '@vue/test-utils'
-import Decklists from '@/components/organisms/Decklists.vue'
+import Decklists from '@/components/pages/Decklists.vue'
 // fetch users decklists
 // display DecklistList component
 // delete a decklist api call
 // load a decklist emit?
 // show a message if no decklists found
+// load decklist
+// new decklist
 
 describe('organisms/Decklists.vue', () => {
   test('renders message if no decklists found', async () => {

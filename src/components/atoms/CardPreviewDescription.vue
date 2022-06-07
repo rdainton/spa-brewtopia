@@ -20,7 +20,7 @@ defineProps<CardPreviewProps>()
         {{ name }}
       </h1>
 
-      <div v-if="manaCost" class="flex-shrink-0 mr-2">
+      <div v-if="manaCost" class="shrink-0 mr-2">
         <span>{{ manaCost }}</span>
       </div>
     </div>

@@ -90,8 +90,12 @@ const onSubmit = handleSubmit(values => {
 
       <!-- Additional Options -->
       <div
-        class="flex justify-end my-4 text-sm text-gray-500 dark:text-gray-300 xl:text-base"
+        class="flex flex-col items-end my-4 text-sm text-gray-500 gap-y-2 dark:text-gray-300 xl:text-base"
       >
+        <RouterLink :to="{ name: 'register' }" class="hover:underline">
+          Don't have an account? Register here.
+        </RouterLink>
+
         <RouterLink :to="{ name: 'forgot-password' }" class="hover:underline">
           Forgot your password?
         </RouterLink>

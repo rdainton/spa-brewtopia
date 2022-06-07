@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
-import { parseErrorMap } from '@/apis/brewtopia'
 import { v4 as uuid } from 'uuid'
+import { parseErrorMap } from '@/apis/brewtopia'
 
 // Imported
 import { CardSections, CardProxy } from '@/types/cards'
@@ -9,11 +9,10 @@ import { ControlOptions } from '@/types/deckbuilder'
 import { CardRaw } from '@/apis/brewtopia/cards'
 
 // Composables
+import useToasts from '@/composables/useToasts'
 import useCardActions from '@/composables/useCardActions'
 import useCardDrag from '@/composables/useCardDrag'
-import useExport from '@/composables/useExport'
 import useSort from '@/composables/useSort'
-import useToasts from '@/composables/useToasts'
 
 // Stores
 import { storeToRefs } from 'pinia'
@@ -26,15 +25,11 @@ import CardSearch from '@/components/organisms/CardSearch.vue'
 import DeckbuilderMain from '@/components/organisms/DeckbuilderMain.vue'
 import DeckbuilderSide from '@/components/organisms/DeckbuilderSide.vue'
 import DeckbuilderSection from '@/components/organisms/DeckbuilderSection.vue'
-import DeckbuilderDock from '@/components/molecules/DeckbuilderDock.vue'
 import DeckbuilderSectionControls from '@/components/molecules/DeckbuilderSectionControls.vue'
 import BrewModal from '@/components/atoms/BrewModal.vue'
-import Decklists from '@/components/organisms/Decklists.vue'
 import CardArtList from '@/components/organisms/CardArtList.vue'
-import DecklistForm from '@/components/organisms/DecklistForm.vue'
 import BlockUI from '@/components/molecules/BlockUI.vue'
-import IconButton from '@/components/atoms/IconButton.vue'
-import ChevronDownIcon from '@/components/atoms/icons/ChevronDownIcon.vue'
+import BrewButton from '@/components/molecules/BrewButton.vue'
 
 const UIStore = useUIStore()
 
@@ -43,7 +38,7 @@ const UIStore = useUIStore()
  */
 const decklistStore = useDecklistStore()
 decklistStore.init()
-const { decklist, name } = storeToRefs(decklistStore)
+const { decklist } = storeToRefs(decklistStore)
 
 function handleDecklistChanges() {
   decklistStore.unsavedChanges = true
@@ -82,44 +77,6 @@ function handleSearchDblClick(card: CardRaw) {
 }
 
 /**
- * Save/load decklists
- */
-const dispatch = useToasts()
-
-const decklistsModalShowing = ref(false)
-
-function newDecklist() {
-  decklistsModalShowing.value = false
-
-  decklistStore.clearDecklist()
-}
-
-function loadDecklist(id: number) {
-  decklistsModalShowing.value = false
-
-  decklistStore.get(id).catch(err => {
-    dispatch.errorToast(parseErrorMap(err.response.data))
-  })
-}
-
-function saveDecklist(newName: string) {
-  decklistStore.name = newName
-
-  decklistStore
-    .saveChanges()
-    .then(() => {
-      dispatch.successToast('Saved successfully.')
-    })
-    .catch(err => {
-      dispatch.errorToast(parseErrorMap(err.response.data))
-    })
-}
-
-function viewDecklists() {
-  decklistsModalShowing.value = true
-}
-
-/**
  * Change card art
  */
 const changingArtForCardId = ref('')
@@ -143,46 +100,34 @@ function handleCardArtChange(newCard: CardRaw) {
 }
 
 /**
- * Export to .txt
+ * Save changes
  */
-const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
+const dispatch = useToasts()
 
-/**
- * Toggle Deckbuilder expansion
- */
-const decklistExpanded = ref(false)
+function saveChanges() {
+  decklistStore
+    .saveChanges()
+    .then(() => {
+      dispatch.successToast('Saved successfully.')
+    })
+    .catch(err => {
+      dispatch.errorToast(parseErrorMap(err.response.data))
+    })
+}
 </script>
 
 <template>
   <CardSearch
-    :hide-results="decklistExpanded"
     @dragstart="handleSearchDragstart"
     @dblclick="handleSearchDblClick"
-    @show-results="decklistExpanded = false"
   />
 
   <div
     class="relative z-0 flex flex-1 px-4 overflow-x-auto bg-transparent gap-x-2 min-w-screen"
   >
-    <span class="absolute z-10 -translate-y-1/2 left-1/2 transfrom">
-      <IconButton
-        @clicked="decklistExpanded = !decklistExpanded"
-        size="lg"
-        tooltip="Toggle expansion"
-        :tooltip-below="true"
-      >
-        <ChevronDownIcon
-          class="transition-transform duration-500 ease-in-out transform"
-          :class="{
-            'rotate-180': !decklistExpanded,
-          }"
-        />
-      </IconButton>
-    </span>
-
     <DeckbuilderMain>
       <DeckbuilderSection
-        title="Mainboard"
+        title="Main Deck"
         alignment="left"
         :section-data="decklist.mainboard"
         @dragstart="
@@ -299,21 +244,11 @@ const decklistExpanded = ref(false)
     </DeckbuilderSide>
   </div>
 
-  <DeckbuilderDock @view="viewDecklists" @export="exportToTxtFile">
-    <DecklistForm @updated="saveDecklist" />
-  </DeckbuilderDock>
-
-  <BrewModal
-    size="lg"
-    :show="decklistsModalShowing"
-    @hide="decklistsModalShowing = false"
+  <span
+    v-if="decklistStore.unsavedChanges && !decklistStore.loading"
+    class="fixed transform translate-x-1/2 right-1/2 bottom-6"
+    ><BrewButton size="xs" @click="saveChanges">Save changes</BrewButton></span
   >
-    <Decklists
-      @load="loadDecklist"
-      @create-new="newDecklist"
-      @cancel="decklistsModalShowing = false"
-    />
-  </BrewModal>
 
   <BrewModal
     size="lg"
