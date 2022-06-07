@@ -35,7 +35,7 @@ const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
 
 <template>
   <aside
-    class="fixed right-0 flex flex-col items-center justify-start w-16 py-2 gap-y-4 top-16 h-sidenav bg-white/50 dark:bg-gray-900/80"
+    class="fixed right-0 flex flex-col items-center justify-start w-16 py-2 gap-y-4 top-16 h-sidenav bg-white/90 dark:bg-gray-900/80"
   >
     <IconButtonLabelled
       v-if="route.name === 'deckbuilder'"
