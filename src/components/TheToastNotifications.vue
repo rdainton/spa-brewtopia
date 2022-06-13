@@ -4,11 +4,11 @@ import { useToastsStore } from '@/stores/useToastsStore'
 import { NotificationType } from '@/types/toasts'
 
 // Icons
-import WarningIcon from './atoms/icons/WarningIcon.vue'
-import ErrorIcon from './atoms/icons/ErrorIcon.vue'
-import InfoIcon from './atoms/icons/InfoIcon.vue'
-import SuccessIcon from './atoms/icons/SuccessIcon.vue'
-import CloseIcon from './atoms/icons/CloseIcon.vue'
+import WarningIcon from '@/components/atoms/icons/WarningIcon.vue'
+import ErrorIcon from '@/components/atoms/icons/ErrorIcon.vue'
+import InfoIcon from '@/components/atoms/icons/InfoIcon.vue'
+import SuccessIcon from '@/components/atoms/icons/SuccessIcon.vue'
+import CloseIcon from '@/components/atoms/icons/CloseIcon.vue'
 
 const toastsStore = useToastsStore()
 
@@ -48,7 +48,7 @@ const componentMap: Record<NotificationType, any> = {
         <div class="w-full rounded-sm shadow-xs">
           <div class="relative flex items-center flex-1 p-2 md:p-3">
             <span
-              class="flex items-center justify-center shrink-0 w-8 h-8 mr-3 text-gray-900 dark:text-white md:w-10 md:h-10"
+              class="flex items-center justify-center w-8 h-8 mr-3 text-gray-900 shrink-0 dark:text-white md:w-10 md:h-10"
             >
               <component :is="componentMap[toast.type]" />
             </span>

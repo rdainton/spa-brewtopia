@@ -1,31 +1,40 @@
 <script lang="ts" setup>
 import WarningIcon from '@/components/atoms/icons/WarningIcon.vue'
+import ErrorIcon from '@/components/atoms/icons/ErrorIcon.vue'
+import InfoIcon from '@/components/atoms/icons/InfoIcon.vue'
 import SuccessIcon from '@/components/atoms/icons/SuccessIcon.vue'
 
-interface ErrorMessageProps {
+type Variant = 'error' | 'success' | 'warning' | 'info'
+
+interface BrewMessageProps {
   extendWrapperClasses?: string
-  type: 'error' | 'success'
+  variant: Variant
 }
 
-withDefaults(defineProps<ErrorMessageProps>(), {
+withDefaults(defineProps<BrewMessageProps>(), {
   extendWrapperClasses: '',
 })
 
-const typeClasses: Record<string, string> = {
+const variantClasses: Record<Variant, string> = {
   error: 'bg-red-500',
   success: 'bg-green-500',
+  warning: 'bg-orange-500',
+  info: 'bg-blue-500',
 }
 </script>
 
 <template>
   <div
     class="flex items-center p-3 text-white rounded-lg shadow-sm"
-    :class="[typeClasses[type], extendWrapperClasses]"
+    :class="[variantClasses[variant], extendWrapperClasses]"
   >
     <span class="w-12 h-12 mr-3">
-      <WarningIcon v-if="type === 'error'" />
-      <SuccessIcon v-else-if="type === 'success'" />
+      <ErrorIcon v-if="variant === 'error'" />
+      <WarningIcon v-else-if="variant === 'warning'" />
+      <SuccessIcon v-else-if="variant === 'success'" />
+      <InfoIcon v-else-if="variant === 'info'" />
     </span>
+
     <slot />
   </div>
 </template>

@@ -28,7 +28,6 @@ const debounceSearch = debounce(function () {
 }, 500)
 
 const clearSearch = () => {
-  console.log('clearSearch')
   search.value = ''
 }
 
@@ -49,7 +48,7 @@ function handleFocusout() {
     @submit.prevent="initSearch"
     class="flex items-center h-12 gap-2 bg-gray-100 rounded-lg dark:bg-gray-800 lg:w-68 xl:w-auto"
   >
-    <div class="shrink-0 w-6 h-6 ml-4 text-gray-900 dark:text-white">
+    <div class="w-6 h-6 ml-4 text-gray-900 shrink-0 dark:text-white">
       <SearchIcon />
     </div>
 

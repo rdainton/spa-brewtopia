@@ -66,7 +66,7 @@ const onSubmit = handleSubmit(values => {
     <form @submit="onSubmit" class="w-full mt-10">
       <BrewMessage
         v-if="submissionError"
-        type="error"
+        variant="error"
         extend-wrapper-classes="-mt-6 mb-4"
       >
         {{ submissionError }}

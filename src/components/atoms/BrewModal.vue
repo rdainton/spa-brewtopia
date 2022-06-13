@@ -23,7 +23,7 @@ const sizeClasses: Record<size, string> = {
 }
 
 const baseClasses =
-  'fixed z-50 transform -translate-y-1/2 -translate-x-1/2 top-1/2 left-1/2 w-full max-w-modal p-1 max-h-screen'
+  'fixed z-50 transform -translate-y-1/2 -translate-x-1/2 top-1/2 left-1/2 w-full max-w-modal p-1 max-h-screen hidden lg:block'
 </script>
 
 <template>
@@ -39,7 +39,7 @@ const baseClasses =
 
     <div
       v-if="show"
-      class="fixed top-0 left-0 z-40 w-screen h-screen cursor-pointer bg-backdrop"
+      class="fixed top-0 left-0 z-40 hidden w-screen h-screen cursor-pointer bg-backdrop lg:block"
       @click="$emit('hide')"
     />
   </teleport>
