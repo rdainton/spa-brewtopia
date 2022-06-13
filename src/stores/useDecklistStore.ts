@@ -1,6 +1,11 @@
 import { defineStore } from 'pinia'
 import brewtopia, { ErrorMap } from '@/apis/brewtopia'
-import { CardSections, Decklist, DecklistContent } from '@/types/cards'
+import {
+  CardProxy,
+  CardSections,
+  Decklist,
+  DecklistContent,
+} from '@/types/cards'
 
 // Stores
 import { useCardStore } from '@/stores/useCardStore'
@@ -31,6 +36,7 @@ export const useDecklistStore = defineStore('decklist', {
   state: (): State => ({
     id: 0,
     name: '',
+    coverImageUrl: '',
     decklist: createDefaultDecklist(),
     loading: false,
     error: null,
@@ -44,6 +50,17 @@ export const useDecklistStore = defineStore('decklist', {
 
     hasName(state) {
       return !!state.name
+    },
+
+    uniqueCardIds(state) {
+      const flatCards: CardProxy[] = []
+
+      let sectionKey: keyof DecklistContent
+      for (sectionKey in state.decklist) {
+        flatCards.push(...state.decklist[sectionKey].flat())
+      }
+
+      return [...new Set(flatCards.map(p => p.scryId))]
     },
   },
 
@@ -76,6 +93,7 @@ export const useDecklistStore = defineStore('decklist', {
     setDecklist(decklist: Decklist) {
       this.id = decklist.id
       this.name = decklist.name
+      this.coverImageUrl = decklist.coverImageUrl
       this.decklist = decklist.decklist
       this.loading = false
       this.error = null
@@ -93,6 +111,7 @@ export const useDecklistStore = defineStore('decklist', {
       useLocalStorage<PersistableDecklist>('decklist').store({
         id: this.id,
         name: this.name,
+        coverImageUrl: this.coverImageUrl,
         decklist: this.decklist,
         unsavedChanges: this.unsavedChanges,
       })
@@ -138,6 +157,7 @@ export const useDecklistStore = defineStore('decklist', {
       return brewtopia.decklists
         .store({
           name: this.name,
+          cover_image_url: this.coverImageUrl,
           decklist: this.decklist,
         })
         .then(res => {
@@ -159,6 +179,7 @@ export const useDecklistStore = defineStore('decklist', {
       return brewtopia.decklists
         .update(this.id, {
           name: this.name,
+          cover_image_url: this.coverImageUrl,
           decklist: this.decklist,
         })
         .then(res => {

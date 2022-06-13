@@ -59,6 +59,7 @@ export type DecklistContent = {
 export type Decklist = {
   id: number
   name: string
+  coverImageUrl: string
   decklist: DecklistContent
 }
 

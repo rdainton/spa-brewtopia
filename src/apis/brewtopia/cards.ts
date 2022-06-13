@@ -5,6 +5,7 @@ export type ManaColor = 'B' | 'U' | 'R' | 'G' | 'R'
 export interface CardFace {
   imgUrl?: string
   imgUrlLarge?: string
+  imgCover?: string
   name: string
   manaCost?: string
   typeLine: string
@@ -25,6 +26,7 @@ export interface CardRaw {
   cardFaces?: CardFace[]
   imgUrl?: string
   imgUrlLarge?: string
+  imgCover?: string
   oracleText?: string
   set: string
   setName: string

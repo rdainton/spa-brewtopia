@@ -15,14 +15,14 @@ export interface DecklistDetails extends DecklistMeta {
 
 export interface Storable {
   name: string
-  coverImageUrl?: string
+  cover_image_url: string
   decklist: DecklistContent
 }
 
 export interface Updateable {
-  name?: string
-  coverImageUrl?: string
-  decklist?: DecklistContent
+  name: string
+  cover_image_url: string
+  decklist: DecklistContent
 }
 
 /**
