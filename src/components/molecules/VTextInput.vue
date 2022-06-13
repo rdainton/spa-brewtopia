@@ -10,20 +10,22 @@ export default defineComponent({
 import { computed } from 'vue'
 import { useField } from 'vee-validate'
 
+type Theme = 'base'
+
 interface VTextInputProps {
   type?: 'text' | 'number' | 'email' | 'password' | 'date'
   label: string
   name: string
   value?: string
   readonly?: boolean
-  theme?: 'auth' | 'discreet'
+  theme?: Theme
 }
 
 const props = withDefaults(defineProps<VTextInputProps>(), {
   type: 'text',
   value: '',
   readonly: false,
-  theme: 'auth',
+  theme: 'base',
 })
 
 const {
@@ -40,41 +42,33 @@ const {
   }
 )
 
-const wrapperClasses: Record<string, string> = {
-  auth: '',
-  discreet: 'mr-4',
+const wrapperClasses: Record<Theme, string> = {
+  base: '',
 }
 
-const labelClasses: Record<string, string> = {
-  auth: 'block xl:text-xl mb-1 dark:text-white',
-  discreet:
-    'block uppercase text-xs text-primary-medium dark:text-dark__primary-light mt-1',
+const labelClasses: Record<Theme, string> = {
+  base: 'block xl:text-xl mb-1 dark:text-white',
 }
 
-const inputClasses: Record<string, string> = {
-  auth: 'p-3 text-grey bg-white text-lg rounded-lg ',
-  discreet:
-    'pr-2 text-grey dark:text-gray-100 bg-transparent text-xl border-transparent',
+const inputClasses: Record<Theme, string> = {
+  base: 'p-3 text-grey bg-white dark:bg-black dark:text-gray-100 text-lg rounded-lg',
 }
 
-const readonlyClasses: Record<string, string> = {
-  auth: 'bg-gray-300 cursor-not-allowed',
-  discreet: 'bg-transparent',
+const readonlyClasses: Record<Theme, string> = {
+  base: 'bg-gray-300 cursor-not-allowed',
 }
 
-const errorClassesMap: Record<string, string> = {
-  auth: 'mb-3',
-  discreet: 'absolute -bottom-4 z-10',
+const errorClassesMap: Record<Theme, string> = {
+  base: 'mb-3',
 }
 
-const borderColorMap: Record<string, string> = {
-  auth: 'border-blue-medium',
-  discreet: 'border-transparent',
+const borderColorMap: Record<Theme, string> = {
+  base: 'border-primary-medium dark:border-gray-700',
 }
 
 const validationClasses = computed(() =>
   meta.valid && !props.readonly
-    ? 'border-green-medium'
+    ? 'border-green-500'
     : borderColorMap[props.theme]
 )
 </script>

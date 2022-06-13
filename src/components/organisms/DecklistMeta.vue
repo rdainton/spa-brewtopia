@@ -51,7 +51,7 @@ function hideModal() {
     </h2>
   </div>
 
-  <BrewModal size="lg" :show="modalShowing" @hide="hideModal">
+  <BrewModal size="sm" :show="modalShowing" @hide="hideModal">
     <DecklistMetaForm @close="hideModal" />
   </BrewModal>
 </template>
