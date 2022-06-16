@@ -1,5 +1,6 @@
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useToastsStore } from '@/stores/useToastsStore'
+import { routeNames } from '..'
 
 // Types
 import { NotificationType } from '@/types/toasts'
@@ -13,7 +14,7 @@ export default function auth({ next }: RouteContext) {
   const authStore = useAuthStore()
 
   if (!authStore.isLoggedIn) {
-    next({ name: 'login' })
+    next({ name: routeNames.login })
 
     const toastsStore = useToastsStore()
 

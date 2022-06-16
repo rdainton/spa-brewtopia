@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import brewtopia from '@/apis/brewtopia'
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
+import { routeNames } from '@/router'
 
 // Types
 import { Forgetable } from '@/apis/brewtopia/auth'
@@ -94,7 +95,7 @@ const onSubmit = handleSubmit((values, actions) => {
       <div
         class="flex justify-center mt-8 text-sm text-gray-500 dark:text-gray-300 xl:text-base"
       >
-        <RouterLink :to="{ name: 'login' }" class="hover:underline">
+        <RouterLink :to="{ name: routeNames.login }" class="hover:underline">
           Back to login
         </RouterLink>
       </div>

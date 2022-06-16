@@ -23,6 +23,7 @@ import VTextInput from '@/components/molecules/VTextInput.vue'
 import BrewTitle from '@/components/atoms/BrewTitle.vue'
 import BrewButton from '@/components/molecules/BrewButton.vue'
 import BrewMessage from '@/components/molecules/BrewMessage.vue'
+import { routeNames } from '@/router'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -72,7 +73,7 @@ const onSubmit = handleSubmit((values, actions) => {
             `Welcome ${res.name}`,
             'Registration successful'
           )
-          router.push({ name: 'deckbuilder' })
+          router.push({ name: routeNames.deckbuilder })
         })
       actions.resetForm()
     })

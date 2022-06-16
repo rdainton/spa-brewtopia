@@ -6,4 +6,5 @@ export default Object.freeze({
   apiBaseUrl: 'https://mock-api-base',
   apiPrefix: '/api',
   maxDecklists: 15,
+  donationsUrl: 'https://mock-donations-url',
 })

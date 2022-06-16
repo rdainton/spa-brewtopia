@@ -56,7 +56,10 @@ const colorStyles = computed(() =>
       {{ tooltip }}
     </Tooltip>
 
-    <div :class="iconSizeStylesMap[size]">
+    <div
+      :class="iconSizeStylesMap[size]"
+      class="flex items-center justify-center"
+    >
       <slot>
         <ImageIcon />
       </slot>

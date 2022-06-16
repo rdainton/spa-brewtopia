@@ -5,6 +5,7 @@ import useToasts from '@/composables/useToasts'
 import { useRoute, useRouter } from 'vue-router'
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
+import { routeNames } from '@/router'
 
 // Types
 import { Resetable } from '@/apis/brewtopia/auth'
@@ -76,7 +77,7 @@ const onSubmit = handleSubmit((values, actions) => {
     .then(() => {
       dispatch.successToast('Password changed successfully')
       actions.resetForm()
-      router.push({ name: 'login' })
+      router.push({ name: routeNames.login })
     })
     .catch(err => {
       submissionError.value = parseErrorMap(err.response.data) || 'Bad request'
@@ -130,7 +131,7 @@ const onSubmit = handleSubmit((values, actions) => {
 
       <!-- Additional Options -->
       <div class="flex justify-center mt-8 text-sm text-gray-400 xl:text-base">
-        <RouterLink :to="{ name: 'login' }" class="hover:underline">
+        <RouterLink :to="{ name: routeNames.login }" class="hover:underline">
           Back to login
         </RouterLink>
       </div>
