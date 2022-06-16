@@ -1,4 +1,5 @@
 import { useToastsStore } from '@/stores/useToastsStore'
+import { routeNames } from '..'
 
 // Types
 import { NotificationType } from '@/types/toasts'
@@ -12,7 +13,7 @@ export default function passwordReset({ to, next }: RouteContext) {
   const { email, token } = to.query
 
   if (!email || !token) {
-    next({ name: 'login' })
+    next({ name: routeNames.login })
 
     const toastsStore = useToastsStore()
 

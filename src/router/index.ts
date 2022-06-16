@@ -10,10 +10,21 @@ import attemptAutoLogin from './middleware/attemptAutoLogin'
 // Components
 import DeckBuilder from '../components/pages/Deckbuilder.vue'
 
-const routes: Array<RouteRecordRaw> = [
+export const routeNames = {
+  deckbuilder: Symbol('deckbuilder'),
+  decklists: Symbol('decklists'),
+  info: Symbol('info'),
+  login: Symbol('login'),
+  register: Symbol('register'),
+  resetPassword: Symbol('reset-password'),
+  forgotPassword: Symbol('forgot-password'),
+  logout: Symbol('logout'),
+}
+
+const routeRecords: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'deckbuilder',
+    name: routeNames.deckbuilder,
     component: DeckBuilder,
     meta: {
       middleware: [attemptAutoLogin],
@@ -21,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/login',
-    name: 'login',
+    name: routeNames.login,
     component: () => import('../components/pages/auth/Login.vue'),
     meta: {
       middleware: [attemptAutoLogin, guest],
@@ -29,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/register',
-    name: 'register',
+    name: routeNames.register,
     component: () => import('../components/pages/auth/Register.vue'),
     meta: {
       middleware: [attemptAutoLogin, guest],
@@ -37,7 +48,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/forgot-password',
-    name: 'forgot-password',
+    name: routeNames.forgotPassword,
     component: () => import('../components/pages/auth/ForgotPassword.vue'),
     meta: {
       middleware: [attemptAutoLogin, guest],
@@ -45,7 +56,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/reset-password',
-    name: 'reset-password',
+    name: routeNames.forgotPassword,
     component: () => import('../components/pages/auth/ResetPassword.vue'),
     meta: {
       middleware: [attemptAutoLogin, guest, passwordReset],
@@ -53,7 +64,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/logout',
-    name: 'logout',
+    name: routeNames.logout,
     component: () => import('../components/pages/auth/Logout.vue'),
     meta: {
       middleware: [attemptAutoLogin, auth],
@@ -69,10 +80,18 @@ const routes: Array<RouteRecordRaw> = [
   // },
   {
     path: '/decklists',
-    name: 'decklists',
+    name: routeNames.decklists,
     component: () => import('../components/pages/Decklists.vue'),
     meta: {
       middleware: [attemptAutoLogin, auth],
+    },
+  },
+  {
+    path: '/info',
+    name: routeNames.info,
+    component: () => import('../components/pages/Info.vue'),
+    meta: {
+      middleware: [attemptAutoLogin],
     },
   },
   {
@@ -83,7 +102,7 @@ const routes: Array<RouteRecordRaw> = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes: routeRecords,
   linkActiveClass: 'text-red-500',
   linkExactActiveClass: 'text-red-600',
   scrollBehavior(_to, _from, savedPosition) {

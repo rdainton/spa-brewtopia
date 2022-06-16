@@ -3,7 +3,7 @@ import { AxiosError, AxiosInstance } from 'axios'
 import { NotificationType } from '@/types/toasts'
 
 // Router
-import router from '@/router'
+import router, { routeNames } from '@/router'
 
 // Store
 import { useAuthStore } from '@/stores/useAuthStore'
@@ -31,7 +31,7 @@ export default (axiosClient: AxiosInstance) => {
         content: 'Your session has timed out, please log in again.',
       })
 
-      router.push({ name: 'login' })
+      router.push({ name: routeNames.login })
     }
     return Promise.reject(error)
   }

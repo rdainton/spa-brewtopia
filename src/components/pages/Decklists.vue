@@ -3,6 +3,7 @@ import config from '@/config'
 import { ref } from 'vue'
 import brewtopia, { parseErrorMap } from '@/apis/brewtopia'
 import { DecklistMeta } from '@/apis/brewtopia/decklists'
+import { routeNames } from '@/router'
 
 // Composables
 import useToasts from '@/composables/useToasts'
@@ -83,7 +84,7 @@ function duplicateDecklist(id: number) {
 }
 
 function pushToDeckbuilder() {
-  router.push({ name: 'deckbuilder' })
+  router.push({ name: routeNames.deckbuilder })
 }
 
 function newDecklist() {

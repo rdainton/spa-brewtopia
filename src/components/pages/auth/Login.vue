@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import useToasts from '@/composables/useToasts'
+import { routeNames } from '@/router'
 
 // Form
 import { useForm } from 'vee-validate'
@@ -53,7 +54,7 @@ const onSubmit = handleSubmit(values => {
     .login(values as Authable)
     .then(({ name }) => {
       dispatch.successToast(`Welcome ${name}`, 'Login Success')
-      router.push({ name: 'deckbuilder' })
+      router.push({ name: routeNames.deckbuilder })
     })
     .catch(_ => {}) // Handled via a computed.
 })
@@ -92,11 +93,14 @@ const onSubmit = handleSubmit(values => {
       <div
         class="flex flex-col items-end my-4 text-sm text-gray-500 gap-y-2 dark:text-gray-300 xl:text-base"
       >
-        <RouterLink :to="{ name: 'register' }" class="hover:underline">
+        <RouterLink :to="{ name: routeNames.register }" class="hover:underline">
           Don't have an account? Register here.
         </RouterLink>
 
-        <RouterLink :to="{ name: 'forgot-password' }" class="hover:underline">
+        <RouterLink
+          :to="{ name: routeNames.forgotPassword }"
+          class="hover:underline"
+        >
           Forgot your password?
         </RouterLink>
       </div>
