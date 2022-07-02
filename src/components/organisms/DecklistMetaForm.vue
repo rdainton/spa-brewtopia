@@ -102,7 +102,7 @@ const coverImagePreviewUrl = computed(
 
 <template>
   <div
-    class="flex flex-col p-4 rounded-md shadow-xl max-h-modal-content bg-gray-50 dark:bg-gray-600 min-h-150"
+    class="flex flex-col p-4 rounded-md shadow-inner bg-smoke-medium max-h-modal-content min-h-150 shadow-pink-light/100"
   >
     <header class="relative flex justify-between mb-4">
       <div>
@@ -146,7 +146,7 @@ const coverImagePreviewUrl = computed(
         />
 
         <BrewText extend-classes="my-6" v-if="!coverImageOptions.length">
-          Tip: add some cards to your deck for options to update the cover
+          Tip: add some cards to your deck for options to assign the cover
           image.
         </BrewText>
 

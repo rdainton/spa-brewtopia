@@ -13,14 +13,14 @@ defineProps<CardPreviewProps>()
 
 <template>
   <div
-    class="flex flex-col justify-between p-4 text-sm w-60 xl:w-72 min-h-84 xl:min-h-100 dark:text-white xl:text-base"
+    class="flex flex-col justify-between p-4 text-sm text-white w-60 xl:w-72 min-h-84 xl:min-h-100 xl:text-base"
   >
     <div class="flex justify-between">
       <h1>
         {{ name }}
       </h1>
 
-      <div v-if="manaCost" class="shrink-0 mr-2">
+      <div v-if="manaCost" class="mr-2 shrink-0">
         <span>{{ manaCost }}</span>
       </div>
     </div>

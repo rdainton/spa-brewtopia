@@ -38,13 +38,12 @@ const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
 
 <template>
   <aside
-    class="fixed right-0 flex flex-col items-center justify-start w-16 pt-2 pb-6 gap-y-4 top-16 h-sidenav bg-white/90 dark:bg-gray-900/80"
+    class="fixed right-0 flex flex-col items-center justify-start w-16 pt-2 pb-6 gap-y-4 top-16 h-[calc(100vh-4rem)] bg-smoke-dark border-l border-blue-dark"
   >
     <IconButtonLabelled
       v-if="route.name === routeNames.deckbuilder"
       @click="exportToTxtFile"
       size="xl"
-      tooltip="Export decklist to .txt"
       label="Export"
     >
       <ExportIcon />
@@ -52,7 +51,7 @@ const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
 
     <template v-if="isLoggedIn && route.name !== routeNames.decklists">
       <RouterLink :to="{ name: routeNames.decklists }">
-        <IconButtonLabelled size="xl" tooltip="View decklists" label="Decks">
+        <IconButtonLabelled size="xl" label="Decks">
           <DecklistsIcon />
         </IconButtonLabelled>
       </RouterLink>
@@ -64,11 +63,7 @@ const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
       rel="noopener nofollow"
       class="mt-auto"
     >
-      <IconButtonLabelled
-        size="xl"
-        tooltip="Support Brewtopia.io"
-        label="ko-Fi"
-      >
+      <IconButtonLabelled size="xl" label="ko-Fi">
         <img
           src="@/assets/kofi-logo-web.png"
           alt="Ko-Fi Logo"
@@ -78,15 +73,9 @@ const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
     </a>
 
     <RouterLink :to="{ name: routeNames.info }">
-      <IconButtonLabelled size="xl" tooltip="Info" label="Info">
+      <IconButtonLabelled size="xl" label="Info">
         <InformationIcon />
       </IconButtonLabelled>
     </RouterLink>
   </aside>
 </template>
-
-<style lang="scss">
-.h-sidenav {
-  height: calc(100vh - 4rem);
-}
-</style>

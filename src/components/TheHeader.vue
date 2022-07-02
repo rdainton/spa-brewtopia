@@ -7,6 +7,7 @@ import { routeNames } from '@/router'
 import { useAuthStore } from '@/stores/useAuthStore'
 
 // Components
+import BrewButton from '@/components/molecules/BrewButton.vue'
 import TheLogo from '@/components/TheLogo.vue'
 import DecklistMeta from '@/components/organisms/DecklistMeta.vue'
 
@@ -18,7 +19,7 @@ const isLoggedIn = computed(() => authStore.isLoggedIn)
 
 <template>
   <header
-    class="flex items-center justify-end w-full h-16 px-4 py-2 bg-white border-b-2 border-gray-100 shrink-0 dark:border-gray-800 dark:bg-gray-900"
+    class="flex items-center justify-end w-full h-16 px-4 py-2 border-b border-blue-dark bg-smoke-dark shrink-0"
   >
     <RouterLink
       :to="{ name: routeNames.deckbuilder }"
@@ -29,16 +30,20 @@ const isLoggedIn = computed(() => authStore.isLoggedIn)
 
     <DecklistMeta v-if="route.name === routeNames.deckbuilder && isLoggedIn" />
 
-    <div class="flex items-center ml-auto dark:text-white">
+    <div class="flex items-center ml-auto text-white">
       <template v-if="isLoggedIn">
         <RouterLink :to="{ name: routeNames.logout }" class="hover:underline">
-          Logout
+          <BrewButton size="xs">Logout</BrewButton>
         </RouterLink>
       </template>
 
-      <template v-else>
+      <template
+        v-else-if="
+          route.name !== routeNames.login && route.name !== routeNames.register
+        "
+      >
         <RouterLink :to="{ name: routeNames.login }" class="hover:underline">
-          Login
+          <BrewButton size="xs">Login</BrewButton>
         </RouterLink>
       </template>
     </div>

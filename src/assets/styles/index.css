@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.styled-scrollbars {
+  /* Foreground, Background */
+  scrollbar-color: #111827 transparent;
+}
+.styled-scrollbars::-webkit-scrollbar {
+  width: 10px; /* Mostly for vertical scrollbars */
+  height: 10px; /* Mostly for horizontal scrollbars */
+}
+.styled-scrollbars::-webkit-scrollbar-thumb { /* Foreground */
+  background: #111827;
+}
+.styled-scrollbars::-webkit-scrollbar-track { /* Background */
+  background: transparent;
+}

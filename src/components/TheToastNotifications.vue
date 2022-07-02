@@ -15,10 +15,10 @@ const toastsStore = useToastsStore()
 const toastsArray = computed(() => toastsStore.toasts)
 
 const backgroundStylesMap: Record<NotificationType, string> = {
-  [NotificationType.info]: 'from-blue-500',
-  [NotificationType.error]: 'from-red-500',
-  [NotificationType.warning]: 'from-green-500',
-  [NotificationType.success]: 'from-green-500',
+  [NotificationType.info]: 'shadow-blue-light/100',
+  [NotificationType.error]: 'shadow-red-light',
+  [NotificationType.warning]: 'shadow-orange-light',
+  [NotificationType.success]: 'shadow-white/100',
 }
 
 const componentMap: Record<NotificationType, any> = {
@@ -38,7 +38,7 @@ const componentMap: Record<NotificationType, any> = {
       <div
         v-for="toast in toastsArray"
         :key="toast.uuid"
-        class="w-full mb-3 transition-opacity duration-300 ease-linear bg-gray-100 rounded-md shadow-lg pointer-events-auto dark:bg-gray-900 bg-gradient-to-r via-bg-gray-100 dark:via-bg-gray-900"
+        class="w-full mb-3 transition-opacity duration-300 ease-linear rounded-md shadow-inner pointer-events-auto bg-smoke-medium"
         :class="[
           toast.removing || toast.new ? 'opacity-0' : '',
           !toast.removing && !toast.new ? 'opacity-100' : '',
@@ -48,11 +48,11 @@ const componentMap: Record<NotificationType, any> = {
         <div class="w-full rounded-sm shadow-xs">
           <div class="relative flex items-center flex-1 p-2 md:p-3">
             <span
-              class="flex items-center justify-center w-8 h-8 mr-3 text-gray-900 shrink-0 dark:text-white md:w-10 md:h-10"
+              class="flex items-center justify-center w-8 h-8 mr-3 text-white shrink-0 md:w-10 md:h-10"
             >
               <component :is="componentMap[toast.type]" />
             </span>
-            <section class="text-gray-900 dark:text-white">
+            <section class="text-white">
               <header class="text-base font-bold leading-snug md:text-lg">
                 {{ toast.heading }}
               </header>
@@ -61,7 +61,7 @@ const componentMap: Record<NotificationType, any> = {
               </p>
             </section>
             <button
-              class="absolute flex w-4 h-4 text-gray-900 dark:text-white top-2 right-2 active:outline-none focus:outline-none"
+              class="absolute flex w-4 h-4 text-white top-2 right-2 active:outline-none focus:outline-none"
               @click="toastsStore.remove(toast.uuid!)"
             >
               <CloseIcon />

@@ -28,22 +28,15 @@ function hideModal() {
 
 <template>
   <div>
-    <h3
-      class="mt-1 text-xs uppercase text-primary-medium dark:text-dark__primary-light"
-    >
-      Currently brewing
-    </h3>
-    <h2
-      v-if="decklistStore.hasName"
-      class="text-xl text-grey dark:text-gray-100"
-    >
+    <h3 class="mt-1 text-xs uppercase text-blue-light">Currently brewing</h3>
+    <h2 v-if="decklistStore.hasName" class="text-xl text-gray-100">
       {{ decklistStore.name }}
       <IconButton @click="showModal">
         <EditIcon />
       </IconButton>
     </h2>
 
-    <h2 v-else class="text-xl text-gray-300 dark:text-gray-300">
+    <h2 v-else class="text-xl text-gray-300">
       Add Deck Name
       <IconButton @click="showModal">
         <PlusIcon />

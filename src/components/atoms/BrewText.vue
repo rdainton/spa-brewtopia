@@ -9,7 +9,7 @@ withDefaults(defineProps<BrewTextProps>(), {
 </script>
 
 <template>
-  <p class="pointer-events-none dark:text-gray-100" :class="extendClasses">
+  <p class="text-gray-100 pointer-events-none" :class="extendClasses">
     <slot />
   </p>
 </template>

@@ -10,7 +10,7 @@ withDefaults(defineProps<BrewTitleProps>(), {
 
 <template>
   <h1
-    class="text-3xl pointer-events-none dark:text-gray-100"
+    class="text-3xl pointer-events-none text-blue-light"
     :class="extendClasses"
   >
     <slot />

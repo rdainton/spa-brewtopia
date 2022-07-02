@@ -56,7 +56,7 @@ const routeRecords: Array<RouteRecordRaw> = [
   },
   {
     path: '/reset-password',
-    name: routeNames.forgotPassword,
+    name: routeNames.resetPassword,
     component: () => import('../components/pages/auth/ResetPassword.vue'),
     meta: {
       middleware: [attemptAutoLogin, guest, passwordReset],

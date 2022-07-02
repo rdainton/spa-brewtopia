@@ -85,7 +85,9 @@ function handleDrop(e: DragEvent, columnIndex = 0, forceCardIdx = -1) {
         </div>
       </header>
 
-      <div class="flex flex-1 w-full overflow-y-auto bg-transparent gap-x-1">
+      <div
+        class="flex flex-1 w-full overflow-y-auto bg-transparent gap-x-1 styled-scrollbars"
+      >
         <Column
           v-for="(column, columnIndex) in sectionData"
           :last="columnIndex + 1 === sectionData.length"

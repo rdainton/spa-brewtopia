@@ -123,7 +123,7 @@ function saveChanges() {
   />
 
   <div
-    class="relative z-0 flex flex-1 px-4 overflow-x-auto bg-transparent gap-x-2 min-w-screen"
+    class="relative z-0 flex flex-1 px-4 overflow-x-auto bg-transparent gap-x-2 min-w-[calc(100vw-4rem)] max-w-[calc(100vw-4rem)] styled-scrollbars"
   >
     <DeckbuilderMain>
       <DeckbuilderSection
@@ -247,7 +247,7 @@ function saveChanges() {
   <span
     v-if="decklistStore.unsavedChanges && !decklistStore.loading"
     class="fixed transform translate-x-1/2 right-1/2 bottom-6"
-    ><BrewButton size="xs" @click="saveChanges">Save changes</BrewButton></span
+    ><BrewButton size="sm" @click="saveChanges">Save changes</BrewButton></span
   >
 
   <BrewModal

@@ -157,31 +157,19 @@ const cardImageUrl = computed(() => {
         {{ data.name }}
       </p>
 
-      <div class="w-32 h-32 dark:text-gray-900">
+      <div class="w-32 h-32 text-gray-900">
         <ImageIcon />
       </div>
     </article>
 
     <div v-if="withControls" class="absolute left-0 -top-2 gap-x-0.5">
-      <IconButton
-        size="md"
-        variant="primary"
-        @click="emit('duplicate', cardProxy)"
-      >
+      <IconButton size="md" @click="emit('duplicate', cardProxy)">
         <PlusIcon />
       </IconButton>
-      <IconButton
-        size="md"
-        variant="primary"
-        @click="emit('playset', cardProxy)"
-      >
+      <IconButton size="md" @click="emit('playset', cardProxy)">
         <PlaysetIcon />
       </IconButton>
-      <IconButton
-        size="md"
-        variant="secondary"
-        @click="emit('change-art', cardProxy)"
-      >
+      <IconButton size="md" @click="emit('change-art', cardProxy)">
         <EditIcon />
       </IconButton>
     </div>

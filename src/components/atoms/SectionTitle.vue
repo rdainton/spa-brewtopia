@@ -9,10 +9,7 @@ withDefaults(defineProps<SectionTitleProps>(), {
 </script>
 
 <template>
-  <h2
-    class="text-lg pointer-events-none dark:text-gray-100"
-    :class="extendClasses"
-  >
+  <h2 class="text-lg text-gray-100 pointer-events-none" :class="extendClasses">
     <slot />
   </h2>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex shrink-0 bg-gray-200 rounded-t-xl dark:bg-gray-700 min-w-100"
+    class="flex rounded-md shadow-inner bg-smoke-dark shadow-pink-light/100 shrink-0 min-w-100"
   >
     <div class="flex justify-between flex-1">
       <slot />

@@ -4,7 +4,7 @@ import ImageIcon from '@/components/atoms/icons/ImageIcon.vue'
 import Tooltip from '@/components/atoms/Tooltip.vue'
 
 interface IconButtonConfirmableProps {
-  variant?: 'primary' | 'secondary' | 'default'
+  variant?: 'default'
   size?: 'sm' | 'md' | 'lg' | 'xl'
   disabled?: boolean
   tooltip?: string
@@ -40,13 +40,21 @@ function reset() {
   confirming.value = false
 }
 
-const baseStyles = 'rounded-md flex items-center'
+const baseStyles =
+  'rounded-sm flex items-center justify-end border-smoke-light hover:border-blue-light border'
 
-const iconSizeStylesMap: Record<string, string> = {
-  sm: 'h-4 w-4 p-1',
-  md: 'h-6 w-6 p-1',
-  lg: 'h-8 w-8 p-1.5',
-  xl: 'h-10 w-10 p-2',
+const heightStylesMap: Record<string, string> = {
+  sm: 'h-4',
+  md: 'h-6',
+  lg: 'h-8',
+  xl: 'h-10',
+}
+
+const iconWidthMap: Record<string, string> = {
+  sm: 'w-4 p-1',
+  md: 'w-6 p-1',
+  lg: 'w-8 p-1.5',
+  xl: 'w-10 p-2',
 }
 
 const textSizeStylesMap: Record<string, string> = {
@@ -57,16 +65,11 @@ const textSizeStylesMap: Record<string, string> = {
 }
 
 const iconColorStylesMap: Record<string, string> = {
-  primary:
-    'text-primary-medium hover:text-primary-light dark:text-dark__primary-light dark:hover:text-dark__primary-medium',
-  secondary:
-    'text-secondary-medium hover:text-secondary-light dark:text-dark__secondary-medium dark:hover:text-dark__secondary-light',
-  default:
-    'text-gray-900 hover:text-gray-700 dark:text-white dark:hover:text-gray-200',
+  default: 'text-blue-dark hover:text-blue-light',
 }
 
 const colorStyles = computed(() =>
-  props.disabled ? 'bg-gray-200 dark:bg-gray-700' : 'bg-white dark:bg-gray-900'
+  props.disabled ? 'bg-gray-700' : 'bg-gray-900'
 )
 </script>
 
@@ -76,6 +79,7 @@ const colorStyles = computed(() =>
       baseStyles,
       colorStyles,
       iconColorStylesMap[variant],
+      heightStylesMap[size],
       tooltip ? 'has-tooltip' : '',
     ]"
     :disabled="disabled"
@@ -86,11 +90,15 @@ const colorStyles = computed(() =>
       {{ tooltip }}
     </Tooltip>
 
-    <div v-if="confirming" class="py-1 pl-2" :class="[textSizeStylesMap[size]]">
+    <div
+      v-if="confirming"
+      class="py-1 pl-2 pr-1 shrink-0"
+      :class="[textSizeStylesMap[size]]"
+    >
       {{ confirmationText }}
     </div>
 
-    <div :class="iconSizeStylesMap[size]">
+    <div :class="iconWidthMap[size]">
       <slot>
         <ImageIcon />
       </slot>

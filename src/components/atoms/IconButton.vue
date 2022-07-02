@@ -4,7 +4,7 @@ import ImageIcon from '@/components/atoms/icons/ImageIcon.vue'
 import Tooltip from '@/components/atoms/Tooltip.vue'
 
 interface IconButtonProps {
-  variant?: 'primary' | 'secondary' | 'default'
+  variant?: 'default'
   size?: 'sm' | 'md' | 'lg' | 'xl'
   disabled?: boolean
   tooltip?: string
@@ -23,7 +23,8 @@ const emit = defineEmits<{
   (event: 'clicked'): void
 }>()
 
-const baseStyles = 'rounded-md'
+const baseStyles =
+  'rounded-sm border-smoke-light hover:border-blue-light border'
 
 const sizeStylesMap: Record<string, string> = {
   sm: 'h-4 w-4 p-1',
@@ -33,16 +34,11 @@ const sizeStylesMap: Record<string, string> = {
 }
 
 const iconColorStylesMap: Record<string, string> = {
-  primary:
-    'text-primary-medium hover:text-primary-light dark:text-dark__primary-light dark:hover:text-dark__primary-medium',
-  secondary:
-    'text-secondary-medium hover:text-secondary-light dark:text-dark__secondary-medium dark:hover:text-dark__secondary-light',
-  default:
-    'text-gray-900 hover:text-gray-700 dark:text-white dark:hover:text-gray-200',
+  default: 'text-blue-dark hover:text-blue-light',
 }
 
 const colorStyles = computed(() =>
-  props.disabled ? 'bg-gray-200 dark:bg-gray-700' : 'bg-white dark:bg-gray-900'
+  props.disabled ? 'bg-gray-700' : 'bg-gray-900'
 )
 </script>
 

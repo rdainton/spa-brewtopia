@@ -92,12 +92,12 @@ watch(loading, (_, prev) => {
 
 <template>
   <div
-    class="flex flex-col p-4 rounded-md shadow-xl max-h-modal-content bg-gray-50 dark:bg-gray-600 min-h-150"
+    class="flex flex-col p-4 rounded-md shadow-inner bg-smoke-medium max-h-modal-content min-h-150 shadow-pink-light/100"
   >
     <header class="relative flex justify-between mb-4">
       <div>
         <BrewTitle>Change art for "{{ cardName }}"</BrewTitle>
-        <BrewText extend-classes="text-sm"
+        <BrewText extend-classes="text-sm mt-2"
           >Selecting a new card art will change all copies in your
           decklist.</BrewText
         >
@@ -116,7 +116,7 @@ watch(loading, (_, prev) => {
       </template>
 
       <template v-else-if="noResults">
-        <p class="pt-4 mb-auto text-lg dark:text-white">
+        <p class="pt-4 mb-auto text-lg text-white">
           Something went wrong. No arts found.
         </p>
       </template>

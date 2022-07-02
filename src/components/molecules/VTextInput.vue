@@ -47,11 +47,11 @@ const wrapperClasses: Record<Theme, string> = {
 }
 
 const labelClasses: Record<Theme, string> = {
-  base: 'block xl:text-xl mb-1 dark:text-white',
+  base: 'block xl:text-xl mb-1 text-blue-light',
 }
 
 const inputClasses: Record<Theme, string> = {
-  base: 'p-3 text-grey bg-white dark:bg-black dark:text-gray-100 text-lg rounded-lg',
+  base: 'p-3 bg-black/20 text-gray-100 text-lg rounded-md',
 }
 
 const readonlyClasses: Record<Theme, string> = {
@@ -63,12 +63,12 @@ const errorClassesMap: Record<Theme, string> = {
 }
 
 const borderColorMap: Record<Theme, string> = {
-  base: 'border-primary-medium dark:border-gray-700',
+  base: 'border-transparent',
 }
 
 const validationClasses = computed(() =>
   meta.valid && !props.readonly
-    ? 'border-green-500'
+    ? 'border-transparent'
     : borderColorMap[props.theme]
 )
 </script>
@@ -98,7 +98,7 @@ const validationClasses = computed(() =>
       />
 
       <div :class="errorClassesMap[props.theme]">
-        <p v-if="errorMessage" class="mt-1 text-sm text-red-500">
+        <p v-if="errorMessage" class="mt-1 text-sm text-red-light">
           {{ errorMessage }}
         </p>
       </div>
