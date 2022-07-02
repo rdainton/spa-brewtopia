@@ -50,7 +50,7 @@ function formatDate(dateString: string): string {
     </span>
 
     <button
-      class="flex items-end w-full bg-gray-100 bg-cover rounded-lg shadow-xl dark:bg-gray-700 h-36"
+      class="flex items-end w-full bg-gray-700 bg-cover rounded-lg shadow-xl h-36"
       :style="{
         backgroundImage: `url(${coverImageUrl})`,
       }"

@@ -157,7 +157,7 @@ const cardImageUrl = computed(() => {
         {{ data.name }}
       </p>
 
-      <div class="w-32 h-32 dark:text-gray-900">
+      <div class="w-32 h-32 text-gray-900">
         <ImageIcon />
       </div>
     </article>

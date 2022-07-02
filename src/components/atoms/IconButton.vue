@@ -33,16 +33,13 @@ const sizeStylesMap: Record<string, string> = {
 }
 
 const iconColorStylesMap: Record<string, string> = {
-  primary:
-    'text-primary-medium hover:text-primary-light dark:text-dark__primary-light dark:hover:text-dark__primary-medium',
-  secondary:
-    'text-secondary-medium hover:text-secondary-light dark:text-dark__secondary-medium dark:hover:text-dark__secondary-light',
-  default:
-    'text-gray-900 hover:text-gray-700 dark:text-white dark:hover:text-gray-200',
+  primary: 'text-dark__primary-light hover:text-dark__primary-medium',
+  secondary: 'text-dark__secondary-medium hover:text-dark__secondary-light',
+  default: 'text-white hover:text-gray-200',
 }
 
 const colorStyles = computed(() =>
-  props.disabled ? 'bg-gray-200 dark:bg-gray-700' : 'bg-white dark:bg-gray-900'
+  props.disabled ? 'bg-gray-700' : 'bg-gray-900'
 )
 </script>
 

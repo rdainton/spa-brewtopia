@@ -102,7 +102,7 @@ const coverImagePreviewUrl = computed(
 
 <template>
   <div
-    class="flex flex-col p-4 rounded-md shadow-xl max-h-modal-content bg-gray-50 dark:bg-gray-600 min-h-150"
+    class="flex flex-col p-4 bg-gray-600 rounded-md shadow-xl max-h-modal-content min-h-150"
   >
     <header class="relative flex justify-between mb-4">
       <div>

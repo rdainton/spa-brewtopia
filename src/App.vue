@@ -17,7 +17,7 @@ const attemptedAutoLogin = computed(() => authStore.autoAttempted)
 <template>
   <div
     v-if="attemptedAutoLogin"
-    class="relative flex-col hidden max-h-screen min-h-screen lg:flex min-w-screen dark:bg-gray-900"
+    class="relative flex-col hidden max-h-screen min-h-screen bg-gray-900 lg:flex min-w-screen"
   >
     <TheHeader />
     <RouterView />
@@ -25,11 +25,9 @@ const attemptedAutoLogin = computed(() => authStore.autoAttempted)
   </div>
 
   <div
-    class="flex items-center justify-center w-screen min-h-screen lg:hidden dark:bg-gray-900"
+    class="flex items-center justify-center w-screen min-h-screen bg-gray-900 lg:hidden"
   >
-    <h1
-      class="text-2xl text-center text-primary-medium dark:text-dark__primary-light"
-    >
+    <h1 class="text-2xl text-center text-dark__primary-light">
       Hey, please try a viewing this on a larger screen.
     </h1>
   </div>

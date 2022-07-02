@@ -47,11 +47,11 @@ const wrapperClasses: Record<Theme, string> = {
 }
 
 const labelClasses: Record<Theme, string> = {
-  base: 'block xl:text-xl mb-1 dark:text-white',
+  base: 'block xl:text-xl mb-1 text-white',
 }
 
 const inputClasses: Record<Theme, string> = {
-  base: 'p-3 text-grey bg-white dark:bg-black dark:text-gray-100 text-lg rounded-lg',
+  base: 'p-3 bg-black text-gray-100 text-lg rounded-lg',
 }
 
 const readonlyClasses: Record<Theme, string> = {
@@ -63,7 +63,7 @@ const errorClassesMap: Record<Theme, string> = {
 }
 
 const borderColorMap: Record<Theme, string> = {
-  base: 'border-primary-medium dark:border-gray-700',
+  base: 'border-gray-700',
 }
 
 const validationClasses = computed(() =>

@@ -92,9 +92,7 @@ const onSubmit = handleSubmit((values, actions) => {
       </BrewButton>
 
       <!-- Additional Options -->
-      <div
-        class="flex justify-center mt-8 text-sm text-gray-500 dark:text-gray-300 xl:text-base"
-      >
+      <div class="flex justify-center mt-8 text-sm text-gray-300 xl:text-base">
         <RouterLink :to="{ name: routeNames.login }" class="hover:underline">
           Back to login
         </RouterLink>

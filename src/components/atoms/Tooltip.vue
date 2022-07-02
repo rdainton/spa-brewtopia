@@ -17,7 +17,7 @@ const sizeMap: Record<string, string> = {
 
 <template>
   <span
-    class="p-1 text-sm text-center transform -translate-x-1/2 bg-white border-gray-500 rounded-sm shadow-md  dark:text-white tooltip dark:bg-gray-900 left-1/2"
+    class="p-1 text-sm text-center text-white transform -translate-x-1/2 bg-gray-900 border-gray-500 rounded-sm shadow-md tooltip left-1/2"
     :class="[below ? 'tooltip-below' : 'tooltip-above', sizeMap[size]]"
   >
     <slot />

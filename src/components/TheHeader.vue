@@ -18,7 +18,7 @@ const isLoggedIn = computed(() => authStore.isLoggedIn)
 
 <template>
   <header
-    class="flex items-center justify-end w-full h-16 px-4 py-2 bg-white border-b-2 border-gray-100 shrink-0 dark:border-gray-800 dark:bg-gray-900"
+    class="flex items-center justify-end w-full h-16 px-4 py-2 bg-gray-900 border-b-2 border-gray-800 shrink-0"
   >
     <RouterLink
       :to="{ name: routeNames.deckbuilder }"
@@ -29,7 +29,7 @@ const isLoggedIn = computed(() => authStore.isLoggedIn)
 
     <DecklistMeta v-if="route.name === routeNames.deckbuilder && isLoggedIn" />
 
-    <div class="flex items-center ml-auto dark:text-white">
+    <div class="flex items-center ml-auto text-white">
       <template v-if="isLoggedIn">
         <RouterLink :to="{ name: routeNames.logout }" class="hover:underline">
           Logout

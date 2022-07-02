@@ -31,14 +31,14 @@ watch(
 <template>
   <div
     id="search-results"
-    class="flex w-full h-64 max-w-full px-4 pt-1 pb-3 overflow-x-auto bg-white dark:bg-gray-900 gap-x-4"
+    class="flex w-full h-64 max-w-full px-4 pt-1 pb-3 overflow-x-auto bg-gray-900 gap-x-4"
   >
     <template v-if="searching">
       <CardSkeleton v-for="(_, idx) in Array(6)" :key="`skeleton-${idx}`" />
     </template>
 
     <template v-else-if="noResults">
-      <p class="pt-4 mb-auto text-lg dark:text-white">No results found.</p>
+      <p class="pt-4 mb-auto text-lg text-white">No results found.</p>
     </template>
 
     <template v-else>
