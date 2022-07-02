@@ -3,17 +3,35 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          lightest: '#E8F6FD',
-          light: '#A4DEF8',
-          medium: '#327B9B',
-          dark: '#34657A',
+        pink: {
+          light: '#ff4db8',
+          medium: '#FF0099',
+          dark: '#b3006b',
         },
-        secondary: {
-          lightest: '#E8F6FD',
-          light: '#A4DEF8',
-          medium: '#327B9B',
-          dark: '#34657A',
+        purple: {
+          light: '#bf4fc8',
+          medium: '#A403B0',
+          dark: '#73027b',
+        },
+        blue: {
+          light: '#bfe8fa',
+          medium: '#A4DEF8',
+          dark: '#739bae',
+        },
+        red: {
+          light: '#bd7076',
+          medium: '#A1333B',
+          dark: '#712429',
+        },
+        orange: {
+          light: '#e1aa63',
+          medium: '#D48520',
+          dark: '#945d16',
+        },
+        smoke: {
+          light: '#616e77',
+          medium: '#1D303C',
+          dark: '#14222a',
         },
         backdrop: 'rgba(0, 0, 0, 0.6)',
         overlay: 'rgba(0, 0, 0, 0.5)',

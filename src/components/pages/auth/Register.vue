@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import useToasts from '@/composables/useToasts'
 import brewtopia from '@/apis/brewtopia'
+import { routeNames } from '@/router'
 
 // Form
 import { useForm } from 'vee-validate'
@@ -23,7 +24,6 @@ import VTextInput from '@/components/molecules/VTextInput.vue'
 import BrewTitle from '@/components/atoms/BrewTitle.vue'
 import BrewButton from '@/components/molecules/BrewButton.vue'
 import BrewMessage from '@/components/molecules/BrewMessage.vue'
-import { routeNames } from '@/router'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -122,6 +122,15 @@ const onSubmit = handleSubmit((values, actions) => {
           maxlength="50"
         />
       </fieldset>
+
+      <!-- Additional Options -->
+      <div
+        class="flex flex-col items-end my-6 text-sm text-gray-300 gap-y-2 xl:text-base"
+      >
+        <RouterLink :to="{ name: routeNames.login }" class="hover:underline">
+          Already have an account? Login here.
+        </RouterLink>
+      </div>
 
       <!-- Submit -->
       <BrewButton theme="auth" size="full" type="submit" :working="working">

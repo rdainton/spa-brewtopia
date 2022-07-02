@@ -15,10 +15,10 @@ const toastsStore = useToastsStore()
 const toastsArray = computed(() => toastsStore.toasts)
 
 const backgroundStylesMap: Record<NotificationType, string> = {
-  [NotificationType.info]: 'from-blue-500',
-  [NotificationType.error]: 'from-red-500',
-  [NotificationType.warning]: 'from-green-500',
-  [NotificationType.success]: 'from-green-500',
+  [NotificationType.info]: 'shadow-blue-light/100',
+  [NotificationType.error]: 'shadow-red-light',
+  [NotificationType.warning]: 'shadow-orange-light',
+  [NotificationType.success]: 'shadow-white/100',
 }
 
 const componentMap: Record<NotificationType, any> = {
@@ -38,7 +38,7 @@ const componentMap: Record<NotificationType, any> = {
       <div
         v-for="toast in toastsArray"
         :key="toast.uuid"
-        class="w-full mb-3 transition-opacity duration-300 ease-linear bg-gray-900 rounded-md shadow-lg pointer-events-auto bg-gradient-to-r via-bg-gray-900"
+        class="w-full mb-3 transition-opacity duration-300 ease-linear rounded-md shadow-inner pointer-events-auto bg-smoke-medium"
         :class="[
           toast.removing || toast.new ? 'opacity-0' : '',
           !toast.removing && !toast.new ? 'opacity-100' : '',

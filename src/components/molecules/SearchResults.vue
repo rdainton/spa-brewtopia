@@ -30,8 +30,7 @@ watch(
 
 <template>
   <div
-    id="search-results"
-    class="flex w-full h-64 max-w-full px-4 pt-1 pb-3 overflow-x-auto bg-gray-900 gap-x-4"
+    class="flex w-full h-64 max-w-full px-4 pt-1 pb-3 overflow-x-auto bg-transparent gap-x-4 styled-scrollbars"
   >
     <template v-if="searching">
       <CardSkeleton v-for="(_, idx) in Array(6)" :key="`skeleton-${idx}`" />
@@ -56,9 +55,3 @@ watch(
     </template>
   </div>
 </template>
-
-<style lang="scss">
-#search-results {
-  // scrollbar?
-}
-</style>

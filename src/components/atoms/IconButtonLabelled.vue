@@ -36,7 +36,9 @@ const iconSizeStylesMap: Record<string, string> = {
 }
 
 const colorStyles = computed(() =>
-  props.disabled ? 'bg-gray-700' : 'bg-transparent'
+  props.disabled
+    ? 'bg-gray-700'
+    : 'bg-transparent text-blue-medium hover:text-pink-light'
 )
 </script>
 
@@ -44,19 +46,14 @@ const colorStyles = computed(() =>
   <button
     @click="disabled ? null : emit('clicked')"
     :disabled="disabled"
-    :class="[
-      baseStyles,
-      colorStyles,
-      iconColorStyles,
-      tooltip ? 'has-tooltip' : '',
-    ]"
+    :class="[baseStyles, colorStyles, tooltip ? 'has-tooltip' : '']"
   >
     <Tooltip v-if="tooltip" :below="tooltipBelow">
       {{ tooltip }}
     </Tooltip>
 
     <div
-      :class="iconSizeStylesMap[size]"
+      :class="[iconSizeStylesMap[size], iconColorStyles]"
       class="flex items-center justify-center"
     >
       <slot>

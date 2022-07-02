@@ -51,11 +51,11 @@ const labelClasses: Record<Theme, string> = {
 }
 
 const inputThemeClasses: Record<Theme, string> = {
-  base: 'p-3 bg-black text-gray-100 text-lg rounded-lg',
+  base: 'p-3 bg-black/20 text-gray-100 text-lg rounded-lg',
 }
 
 const borderColorMap: Record<Theme, string> = {
-  base: 'border-gray-700',
+  base: 'border-transparent',
 }
 
 const errorClassesMap: Record<Theme, string> = {
@@ -63,7 +63,7 @@ const errorClassesMap: Record<Theme, string> = {
 }
 
 const borderClasses = computed(() => {
-  if (meta.valid) return 'border-green-500'
+  if (meta.valid) return 'border-transparent'
   return borderColorMap[props.theme]
 })
 </script>

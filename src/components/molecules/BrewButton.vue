@@ -22,12 +22,12 @@ const emit = defineEmits<{
 }>()
 
 const baseClasses =
-  'active:outline-none focus:outline-none rounded-lg inline-flex items-center justify-center'
+  'active:outline-none focus:outline-none rounded-md inline-flex items-center justify-center border-white border shadow-inner shadow-blue-light/100'
 
 const iconBaseClasses = 'flex mr-2'
 
 const themeClasses: Record<string, string> = {
-  auth: 'bg-blue-500 hover:bg-blue-600 text-white',
+  auth: 'bg-transparent hover:bg-gradient-to-t hover:from-blue-medium text-white',
 }
 
 const sizeClasses: Record<string, string> = {

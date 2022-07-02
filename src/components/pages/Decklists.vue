@@ -123,7 +123,7 @@ function loadDecklist(id: number) {
       >
         <template v-if="decklists.length < maxDecklists" #last-child>
           <button
-            class="relative flex items-end w-1/3 text-white bg-gray-700 rounded-lg shadow-xl h-36 hover:text-gray-200"
+            class="relative flex items-end w-1/3 text-white rounded-lg shadow-xl bg-smoke-dark h-36 hover:text-gray-200"
             @click="newDecklist"
           >
             <span

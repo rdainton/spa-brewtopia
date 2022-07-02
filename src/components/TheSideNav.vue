@@ -38,7 +38,7 @@ const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
 
 <template>
   <aside
-    class="fixed right-0 flex flex-col items-center justify-start w-16 pt-2 pb-6 gap-y-4 top-16 h-sidenav bg-gray-900/80"
+    class="fixed right-0 flex flex-col items-center justify-start w-16 pt-2 pb-6 gap-y-4 top-16 h-[calc(100vh-4rem)] bg-smoke-dark border-l border-blue-dark"
   >
     <IconButtonLabelled
       v-if="route.name === routeNames.deckbuilder"
@@ -79,9 +79,3 @@ const { exportToTxtFile } = useExport(decklist, name, cardStore.cards)
     </RouterLink>
   </aside>
 </template>
-
-<style lang="scss">
-.h-sidenav {
-  height: calc(100vh - 4rem);
-}
-</style>

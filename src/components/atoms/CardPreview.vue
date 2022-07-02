@@ -83,7 +83,7 @@ const cardBackData = computed(() => {
 <template>
   <Teleport to="body">
     <div
-      class="fixed z-10 flex bg-black shadow-md rounded-xl"
+      class="fixed z-10 flex bg-gray-900 shadow-md rounded-xl"
       :class="[positionClassMap[position]]"
     >
       <CardPreviewDescription

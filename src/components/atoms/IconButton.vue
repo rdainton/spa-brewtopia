@@ -4,7 +4,7 @@ import ImageIcon from '@/components/atoms/icons/ImageIcon.vue'
 import Tooltip from '@/components/atoms/Tooltip.vue'
 
 interface IconButtonProps {
-  variant?: 'primary' | 'secondary' | 'default'
+  variant?: 'default'
   size?: 'sm' | 'md' | 'lg' | 'xl'
   disabled?: boolean
   tooltip?: string
@@ -23,7 +23,8 @@ const emit = defineEmits<{
   (event: 'clicked'): void
 }>()
 
-const baseStyles = 'rounded-md'
+const baseStyles =
+  'rounded-sm border-smoke-light hover:border-blue-light border'
 
 const sizeStylesMap: Record<string, string> = {
   sm: 'h-4 w-4 p-1',
@@ -33,9 +34,7 @@ const sizeStylesMap: Record<string, string> = {
 }
 
 const iconColorStylesMap: Record<string, string> = {
-  primary: 'text-primary-light hover:text-primary-medium',
-  secondary: 'text-secondary-medium hover:text-secondary-light',
-  default: 'text-white hover:text-gray-200',
+  default: 'text-blue-dark hover:text-blue-light',
 }
 
 const colorStyles = computed(() =>

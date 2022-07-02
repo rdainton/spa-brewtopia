@@ -16,16 +16,16 @@ withDefaults(defineProps<BrewMessageProps>(), {
 })
 
 const variantClasses: Record<Variant, string> = {
-  error: 'bg-red-500',
-  success: 'bg-green-500',
-  warning: 'bg-orange-500',
-  info: 'bg-blue-500',
+  error: 'shadow-red-light/100',
+  success: 'shadow-blue-light/100',
+  warning: 'shadow-orange-light/100',
+  info: 'shadow-blue-light/100',
 }
 </script>
 
 <template>
   <div
-    class="flex items-center p-3 text-white rounded-lg shadow-sm"
+    class="flex items-center p-3 text-white rounded-md shadow-inner"
     :class="[variantClasses[variant], extendWrapperClasses]"
   >
     <span class="w-12 h-12 mr-3">

@@ -50,11 +50,11 @@ const collapsableClasses = computed(() => (showResults.value ? 'h-64' : 'h-2'))
 </script>
 <template>
   <div
-    class="relative duration-500 ease-in-out transition-[height]"
+    class="relative duration-500 ease-in-out transition-[height] min-w-[calc(100vw-4rem)] max-w-[calc(100vw-4rem)]"
     :class="collapsableClasses"
   >
     <Teleport to="body">
-      <div class="fixed items-center hidden top-2 right-20 lg:flex gap-x-2">
+      <div class="fixed items-center hidden top-2 right-24 lg:flex gap-x-2">
         <IconButton
           @clicked="showResults = !showResults"
           size="lg"

@@ -16,7 +16,7 @@ const sizeStylesMap: Record<string, string> = {
 
 <template>
   <div
-    class="bg-gray-700 shrink-0 animate-pulse"
+    class="bg-smoke-dark shrink-0 animate-pulse"
     :class="[sizeStylesMap[size]]"
   >
     <slot />

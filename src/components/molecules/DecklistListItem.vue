@@ -50,13 +50,13 @@ function formatDate(dateString: string): string {
     </span>
 
     <button
-      class="flex items-end w-full bg-gray-700 bg-cover rounded-lg shadow-xl h-36"
+      class="flex items-end w-full bg-cover rounded-md shadow-xl bg-smoke-dark h-36"
       :style="{
         backgroundImage: `url(${coverImageUrl})`,
       }"
       @click="$emit('load')"
     >
-      <div class="w-full p-2 text-left rounded-b-lg bg-overlay">
+      <div class="w-full p-2 text-left rounded-b-md bg-overlay">
         <h3 class="w-full mb-1 text-white">
           {{ name }}
         </h3>

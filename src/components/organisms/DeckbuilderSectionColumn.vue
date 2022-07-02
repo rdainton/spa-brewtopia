@@ -21,9 +21,9 @@ const { draggedOver, handleDragenter, handleDragleave, reset } =
   useDraggedOver()
 
 const dragStyles = computed(() => {
-  const baseDragStyles = 'border-2'
+  const baseDragStyles = 'border'
   return `${baseDragStyles} ${
-    draggedOver.value ? 'border-red-500 border-dashed' : 'border-gray-800'
+    draggedOver.value ? 'border-blue-light' : 'border-smoke-medium'
   }`
 })
 
@@ -59,7 +59,7 @@ function handleDropAtTop(e: DragEvent) {
 
     <slot />
 
-    <div v-if="last" class="w-8 mx-auto text-gray-900">
+    <div v-if="last" class="w-8 mx-auto text-smoke-light">
       <PlusIcon />
     </div>
   </div>

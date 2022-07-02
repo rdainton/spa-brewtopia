@@ -46,17 +46,17 @@ function handleFocusout() {
 <template>
   <form
     @submit.prevent="initSearch"
-    class="flex items-center h-12 gap-2 bg-gray-800 rounded-lg lg:w-68 xl:w-auto"
+    class="flex items-center h-12 gap-2 bg-gray-900 rounded-md shadow-inner lg:w-68 xl:w-auto shadow-pink-light/100"
   >
-    <div class="w-6 h-6 ml-4 text-white shrink-0">
+    <div class="w-6 h-6 ml-4 text-blue-light shrink-0">
       <SearchIcon />
     </div>
 
-    <div class="relative w-full ml-1 md:w-80 xl:w-96">
+    <div class="relative ml-1 w-96">
       <input
         class="w-full py-2 text-xl text-white placeholder-gray-500 bg-transparent focus:outline-none"
         v-model="search"
-        placeholder="Search for cards..."
+        placeholder="Search and add cards..."
         :minlength="MINLEN"
         maxlength="50"
         type="text"

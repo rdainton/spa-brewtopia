@@ -92,12 +92,12 @@ watch(loading, (_, prev) => {
 
 <template>
   <div
-    class="flex flex-col p-4 bg-gray-600 rounded-md shadow-xl max-h-modal-content min-h-150"
+    class="flex flex-col p-4 rounded-md shadow-inner bg-smoke-medium max-h-modal-content min-h-150 shadow-pink-light/100"
   >
     <header class="relative flex justify-between mb-4">
       <div>
         <BrewTitle>Change art for "{{ cardName }}"</BrewTitle>
-        <BrewText extend-classes="text-sm"
+        <BrewText extend-classes="text-sm mt-2"
           >Selecting a new card art will change all copies in your
           decklist.</BrewText
         >
