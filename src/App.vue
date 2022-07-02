@@ -27,7 +27,7 @@ const attemptedAutoLogin = computed(() => authStore.autoAttempted)
   <div
     class="flex items-center justify-center w-screen min-h-screen bg-gray-900 lg:hidden"
   >
-    <h1 class="text-2xl text-center text-dark__primary-light">
+    <h1 class="text-2xl text-center text-primary-light">
       Hey, please try a viewing this on a larger screen.
     </h1>
   </div>

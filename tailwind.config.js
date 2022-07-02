@@ -9,26 +9,13 @@ module.exports = {
           medium: '#327B9B',
           dark: '#34657A',
         },
-        dark__primary: {
-          lightest: '#E8F6FD',
-          light: '#A4DEF8',
-          medium: '#327B9B',
-          dark: '#34657A',
-        },
         secondary: {
           lightest: '#E8F6FD',
           light: '#A4DEF8',
           medium: '#327B9B',
           dark: '#34657A',
         },
-        dark__secondary: {
-          lightest: '#E8F6FD',
-          light: '#A4DEF8',
-          medium: '#327B9B',
-          dark: '#34657A',
-        },
         backdrop: 'rgba(0, 0, 0, 0.6)',
-        dark__backdrop: 'rgba(0, 0, 0, 0.6)',
         overlay: 'rgba(0, 0, 0, 0.5)',
       },
 

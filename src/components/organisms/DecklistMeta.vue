@@ -28,9 +28,7 @@ function hideModal() {
 
 <template>
   <div>
-    <h3 class="mt-1 text-xs uppercase text-dark__primary-light">
-      Currently brewing
-    </h3>
+    <h3 class="mt-1 text-xs uppercase text-primary-light">Currently brewing</h3>
     <h2 v-if="decklistStore.hasName" class="text-xl text-gray-100">
       {{ decklistStore.name }}
       <IconButton @click="showModal">
