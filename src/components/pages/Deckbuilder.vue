@@ -19,6 +19,7 @@ import { storeToRefs } from 'pinia'
 import { useDecklistStore } from '@/stores/useDecklistStore'
 import { useCardStore } from '@/stores/useCardStore'
 import { useUIStore } from '@/stores/useUIStore'
+import { useAuthStore } from '@/stores/useAuthStore'
 
 // Components
 import CardSearch from '@/components/organisms/CardSearch.vue'
@@ -30,6 +31,11 @@ import BrewModal from '@/components/atoms/BrewModal.vue'
 import CardArtList from '@/components/organisms/CardArtList.vue'
 import BlockUI from '@/components/molecules/BlockUI.vue'
 import BrewButton from '@/components/molecules/BrewButton.vue'
+import SaveIcon from '@/components/atoms/icons/SaveIcon.vue'
+import DiscardIcon from '@/components/atoms/icons/DiscardIcon.vue'
+
+const authStore = useAuthStore()
+const isLoggedIn = computed(() => authStore.isLoggedIn)
 
 const UIStore = useUIStore()
 
@@ -250,11 +256,22 @@ function saveChanges() {
     </DeckbuilderSide>
   </div>
 
-  <span
-    v-if="decklistStore.unsavedChanges && !decklistStore.loading"
-    class="fixed transform translate-x-1/2 right-1/2 bottom-6"
-    ><BrewButton size="sm" @click="saveChanges">Save changes</BrewButton></span
+  <div
+    v-if="isLoggedIn && decklistStore.unsavedChanges && !decklistStore.loading"
+    class="fixed inline-flex transform translate-x-1/2 right-1/2 bottom-6 gap-x-2"
   >
+    <BrewButton
+      v-if="decklistStore.id"
+      size="md"
+      @click="decklistStore.get(decklistStore.id)"
+      ><template #icon>
+        <DiscardIcon />
+      </template>
+      Discard changes</BrewButton
+    ><BrewButton size="md" @click="saveChanges"
+      ><template #icon> <SaveIcon /> </template>Save changes</BrewButton
+    >
+  </div>
 
   <BrewModal
     size="lg"
