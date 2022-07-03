@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid'
 import {
   CardProxy,
   CardActions,
-  CardSection,
+  DecklistSection,
   DecklistContent,
 } from '@/types/cards'
 
@@ -17,7 +17,7 @@ export default function useCardActions(onComplete?: () => void): CardActions {
    * Find the card in the column, and then move it to its new index.
    */
   const moveIndex = (
-    section: CardSection,
+    section: DecklistSection,
     columnIndex: number,
     card: CardProxy,
     newIdx: number
@@ -41,7 +41,7 @@ export default function useCardActions(onComplete?: () => void): CardActions {
    * Find the card in the column, and clone it with a new uuid.
    */
   const duplicate = (
-    section: CardSection,
+    section: DecklistSection,
     columnIndex: number,
     card: CardProxy
   ): void => {
@@ -64,7 +64,7 @@ export default function useCardActions(onComplete?: () => void): CardActions {
    * and increase the number to 4.
    */
   const toPlayset = (
-    section: CardSection,
+    section: DecklistSection,
     columnIndex: number,
     card: CardProxy
   ): void => {
@@ -98,7 +98,7 @@ export default function useCardActions(onComplete?: () => void): CardActions {
    * Insert the card into the column at the instertion index.
    */
   const insertAtIndex = (
-    section: CardSection,
+    section: DecklistSection,
     columnIndex: number,
     card: CardProxy,
     insertionIndex: number
@@ -114,7 +114,7 @@ export default function useCardActions(onComplete?: () => void): CardActions {
    * Find the card in the column, and remove it.
    */
   const remove = (
-    section: CardSection,
+    section: DecklistSection,
     columnIndex: number,
     card: CardProxy
   ): void => {

@@ -1,9 +1,9 @@
-import { CardList, CardSection, CardStoreable } from '@/types/cards'
+import { CardList, DecklistSection, CardStoreable } from '@/types/cards'
 
 export type SortKey = 'cmc' | 'cardType'
 
 /**
- * A composable to house sorting logic for CardSections
+ * A composable to house sorting logic for DecklistSections
  *
  * @param onComplete - optional hook called on action completion
  */
@@ -20,7 +20,7 @@ export default function useSort(
   }
 
   const sort = (
-    section: CardSection,
+    section: DecklistSection,
     sortKey: SortKey,
     direction: 'ASC' | 'DESC' = 'ASC'
   ) => {
@@ -54,7 +54,7 @@ export default function useSort(
     if (typeof onComplete === 'function') onComplete()
   }
 
-  const flatten = (section: CardSection) => {
+  const flatten = (section: DecklistSection) => {
     const flatSection = section
       .flat()
       .sort((a, b) => (a.scryId > b.scryId ? 1 : -1))

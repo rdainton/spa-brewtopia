@@ -109,7 +109,7 @@ watch(loading, (_, prev) => {
     </header>
 
     <div
-      class="flex flex-wrap justify-center flex-1 w-full h-full gap-3 overflow-y-auto"
+      class="flex flex-wrap justify-center flex-1 w-full h-full gap-3 overflow-y-auto styled-scrollbars"
     >
       <template v-if="loading">
         <CardSkeleton v-for="(_, idx) in Array(6)" :key="`skeleton-${idx}`" />

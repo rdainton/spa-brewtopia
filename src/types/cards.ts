@@ -38,23 +38,20 @@ export interface CardStoreable extends CardRaw {
 
 export type CardList = CardProxy[]
 
-export type CardSection = CardList[]
+export type DecklistSection = CardList[]
 
-export enum CardSections {
+export enum DecklistSectionName {
   MAINBOARD = 'mainboard',
   SIDEBOARD = 'sideboard',
   MAYBES = 'maybes',
 }
+
 export interface CardAddress {
   section: CardProxy[][] | null
   columnIndex: number
 }
 
-export type DecklistContent = {
-  mainboard: CardSection
-  sideboard: CardSection
-  maybes: CardSection
-}
+export type DecklistContent = Record<DecklistSectionName, DecklistSection>
 
 export type Decklist = {
   id: number
