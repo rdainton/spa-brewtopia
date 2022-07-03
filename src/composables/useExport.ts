@@ -1,10 +1,17 @@
 import { nextTick, ref, readonly, Ref } from 'vue'
 import {
   DecklistContent,
-  CardSection,
+  DecklistSection,
   CardProxy,
   CardStoreable,
+  DecklistSectionName,
 } from '@/types/cards'
+
+export interface Config {
+  zones: DecklistSectionName[]
+  withX: boolean
+  withSet: boolean
+}
 
 /**
  * Generate an downloadable export of a Decklist
@@ -12,7 +19,8 @@ import {
 export default function useExport(
   decklist: Ref<DecklistContent>,
   decklistName: Ref<string>,
-  cardStore: Record<CardStoreable['id'], CardStoreable>
+  cardStore: Record<CardStoreable['id'], CardStoreable>,
+  config: Ref<Config>
 ) {
   const exportUrl = ref('')
 
@@ -32,9 +40,10 @@ export default function useExport(
   }
 
   const generateOutputForSection = (
-    section: CardSection,
+    section: DecklistSection,
     sectionName: string,
-    withSet = true
+    withSet: boolean,
+    withX: boolean
   ): string[] => {
     const flatSection = section.flat() // requires polyfill for IE support
 
@@ -49,25 +58,55 @@ export default function useExport(
       {}
     )
 
-    const output = [`// ${sectionName}\n`]
+    const output = [`${sectionName}\n`]
     // generate string from card name + count
     for (const key in groupedByCardName) {
       const set = withSet
         ? ` (${cardStore[groupedByCardName[key][0].scryId].set})`
         : ''
-      output.push(`${groupedByCardName[key].length}x ${key}${set}\n`)
+      output.push(
+        `${groupedByCardName[key].length}${withX ? 'x' : ''} ${key}${set}\n`
+      )
     }
     output.push('\n')
 
     return output
   }
 
-  const generateOutput = (): string[] => {
-    return [
-      ...generateOutputForSection(decklist.value.mainboard, 'Mainboard'),
-      ...generateOutputForSection(decklist.value.sideboard, 'Sideboard'),
-      ...generateOutputForSection(decklist.value.maybes, 'Maybes'),
-    ]
+  const generateOutput = () => {
+    const output: string[] = []
+
+    const { zones, withSet, withX } = config.value
+    // I want to force this ordering in the output.
+    if (zones.includes(DecklistSectionName.MAINBOARD))
+      output.push(
+        ...generateOutputForSection(
+          decklist.value.mainboard,
+          'Deck',
+          withSet,
+          withX
+        )
+      )
+    if (zones.includes(DecklistSectionName.SIDEBOARD))
+      output.push(
+        ...generateOutputForSection(
+          decklist.value.sideboard,
+          'Sideboard',
+          withSet,
+          withX
+        )
+      )
+    // if (zones.includes(DecklistSectionName.MAYBES))
+    //   output.push(
+    //     ...generateOutputForSection(
+    //       decklist.value.maybes,
+    //       'Maybes',
+    //       withSet,
+    //       withX
+    //     )
+    //   )
+
+    return output
   }
 
   /**
@@ -107,7 +146,12 @@ export default function useExport(
     if (exportUrl.value) triggerDownload()
   }
 
+  const exportToClipboard = () => {
+    return navigator.clipboard.writeText(generateOutput().join(''))
+  }
+
   return {
+    exportToClipboard,
     exportToTxtFile,
     // may want to handle the below as individual steps
     // externally to this hook - via a 'Download' button

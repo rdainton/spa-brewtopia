@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import brewtopia, { ErrorMap } from '@/apis/brewtopia'
 import {
   CardProxy,
-  CardSections,
+  DecklistSectionName,
   Decklist,
   DecklistContent,
 } from '@/types/cards'
@@ -117,7 +117,7 @@ export const useDecklistStore = defineStore('decklist', {
       })
     },
 
-    clearDecklistSection(sectionName: CardSections) {
+    clearDecklistSection(sectionName: DecklistSectionName) {
       this.decklist[sectionName] = createDefaultDecklist()[sectionName]
       this.unsavedChanges = true
 

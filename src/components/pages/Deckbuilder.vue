@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { parseErrorMap } from '@/apis/brewtopia'
 
 // Imported
-import { CardSections, CardProxy } from '@/types/cards'
+import { DecklistSectionName, CardProxy } from '@/types/cards'
 import { ControlOptions } from '@/types/deckbuilder'
 import { CardRaw } from '@/apis/brewtopia/cards'
 
@@ -161,7 +161,9 @@ function saveChanges() {
           ]"
           @sort="(...args) => sort(decklist.mainboard, ...args)"
           @flatten="flatten(decklist.mainboard)"
-          @reset="decklistStore.clearDecklistSection(CardSections.MAINBOARD)"
+          @reset="
+            decklistStore.clearDecklistSection(DecklistSectionName.MAINBOARD)
+          "
         />
       </DeckbuilderSection>
     </DeckbuilderMain>
@@ -202,7 +204,9 @@ function saveChanges() {
           ]"
           @sort="(...args) => sort(decklist.sideboard, ...args)"
           @flatten="flatten(decklist.sideboard)"
-          @reset="decklistStore.clearDecklistSection(CardSections.SIDEBOARD)"
+          @reset="
+            decklistStore.clearDecklistSection(DecklistSectionName.SIDEBOARD)
+          "
         />
       </DeckbuilderSection>
 
@@ -238,7 +242,9 @@ function saveChanges() {
           ]"
           @sort="(...args) => sort(decklist.maybes, ...args)"
           @flatten="flatten(decklist.maybes)"
-          @reset="decklistStore.clearDecklistSection(CardSections.MAYBES)"
+          @reset="
+            decklistStore.clearDecklistSection(DecklistSectionName.MAYBES)
+          "
         />
       </DeckbuilderSection>
     </DeckbuilderSide>

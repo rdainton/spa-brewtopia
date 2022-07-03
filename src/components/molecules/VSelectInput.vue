@@ -1,14 +1,6 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  inheritAttrs: false,
-})
-</script>
-
 <script lang="ts" setup>
-import { computed } from 'vue'
 import { useField } from 'vee-validate'
+import SelectInput from '@/components/atoms/SelectInput.vue'
 
 type Theme = 'base'
 
@@ -42,62 +34,27 @@ const {
   }
 )
 
-const wrapperClasses: Record<Theme, string> = {
-  base: '',
-}
-
-const labelClasses: Record<Theme, string> = {
-  base: 'block xl:text-xl mb-1 text-white',
-}
-
-const inputThemeClasses: Record<Theme, string> = {
-  base: 'p-3 bg-black/20 text-gray-100 text-lg rounded-lg',
-}
-
-const borderColorMap: Record<Theme, string> = {
-  base: 'border-transparent',
-}
-
 const errorClassesMap: Record<Theme, string> = {
   base: 'mb-3',
 }
-
-const borderClasses = computed(() => {
-  if (meta.valid) return 'border-transparent'
-  return borderColorMap[props.theme]
-})
 </script>
 
 <template>
-  <div :class="wrapperClasses[theme]">
-    <label :class="labelClasses[theme]">
-      {{ label }}
-    </label>
-
-    <select
-      :value="inputValue"
-      class="w-full border-2 focus:outline-none"
-      :class="[inputThemeClasses[theme], borderClasses]"
-      v-bind="$attrs"
-      :readonly="readonly || busy"
-      :name="name"
-      @input="handleChange"
-      @blur="handleBlur"
+  <SelectInput
+    :value="inputValue"
+    :disabled="readonly || busy"
+    :options="options"
+    :name="name"
+    @input="handleChange"
+    @blur="handleBlur"
+  >
+    <template #label>{{ label }}</template>
+    <template #message
+      ><div :class="errorClassesMap[props.theme]">
+        <p v-if="errorMessage" class="mt-1 text-sm text-red-500">
+          {{ errorMessage }}
+        </p>
+      </div></template
     >
-      <option disabled value="">...</option>
-      <option
-        v-for="option in options"
-        :value="option.value"
-        :key="option.value"
-      >
-        {{ option.label }}
-      </option>
-    </select>
-
-    <div :class="errorClassesMap[props.theme]">
-      <p v-if="errorMessage" class="mt-1 text-sm text-red-500">
-        {{ errorMessage }}
-      </p>
-    </div>
-  </div>
+  </SelectInput>
 </template>

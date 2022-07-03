@@ -1,6 +1,11 @@
 import { ref } from 'vue'
 import { v4 as uuid } from 'uuid'
-import { CardActions, CardProxy, CardAddress, CardSection } from '@/types/cards'
+import {
+  CardActions,
+  CardProxy,
+  CardAddress,
+  DecklistSection,
+} from '@/types/cards'
 
 const nullCardAddress = Object.freeze({
   section: null, // null is from external (Search, or Binder)
@@ -24,7 +29,10 @@ export default function useCardDrag(cardActions: CardActions) {
     destinationIndex.value = -1
   }
 
-  const handleDragover = (section: CardSection, columnIndex: number): void => {
+  const handleDragover = (
+    section: DecklistSection,
+    columnIndex: number
+  ): void => {
     destination.value = {
       section,
       columnIndex,
@@ -32,7 +40,7 @@ export default function useCardDrag(cardActions: CardActions) {
   }
 
   const handleDragstart = (
-    section: CardSection,
+    section: DecklistSection,
     columnIndex: number,
     card: CardProxy
   ): void => {
@@ -68,7 +76,7 @@ export default function useCardDrag(cardActions: CardActions) {
 
   const handleDrop = (
     e: DragEvent,
-    section: CardSection,
+    section: DecklistSection,
     columnIndex: number,
     forceCardIndex = -1
   ): void => {
