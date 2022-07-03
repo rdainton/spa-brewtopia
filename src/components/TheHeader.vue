@@ -19,7 +19,7 @@ const isLoggedIn = computed(() => authStore.isLoggedIn)
 
 <template>
   <header
-    class="flex items-center justify-end w-full h-16 px-4 py-2 border-b border-blue-dark bg-smoke-dark shrink-0"
+    class="fixed top-0 left-0 flex items-center justify-end w-full h-16 px-4 py-2 border-b border-blue-dark bg-smoke-dark"
   >
     <RouterLink
       :to="{ name: routeNames.deckbuilder }"

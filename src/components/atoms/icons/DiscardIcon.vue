@@ -7,6 +7,10 @@
     stroke="currentColor"
     stroke-width="2"
   >
-    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"
+    />
   </svg>
 </template>

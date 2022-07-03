@@ -91,6 +91,7 @@ function handleDrop(e: DragEvent, columnIndex = 0, forceCardIdx = -1) {
         <Column
           v-for="(column, columnIndex) in sectionData"
           :last="columnIndex + 1 === sectionData.length"
+          :empty="column.length === 0"
           @dragover="handleColumnDragover(columnIndex)"
           @drop.prevent="
             (e, forceCardIdx) => handleDrop(e, columnIndex, forceCardIdx)

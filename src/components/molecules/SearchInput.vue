@@ -56,7 +56,7 @@ function handleFocusout() {
       <input
         class="w-full py-2 text-xl text-white placeholder-gray-500 bg-transparent focus:outline-none"
         v-model="search"
-        placeholder="Search and add cards..."
+        placeholder="Search and drag cards..."
         :minlength="MINLEN"
         maxlength="50"
         type="text"

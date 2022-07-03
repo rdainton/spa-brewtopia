@@ -24,7 +24,7 @@ const emit = defineEmits<{
 }>()
 
 const baseStyles =
-  'rounded-sm border-smoke-light hover:border-blue-light border'
+  'rounded-sm border-smoke-light hover:border-blue-light border shrink-0'
 
 const sizeStylesMap: Record<string, string> = {
   sm: 'h-4 w-4 p-1',

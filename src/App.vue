@@ -17,7 +17,7 @@ const attemptedAutoLogin = computed(() => authStore.autoAttempted)
 <template>
   <div
     v-if="attemptedAutoLogin"
-    class="relative flex-col hidden max-h-screen min-h-screen bg-smoke-dark bg-gradient-to-b from-smoke-dark to-purple-dark lg:flex min-w-screen"
+    class="relative flex-col hidden max-h-[calc(100vh-4rem)] min-h-[calc(100vh-4rem)] mt-16 mr-16 bg-smoke-dark bg-gradient-to-b from-smoke-dark to-purple-dark lg:flex min-w-screen"
   >
     <TheHeader />
     <RouterView />
