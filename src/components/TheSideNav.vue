@@ -15,6 +15,7 @@ import DecklistExport from '@/components/organisms/DecklistExport.vue'
 import DecklistsIcon from '@/components/atoms/icons/DecklistsIcon.vue'
 import ExportIcon from '@/components/atoms/icons/ExportIcon.vue'
 import InformationIcon from '@/components/atoms/icons/InformationIcon.vue'
+import DeckbuilderIcon from '@/components/atoms/icons/DeckbuilderIcon.vue'
 
 const authStore = useAuthStore()
 const isLoggedIn = computed(() => authStore.isLoggedIn)
@@ -26,6 +27,14 @@ const route = useRoute()
   <aside
     class="fixed right-0 flex flex-col items-center justify-start w-16 pt-2 pb-6 gap-y-4 top-16 h-[calc(100vh-4rem)] bg-smoke-dark border-l border-blue-dark"
   >
+    <template v-if="route.name !== routeNames.deckbuilder">
+      <RouterLink :to="{ name: routeNames.deckbuilder }">
+        <IconButtonLabelled size="xl" label="Builder">
+          <DeckbuilderIcon />
+        </IconButtonLabelled>
+      </RouterLink>
+    </template>
+
     <DecklistExport v-if="route.name === routeNames.deckbuilder">
       <template #control="{ handler }">
         <IconButtonLabelled @click="handler" size="xl" label="Export">
