@@ -5,6 +5,7 @@ import PlusIcon from '../atoms/icons/PlusIcon.vue'
 
 interface DeckbuildingSectionColumnProps {
   last: boolean
+  empty: boolean
 }
 
 const props = defineProps<DeckbuildingSectionColumnProps>()
@@ -40,7 +41,24 @@ function handleDrop(e: DragEvent, forceCardIndex = -1) {
   emit('drop', e, forceCardIndex)
 }
 
+/**
+ * Position 0
+ */
+const {
+  draggedOver: draggedOverTop,
+  handleDragenter: handleDragenterTop,
+  handleDragleave: handleDragleaveTop,
+  reset: resetTop,
+} = useDraggedOver()
+
+const dragStylesTop = computed(() =>
+  draggedOverTop.value
+    ? 'rounded-t-lg translate-y-0 bg-blue-light/50'
+    : 'translate-y-2'
+)
+
 function handleDropAtTop(e: DragEvent) {
+  resetTop()
   // forceCardIndex to 0 - first in list.
   handleDrop(e, 0)
 }
@@ -48,14 +66,21 @@ function handleDropAtTop(e: DragEvent) {
 
 <template>
   <div
-    class="flex-1 min-h-full px-1 pb-4 bg-transparent border rounded-md shrink-0 h-fit-content"
+    class="flex-1 min-h-full p-1 pb-4 bg-transparent border rounded-md shrink-0 h-fit-content"
     :class="[dragStyles, lastColumnStyles]"
     @dragenter.prevent="handleDragenter"
     @dragleave="handleDragleave"
     @dragover.prevent="emit('dragover')"
     @drop.stop="handleDrop"
   >
-    <div v-if="!last" class="w-full h-6" @drop.stop="handleDropAtTop" />
+    <div
+      v-if="!last && !empty"
+      class="w-full h-6 transition-transform ease-out transform"
+      :class="dragStylesTop"
+      @dragenter.prevent="handleDragenterTop"
+      @dragleave="handleDragleaveTop"
+      @drop.stop="handleDropAtTop"
+    />
 
     <slot />
 

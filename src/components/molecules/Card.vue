@@ -104,7 +104,7 @@ const { draggedOver, handleDragenter, handleDragleave, reset } =
 const dragStyles = computed(() => {
   const baseDragStyles = 'transform ease-out transition-transform'
   return `${baseDragStyles} ${
-    draggedOver.value ? 'translate-y-0' : 'translate-y-2'
+    draggedOver.value ? '-translate-y-2' : 'translate-y-0'
   }`
 })
 
