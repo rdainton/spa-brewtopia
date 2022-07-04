@@ -17,6 +17,7 @@ import DecklistsIcon from '@/components/atoms/icons/DecklistsIcon.vue'
 import ExportIcon from '@/components/atoms/icons/ExportIcon.vue'
 import InformationIcon from '@/components/atoms/icons/InformationIcon.vue'
 import DeckbuilderIcon from '@/components/atoms/icons/DeckbuilderIcon.vue'
+import ChatIcon from '@/components/atoms/icons/ChatIcon.vue'
 
 const authStore = useAuthStore()
 const isLoggedIn = computed(() => authStore.isLoggedIn)
@@ -73,6 +74,12 @@ const decklistStore = useDecklistStore()
         />
       </IconButtonLabelled>
     </a>
+
+    <RouterLink :to="{ name: routeNames.feedback }">
+      <IconButtonLabelled size="xl" label="Feedback">
+        <ChatIcon />
+      </IconButtonLabelled>
+    </RouterLink>
 
     <RouterLink :to="{ name: routeNames.info }">
       <IconButtonLabelled size="xl" label="Info">

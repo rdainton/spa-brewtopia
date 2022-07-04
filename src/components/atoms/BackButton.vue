@@ -2,7 +2,8 @@
 import { useRouter } from 'vue-router'
 
 import BackIcon from '@/components/atoms/icons/BackIcon.vue'
-
+// TODO: fix that back is not limited to app
+// as it uses browser history.
 const router = useRouter()
 </script>
 
