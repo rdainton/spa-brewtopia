@@ -108,7 +108,7 @@ export const useCardStore = defineStore('card', {
 
     add(result: CardRaw) {
       const storable = this.mapSearchResultoStoreable(result)
-      this.cards[storable.id] = storable
+      this.cards[storable.id] = Object.freeze(storable)
     },
 
     delete(card: CardProxy) {
