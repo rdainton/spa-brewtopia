@@ -19,7 +19,7 @@ import { Authable, Registerable } from '@/apis/brewtopia/auth'
 import { parseErrorMap } from '@/apis/brewtopia'
 
 // Components
-import AuthLayout from '@/components/layouts/AuthLayout.vue'
+import AuthPageLayout from '@/components/layouts/AuthPageLayout.vue'
 import VTextInput from '@/components/molecules/VTextInput.vue'
 import BrewTitle from '@/components/atoms/BrewTitle.vue'
 import BrewButton from '@/components/molecules/BrewButton.vue'
@@ -87,7 +87,7 @@ const onSubmit = handleSubmit((values, actions) => {
 </script>
 
 <template>
-  <AuthLayout>
+  <AuthPageLayout>
     <BrewTitle>Register</BrewTitle>
 
     <form @submit="onSubmit" class="w-full mt-10">
@@ -137,5 +137,5 @@ const onSubmit = handleSubmit((values, actions) => {
         Register Account
       </BrewButton>
     </form>
-  </AuthLayout>
+  </AuthPageLayout>
 </template>

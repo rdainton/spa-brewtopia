@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 // Components
-import BrewLayout from '@/components/layouts/BrewLayout.vue'
+import PageLayout from '@/components/layouts/PageLayout.vue'
 import BrewTitle from '@/components/atoms/BrewTitle.vue'
 import BrewText from '@/components/atoms/BrewText.vue'
 </script>
 
 <template>
-  <BrewLayout>
+  <PageLayout>
     <div>
       <BrewTitle extend-classes="mb-3">Disclaimer</BrewTitle>
       <BrewText>
@@ -15,5 +15,5 @@ import BrewText from '@/components/atoms/BrewText.vue'
       </BrewText>
       <BrewText>Brewtopia.io is unaffiliated.</BrewText>
     </div>
-  </BrewLayout>
+  </PageLayout>
 </template>
