@@ -37,11 +37,7 @@ const isLoggedIn = computed(() => authStore.isLoggedIn)
         </RouterLink>
       </template>
 
-      <template
-        v-else-if="
-          route.name !== routeNames.login && route.name !== routeNames.register
-        "
-      >
+      <template v-else-if="route.name !== routeNames.login">
         <RouterLink :to="{ name: routeNames.login }" class="hover:underline">
           <BrewButton size="xs">Login</BrewButton>
         </RouterLink>

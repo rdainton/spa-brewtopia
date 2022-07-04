@@ -90,6 +90,12 @@ const onSubmit = handleSubmit((values, actions) => {
   <AuthPageLayout>
     <BrewTitle>Register</BrewTitle>
 
+    <div class="my-2 text-sm text-gray-300 gap-y-2 xl:text-base">
+      <RouterLink :to="{ name: routeNames.info }" class="hover:underline">
+        Click to view our privacy policy before registering. Its very short.
+      </RouterLink>
+    </div>
+
     <form @submit="onSubmit" class="w-full mt-10">
       <BrewMessage
         v-if="submissionError"
@@ -99,7 +105,7 @@ const onSubmit = handleSubmit((values, actions) => {
         {{ submissionError }}
       </BrewMessage>
 
-      <fieldset :disabled="working">
+      <fieldset :disabled="working" class="mb-4">
         <!-- Fields -->
         <VTextInput name="name" type="text" label="Name" maxlength="255" />
         <VTextInput
@@ -122,15 +128,6 @@ const onSubmit = handleSubmit((values, actions) => {
           maxlength="50"
         />
       </fieldset>
-
-      <!-- Additional Options -->
-      <div
-        class="flex flex-col items-end my-6 text-sm text-gray-300 gap-y-2 xl:text-base"
-      >
-        <RouterLink :to="{ name: routeNames.login }" class="hover:underline">
-          Already have an account? Login here.
-        </RouterLink>
-      </div>
 
       <!-- Submit -->
       <BrewButton theme="auth" size="full" type="submit" :working="working">
