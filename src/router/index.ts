@@ -14,6 +14,7 @@ export const routeNames = {
   deckbuilder: Symbol('deckbuilder'),
   decklists: Symbol('decklists'),
   info: Symbol('info'),
+  feedback: Symbol('feedback'),
   login: Symbol('login'),
   register: Symbol('register'),
   resetPassword: Symbol('reset-password'),
@@ -90,6 +91,15 @@ const routeRecords: Array<RouteRecordRaw> = [
     path: '/info',
     name: routeNames.info,
     component: () => import('../components/pages/Info.vue'),
+    meta: {
+      middleware: [attemptAutoLogin],
+    },
+  },
+
+  {
+    path: '/feedback',
+    name: routeNames.feedback,
+    component: () => import('../components/pages/Feedback.vue'),
     meta: {
       middleware: [attemptAutoLogin],
     },

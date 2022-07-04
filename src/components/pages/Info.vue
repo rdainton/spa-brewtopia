@@ -22,7 +22,7 @@ import BackButton from '@/components/atoms/BackButton.vue'
     </section>
 
     <section class="mb-6">
-      <BrewTitle extend-classes="mb-3">Cookies</BrewTitle>
+      <BrewTitle extend-classes="mb-3">Cookies 🍪</BrewTitle>
       <BrewText extend-classes="mb-2">
         {{ config.appName }} uses essential cookies for managing your session
         and authentication.
@@ -51,7 +51,7 @@ import BackButton from '@/components/atoms/BackButton.vue'
         >You can request your details be permanently deleted at any time by
         emailing
         <a
-          class="hover:underline hover:cursor-pointer"
+          class="hover:underline hover:cursor-pointer text-pink-light"
           :href="`mailto:${config.contactEmail}`"
           >{{ config.contactEmail }}</a
         ></BrewText
