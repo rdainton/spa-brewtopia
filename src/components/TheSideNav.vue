@@ -6,6 +6,7 @@ import { routeNames } from '@/router'
 
 // Store
 import { useAuthStore } from '@/stores/useAuthStore'
+import { useDecklistStore } from '@/stores/useDecklistStore'
 
 // Components
 import IconButtonLabelled from '@/components/atoms/IconButtonLabelled.vue'
@@ -21,6 +22,8 @@ const authStore = useAuthStore()
 const isLoggedIn = computed(() => authStore.isLoggedIn)
 
 const route = useRoute()
+
+const decklistStore = useDecklistStore()
 </script>
 
 <template>
@@ -37,7 +40,12 @@ const route = useRoute()
 
     <DecklistExport v-if="route.name === routeNames.deckbuilder">
       <template #control="{ handler }">
-        <IconButtonLabelled @click="handler" size="xl" label="Export">
+        <IconButtonLabelled
+          @click="handler"
+          size="xl"
+          label="Export"
+          :disabled="!decklistStore.uniqueCardIds.length"
+        >
           <ExportIcon />
         </IconButtonLabelled>
       </template>

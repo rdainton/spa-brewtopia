@@ -22,9 +22,11 @@ const emit = defineEmits<{
   (event: 'clicked'): void
 }>()
 
-const baseStyles = 'flex flex-col items-center' // box shadow?
+const baseStyles = 'flex flex-col items-center bg-transparent'
 
-const iconColorStyles = 'text-white hover:text-gray-200'
+const iconColorStyles = computed(() =>
+  props.disabled ? 'text-smoke-light' : 'text-white hover:text-gray-200'
+)
 
 const textStyles = 'uppercase text-center text-xxs'
 
@@ -37,8 +39,8 @@ const iconSizeStylesMap: Record<string, string> = {
 
 const colorStyles = computed(() =>
   props.disabled
-    ? 'bg-gray-700'
-    : 'bg-transparent text-blue-medium hover:text-pink-light'
+    ? 'text-blue-dark cursor-not-allowed'
+    : 'text-blue-medium hover:text-pink-light'
 )
 </script>
 
