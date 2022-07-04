@@ -19,7 +19,7 @@ import { Authable, Registerable } from '@/apis/brewtopia/auth'
 import { parseErrorMap } from '@/apis/brewtopia'
 
 // Components
-import AuthLayout from '@/components/layouts/AuthLayout.vue'
+import AuthPageLayout from '@/components/layouts/AuthPageLayout.vue'
 import VTextInput from '@/components/molecules/VTextInput.vue'
 import BrewTitle from '@/components/atoms/BrewTitle.vue'
 import BrewButton from '@/components/molecules/BrewButton.vue'
@@ -87,8 +87,14 @@ const onSubmit = handleSubmit((values, actions) => {
 </script>
 
 <template>
-  <AuthLayout>
+  <AuthPageLayout>
     <BrewTitle>Register</BrewTitle>
+
+    <div class="my-2 text-sm text-gray-300 gap-y-2 xl:text-base">
+      <RouterLink :to="{ name: routeNames.info }" class="hover:underline">
+        Click to view our privacy policy before registering. Its very short.
+      </RouterLink>
+    </div>
 
     <form @submit="onSubmit" class="w-full mt-10">
       <BrewMessage
@@ -99,7 +105,7 @@ const onSubmit = handleSubmit((values, actions) => {
         {{ submissionError }}
       </BrewMessage>
 
-      <fieldset :disabled="working">
+      <fieldset :disabled="working" class="mb-4">
         <!-- Fields -->
         <VTextInput name="name" type="text" label="Name" maxlength="255" />
         <VTextInput
@@ -123,19 +129,10 @@ const onSubmit = handleSubmit((values, actions) => {
         />
       </fieldset>
 
-      <!-- Additional Options -->
-      <div
-        class="flex flex-col items-end my-6 text-sm text-gray-300 gap-y-2 xl:text-base"
-      >
-        <RouterLink :to="{ name: routeNames.login }" class="hover:underline">
-          Already have an account? Login here.
-        </RouterLink>
-      </div>
-
       <!-- Submit -->
       <BrewButton theme="auth" size="full" type="submit" :working="working">
         Register Account
       </BrewButton>
     </form>
-  </AuthLayout>
+  </AuthPageLayout>
 </template>

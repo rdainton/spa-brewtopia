@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 
 // Types
@@ -48,27 +48,41 @@ const { exportToTxtFile, exportToClipboard } = useExport(
   config
 )
 
-const options = [
-  { value: '1', label: '1 cardname', meta: { withSet: false, withX: false } },
-  { value: '2', label: '1x cardname', meta: { withSet: false, withX: true } },
+const exampleCardDetails = computed<[string, string]>(() => {
+  if (!decklistStore.uniqueCardIds.length) return ['Scavenging Ooze', 'ncc'] // should never return this.
+  const card = cardStore.cards[decklistStore.uniqueCardIds[0]]
+  return [card.cardFaces?.length ? card.cardFaces[0].name : card.name, card.set]
+})
+
+const options = computed(() => [
+  {
+    value: '1',
+    label: `1 ${exampleCardDetails.value[0]}`,
+    meta: { withSet: false, withX: false },
+  },
+  {
+    value: '2',
+    label: `1x ${exampleCardDetails.value[0]}`,
+    meta: { withSet: false, withX: true },
+  },
   {
     value: '3',
-    label: '1 cardname (set)',
+    label: `1 ${exampleCardDetails.value[0]} (${exampleCardDetails.value[1]})`,
     meta: { withSet: true, withX: false },
   },
   {
     value: '4',
-    label: '1x cardname (set)',
+    label: `1x ${exampleCardDetails.value[0]} (${exampleCardDetails.value[1]})`,
     meta: { withSet: true, withX: true },
   },
-]
+])
 
-const outputFormat = ref(options[0].value)
+const outputFormat = ref(options.value[0].value)
 
 function prepareConfig() {
   config.value = {
     ...config.value,
-    ...options.find(opt => opt.value === outputFormat.value)?.meta,
+    ...options.value.find(opt => opt.value === outputFormat.value)?.meta,
   }
 }
 

@@ -16,6 +16,7 @@ import ImageIcon from '@/components/atoms/icons/ImageIcon.vue'
 import PlusIcon from '@/components/atoms/icons/PlusIcon.vue'
 import PlaysetIcon from '@/components/atoms/icons/PlaysetIcon.vue'
 import EditIcon from '@/components/atoms/icons/EditIcon.vue'
+import DeleteIcon from '@/components/atoms/icons/DeleteIcon.vue'
 
 interface CardProps {
   id: string
@@ -171,6 +172,9 @@ const cardImageUrl = computed(() => {
       </IconButton>
       <IconButton size="md" @click="emit('change-art', cardProxy)">
         <EditIcon />
+      </IconButton>
+      <IconButton size="md" @click="emit('delete', cardProxy)">
+        <DeleteIcon />
       </IconButton>
     </div>
   </div>

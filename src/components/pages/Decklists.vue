@@ -14,7 +14,7 @@ import { useDecklistStore } from '@/stores/useDecklistStore'
 import { useUIStore } from '@/stores/useUIStore'
 
 // Components
-import BrewLayout from '@/components/layouts/BrewLayout.vue'
+import PageLayout from '@/components/layouts/PageLayout.vue'
 import DecklistList from '@/components/organisms/DecklistList.vue'
 import BrewTitle from '@/components/atoms/BrewTitle.vue'
 import BrewText from '@/components/atoms/BrewText.vue'
@@ -103,7 +103,7 @@ function loadDecklist(id: number) {
 </script>
 
 <template>
-  <BrewLayout>
+  <PageLayout>
     <div class="flex flex-col">
       <header class="relative flex justify-between mb-8">
         <div>
@@ -135,5 +135,5 @@ function loadDecklist(id: number) {
         </template>
       </DecklistList>
     </div>
-  </BrewLayout>
+  </PageLayout>
 </template>

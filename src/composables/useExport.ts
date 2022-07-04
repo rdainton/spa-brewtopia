@@ -61,12 +61,15 @@ export default function useExport(
     const output = [`${sectionName}\n`]
     // generate string from card name + count
     for (const key in groupedByCardName) {
-      const set = withSet
-        ? ` (${cardStore[groupedByCardName[key][0].scryId].set})`
-        : ''
-      output.push(
-        `${groupedByCardName[key].length}${withX ? 'x' : ''} ${key}${set}\n`
-      )
+      const card = cardStore[groupedByCardName[key][0].scryId]
+      const count = groupedByCardName[key].length
+      const x = withX ? 'x' : ''
+      const cardName = card.cardFaces?.length
+        ? card.cardFaces[0].name
+        : card.name
+      const set = withSet ? ` (${card.set})` : ''
+
+      output.push(`${count}${x} ${cardName}${set}\n`)
     }
     output.push('\n')
 

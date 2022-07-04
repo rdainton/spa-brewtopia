@@ -12,7 +12,7 @@ import { Forgetable } from '@/apis/brewtopia/auth'
 import { parseErrorMap } from '@/apis/brewtopia'
 
 // Components
-import AuthLayout from '@/components/layouts/AuthLayout.vue'
+import AuthPageLayout from '@/components/layouts/AuthPageLayout.vue'
 import VTextInput from '@/components/molecules/VTextInput.vue'
 import BrewTitle from '@/components/atoms/BrewTitle.vue'
 import BrewButton from '@/components/molecules/BrewButton.vue'
@@ -56,7 +56,7 @@ const onSubmit = handleSubmit((values, actions) => {
 </script>
 
 <template>
-  <AuthLayout>
+  <AuthPageLayout>
     <BrewTitle>Forgot Password</BrewTitle>
 
     <form @submit="onSubmit" class="w-full mt-10">
@@ -98,5 +98,5 @@ const onSubmit = handleSubmit((values, actions) => {
         </RouterLink>
       </div>
     </form>
-  </AuthLayout>
+  </AuthPageLayout>
 </template>
